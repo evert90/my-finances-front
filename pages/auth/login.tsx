@@ -1,11 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
+import { Auth } from "../../layouts/Auth";
+import { userService } from "../../services/user.service";
+import { useRouter } from "next/router";
 
 // layout for page
 
-import Auth from "layouts/Auth.js";
+export const Login: React.FC = () => {
 
-export default function Login() {
+  const router = useRouter();
+
+  useEffect(() => {
+    // redirect to home if already logged in      
+    console.log("aqui1", userService.getUserValue())
+    if (userService.getUserValue()) {
+      console.log("aqui", userService.getUserValue())
+      router.push('/');
+    }
+}, []);
+
   return (
     <>
       <div className="container mx-auto px-4 h-full">
@@ -118,3 +131,5 @@ export default function Login() {
 }
 
 Login.layout = Auth;
+
+export default Login;
