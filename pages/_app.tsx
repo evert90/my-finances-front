@@ -4,22 +4,29 @@ import App from "next/app";
 import Head from "next/head";
 import Router from "next/router";
 
-import PageChange from "components/PageChange/PageChange.js";
+/*  
+const fortawesome = require("@fortawesome/fontawesome-free/css/all.min.css")
+const scrollbar = require("styles/scrollbar.css")
+const tailwind = require("styles/tailwind.css")
+*/
 
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import "styles/scrollbar.css";
-import "styles/tailwind.css";
+import '../styles/scrollbar.css';
+import '../styles/tailwind.css';
+
+import { PageChange } from "../components/PageChange/PageChange";
+import { userService } from "../services/user.service";
 
 
 export default class MyApp extends App {
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
-
+    
     this.state = {
       authorized: false
     }
-
+    
     Router.events.on("routeChangeStart", (url) => {    
       console.log(`Loading: ${url}`);
       this.state.authorized = false;
@@ -36,21 +43,18 @@ export default class MyApp extends App {
       document.body.classList.remove("body-page-transition");
     });
 
-    Router.events.on("routeChangeError", (url) => {
+    Router.events.on("routeChangeError", () => {
       ReactDOM.unmountComponentAtNode(document.getElementById("page-transition"));
       document.body.classList.remove("body-page-transition");
     });
   }
 
-  authCheck = (url) => {
-    
-    console.log("checking", url)
-    // redirect to login page if accessing a private page and not logged in 
-    const publicPaths = ['/auth/login', '/profile'];    
+  authCheck = (url: string) => {        
+    // redirect to login page if accessing a private page and not logged in  
+    const publicPaths = ['/auth/login', '/auth/register'];    
     const path = url.split('?')[0];
-    console.log("url", url)
-    //!userService.userValue &&
-    if (!publicPaths.includes(path)) {
+    
+    if (!userService.getUserValue() && !publicPaths.includes(path)) {
       this.state.authorized = false;
       Router.push({
         pathname: '/auth/login',
@@ -61,8 +65,7 @@ export default class MyApp extends App {
     }
   }
 
-  componentDidMount() {
-    //const [authorized, setAuthorized] = useState(false);    
+  componentDidMount() {    
     let comment = document.createComment(`
 
 =========================================================
@@ -83,7 +86,7 @@ export default class MyApp extends App {
 
 `);
     document.insertBefore(comment, document.documentElement);
-    this.authCheck(this.props.router.asPath)
+    this.authCheck(this.props.router.asPath);
   }
 
   static async getInitialProps({ Component, router, ctx }) {
@@ -93,8 +96,6 @@ export default class MyApp extends App {
       pageProps = await Component.getInitialProps(ctx);
     }
 
-    console.log("ctx", ctx)
-    
     return { pageProps };
   }
 

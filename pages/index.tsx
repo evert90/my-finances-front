@@ -1,14 +1,13 @@
 /* eslint-disable react/jsx-no-target-blank */
 import React from "react";
 import Link from "next/link";
+import { IndexNavbar } from "../components/Navbars/IndexNavbar";
+import { Footer } from "../components/Footers/Footer";
 
-import IndexNavbar from "components/Navbars/IndexNavbar.js";
-import Footer from "components/Footers/Footer.js";
-
-export default function Index() {
+export const Index: React.FC = () => {
   return (
     <>
-      <IndexNavbar fixed />
+      <IndexNavbar />
       <section className="header relative pt-16 items-center flex h-screen max-h-860-px">
         <div className="container mx-auto items-center flex flex-wrap">
           <div className="w-full md:w-8/12 lg:w-6/12 xl:w-6/12 px-4">
@@ -665,3 +664,5 @@ export default function Index() {
     </>
   );
 }
+
+export default Index;
