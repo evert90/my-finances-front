@@ -1,10 +1,58 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { Auth } from "../../layouts/Auth";
+import { useRouter } from "next/router";
+import { userService } from "../../services/user.service";
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
+import { useForm } from "react-hook-form";
+import { User } from "../../classes/user";
 
 // layout for page
 
-import Auth from "layouts/Auth.js";
+export const Register: React.FC = () => {
+  const router = useRouter();
 
-export default function Register() {
+  useEffect(() => {
+      // redirect to home if already logged in      
+      console.log("aqui1", userService.getUserValue())
+      if (userService.getUserValue()) {
+        console.log("aqui", userService.getUserValue())
+        router.push('/');
+      }
+  }, []);
+
+   // form validation rules 
+   const validationSchema = Yup.object().shape({
+    name: Yup.string().required('Name is required'),
+    email: Yup.string().required('Email is required'),
+    password: Yup.string().required('Password is required')
+  });
+
+  const formOptions = { resolver: yupResolver(validationSchema) };
+
+  // get functions to build form with useForm() hook
+  const { register, handleSubmit, setError, formState } = useForm(formOptions);
+  const { errors } = formState;
+
+  function onSubmit({ name, email, password }) {
+    console.log("name", name)
+    console.log("email", email)
+    console.log("password", password)
+    let user = new User(name, email, password)
+    console.log("us", user)
+    return userService.save(user)
+        .then(() => {
+            // get return url from query parameters or default to '/'
+            const returnUrl = router.query.returnUrl || '/';
+            router.push(returnUrl);
+        })
+        .catch(error => {
+          console.log("error", error)
+            //setError('apiError', { message: error });
+        });
+  }  
+
+
   return (
     <>
       <div className="container mx-auto px-4 h-full">
@@ -39,7 +87,7 @@ export default function Register() {
                 <div className="text-blueGray-400 text-center mb-3 font-bold">
                   <small>Or sign up with credentials</small>
                 </div>
-                <form>
+                <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="relative w-full mb-3">
                     <label
                       className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -48,10 +96,12 @@ export default function Register() {
                       Name
                     </label>
                     <input
-                      type="email"
-                      className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                      type="text"
+                      {...register('name')} 
+                      className={`${errors.username ? 'is-invalid' : ''} border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150`}
                       placeholder="Name"
                     />
+                    <div className="invalid-feedback">{errors.name?.message}</div>
                   </div>
 
                   <div className="relative w-full mb-3">
@@ -63,9 +113,11 @@ export default function Register() {
                     </label>
                     <input
                       type="email"
-                      className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                      {...register('email')} 
+                      className={`${errors.email ? 'is-invalid' : ''} border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150`}
                       placeholder="Email"
                     />
+                    <div className="invalid-feedback">{errors.email?.message}</div>
                   </div>
 
                   <div className="relative w-full mb-3">
@@ -77,9 +129,10 @@ export default function Register() {
                     </label>
                     <input
                       type="password"
-                      className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      placeholder="Password"
+                      {...register('password')}
+                      className={`${errors.password ? 'is-invalid' : ''} border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150`}                      placeholder="Password"
                     />
+                    <div className="invalid-feedback">{errors.password?.message}</div>
                   </div>
 
                   <div>
@@ -105,10 +158,15 @@ export default function Register() {
                   <div className="text-center mt-6">
                     <button
                       className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                      type="button"
+                      type="submit"
+                      disabled={formState.isSubmitting} 
                     >
+                      {formState.isSubmitting && <i className="fas fa-circle-notch animate-spin text-white mx-auto text-6xl"></i>}
                       Create Account
                     </button>
+                    {errors.apiError &&
+                            <div className="alert alert-danger mt-3 mb-0">{errors.apiError?.message}</div>
+                        }                    
                   </div>
                 </form>
               </div>
@@ -121,3 +179,4 @@ export default function Register() {
 }
 
 Register.layout = Auth;
+export default Register;

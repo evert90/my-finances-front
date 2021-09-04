@@ -5,7 +5,11 @@ import React from "react";
 
 // core components
 
-export default function PageChange(props) {
+type PageChangeProps = {
+  path: string
+} 
+
+export const PageChange: React.FC<PageChangeProps> = ({path}) => {
   return (
     <div>
       <div
@@ -20,7 +24,7 @@ export default function PageChange(props) {
           <i className="fas fa-circle-notch animate-spin text-white mx-auto text-6xl"></i>
         </div>
         <h4 className="text-lg font-medium text-white">
-          Loading page contents for: {props.path}
+          Loading page contents for: {path}
         </h4>
       </div>
     </div>
