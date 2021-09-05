@@ -3,10 +3,11 @@ import Link from "next/link";
 import { Auth } from "../../layouts/Auth";
 import { userService } from "../../services/user.service";
 import { useRouter } from "next/router";
+import { LayoutPage } from "../../classes/layout-page";
 
 // layout for page
 
-export const Login: React.FC = () => {
+export const Login: LayoutPage = () => {
 
   const router = useRouter();
 

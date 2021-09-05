@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import { Auth } from "../../layouts/Auth";
 import { useRouter } from "next/router";
 import { userService } from "../../services/user.service";
@@ -6,10 +6,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { useForm } from "react-hook-form";
 import { User } from "../../classes/user";
+import { LayoutPage } from "../../classes/layout-page";
 
 // layout for page
 
-export const Register: React.FC = () => {
+export const Register: LayoutPage = () => {
+  
   const router = useRouter();
 
   useEffect(() => {
@@ -43,7 +45,7 @@ export const Register: React.FC = () => {
     return userService.save(user)
         .then(() => {
             // get return url from query parameters or default to '/'
-            const returnUrl = router.query.returnUrl || '/';
+            const returnUrl = router.query.returnUrl.toString() || '/';
             router.push(returnUrl);
         })
         .catch(error => {
@@ -179,4 +181,5 @@ export const Register: React.FC = () => {
 }
 
 Register.layout = Auth;
+
 export default Register;
