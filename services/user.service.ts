@@ -6,7 +6,7 @@ import { fetchWrapper } from '../helpers/fetch-wrapper';
 
 const { publicRuntimeConfig } = getConfig();
 const baseUrl = `${publicRuntimeConfig.apiUrl}/users/`;
-const userSubject = typeof window !== 'undefined' ? new BehaviorSubject(JSON.parse(localStorage.getItem('user'))) : new BehaviorSubject({});
+const userSubject = new BehaviorSubject(process.browser && JSON.parse(localStorage.getItem('user')));
 
 export const userService = {
     user: userSubject.asObservable(),
