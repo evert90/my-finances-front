@@ -1,35 +1,34 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import App from "next/app";
+import App, { AppContext } from "next/app";
 import Head from "next/head";
 import Router from "next/router";
-
-/*  
-const fortawesome = require("@fortawesome/fontawesome-free/css/all.min.css")
-const scrollbar = require("styles/scrollbar.css")
-const tailwind = require("styles/tailwind.css")
-*/
 
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import '../styles/scrollbar.css';
 import '../styles/tailwind.css';
+import '../styles/utils.css';
 
 import { PageChange } from "../components/PageChange/PageChange";
 import { userService } from "../services/user.service";
+import { LayoutComponent } from "../classes/layout-component";
+import { GetServerSideProps } from "next";
 
 
 export default class MyApp extends App {
 
   constructor(props: any) {
     super(props);
-    
+
     this.state = {
       authorized: false
-    }
-    
-    Router.events.on("routeChangeStart", (url) => {    
+    };
+
+    Router.events.on("routeChangeStart", (url) => {
       console.log(`Loading: ${url}`);
-      this.state.authorized = false;
+      this.setState({
+        authorized: false
+      })
       document.body.classList.add("body-page-transition");
       ReactDOM.render(
         <PageChange path={url} />,
@@ -38,6 +37,7 @@ export default class MyApp extends App {
     });
 
     Router.events.on("routeChangeComplete", (url) => {
+      console.log("checking")
       this.authCheck(url)
       ReactDOM.unmountComponentAtNode(document.getElementById("page-transition"));
       document.body.classList.remove("body-page-transition");
@@ -49,23 +49,28 @@ export default class MyApp extends App {
     });
   }
 
-  authCheck = (url: string) => {        
-    // redirect to login page if accessing a private page and not logged in  
-    const publicPaths = ['/auth/login', '/auth/register'];    
-    const path = url.split('?')[0];
+  authCheck = (url: string) => {
     
+    // redirect to login page if accessing a private page and not logged in
+    const publicPaths = ['/auth/login', '/auth/register'];
+    const path = url.split('?')[0];
+
     if (!userService.getUserValue() && !publicPaths.includes(path)) {
-      this.state.authorized = false;
+      this.setState({
+        authorized: false
+      })
       Router.push({
         pathname: '/auth/login',
         query: { returnUrl: Router.asPath }
       });
     } else {
-      this.state.authorized = true;
+      this.setState({
+        authorized: true
+      })
     }
   }
 
-  componentDidMount() {    
+  componentDidMount() {
     let comment = document.createComment(`
 
 =========================================================
@@ -89,24 +94,25 @@ export default class MyApp extends App {
     this.authCheck(this.props.router.asPath);
   }
 
-  static async getInitialProps({ Component, router, ctx }) {
+  static async getInitialProps({ Component, router, ctx }) {    
     let pageProps = {};
 
-    if (Component.getInitialProps) {      
+    if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);
     }
 
     return { pageProps };
   }
 
-
   render() {
     const { Component, pageProps } = this.props;
 
-    const Layout = Component.layout || (({ children }) => <>{children}</>);
+    const componentLayout = Component as LayoutComponent;
+
+    const Layout = componentLayout.layout || (({ children }) => <>{children}</>);
 
     console.log("state", this.state)
-    console.log("props ", this.props)     
+    console.log("props ", this.props)
 
     return (
       <React.Fragment>
@@ -116,7 +122,7 @@ export default class MyApp extends App {
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
           />
           <title>Notus NextJS by Creative Tim</title>
-          {/*  
+          {/*
           <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
           */}
         </Head>
@@ -126,4 +132,13 @@ export default class MyApp extends App {
       </React.Fragment>
     );
   }
+}
+
+
+MyApp.getInitialProps = async (appContext: AppContext) => {
+  console.log("INIT", appContext)
+  // calls page's `getInitialProps` and fills `appProps.pageProps`
+  const appProps = await App.getInitialProps(appContext);  
+
+  return { ...appProps }
 }
