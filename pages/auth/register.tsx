@@ -1,16 +1,16 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
-import { Auth } from "../../layouts/Auth";
-import { useRouter } from "next/router";
-import { userService } from "../../services/user.service";
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as Yup from 'yup';
+import { useRouter } from "next/router";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import * as Yup from 'yup';
+import { LayoutComponent } from "../../classes/layout-component";
 import { User } from "../../classes/user";
-import { LayoutPage } from "../../classes/layout-page";
+import { Auth } from "../../layouts/Auth";
+import { userService } from "../../services/user.service";
 
 // layout for page
 
-export const Register: LayoutPage = () => {
+export const Register: LayoutComponent = () => {
   
   const router = useRouter();
 
@@ -37,15 +37,13 @@ export const Register: LayoutPage = () => {
   const { errors } = formState;
 
   function onSubmit({ name, email, password }) {
-    console.log("name", name)
-    console.log("email", email)
-    console.log("password", password)
     let user = new User(name, email, password)
-    console.log("us", user)
+  
     return userService.save(user)
         .then(() => {
             // get return url from query parameters or default to '/'
-            const returnUrl = router.query.returnUrl.toString() || '/';
+            const returnUrl = router.query?.returnUrl?.toString() || '/';
+            console.log("redirecionando para ", returnUrl);
             router.push(returnUrl);
         })
         .catch(error => {
@@ -100,10 +98,10 @@ export const Register: LayoutPage = () => {
                     <input
                       type="text"
                       {...register('name')} 
-                      className={`${errors.username ? 'is-invalid' : ''} border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150`}
-                      placeholder="Name"
+                      className={`${errors.name ? 'is-invalid' : ''} border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150`}
+                      placeholder="Full name"
                     />
-                    <div className="invalid-feedback">{errors.name?.message}</div>
+                    <div className="invalid-feedback" style={{display: "none"}}>{errors.name?.message}</div>
                   </div>
 
                   <div className="relative w-full mb-3">
@@ -119,7 +117,7 @@ export const Register: LayoutPage = () => {
                       className={`${errors.email ? 'is-invalid' : ''} border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150`}
                       placeholder="Email"
                     />
-                    <div className="invalid-feedback">{errors.email?.message}</div>
+                    <div className="invalid-feedback" style={{display: "none"}}>{errors.email?.message}</div>
                   </div>
 
                   <div className="relative w-full mb-3">
@@ -134,10 +132,10 @@ export const Register: LayoutPage = () => {
                       {...register('password')}
                       className={`${errors.password ? 'is-invalid' : ''} border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150`}                      placeholder="Password"
                     />
-                    <div className="invalid-feedback">{errors.password?.message}</div>
+                    <div className="invalid-feedback" style={{display: "none"}}>{errors.password?.message}</div>
                   </div>
 
-                  <div>
+                  <div style={{display: "none"}}>
                     <label className="inline-flex items-center cursor-pointer">
                       <input
                         id="customCheckLogin"
@@ -159,11 +157,11 @@ export const Register: LayoutPage = () => {
 
                   <div className="text-center mt-6">
                     <button
-                      className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                      className="disabled:opacity-50 bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                       type="submit"
                       disabled={formState.isSubmitting} 
                     >
-                      {formState.isSubmitting && <i className="fas fa-circle-notch animate-spin text-white mx-auto text-6xl"></i>}
+                      {formState.isSubmitting && <i className="fas fa-circle-notch animate-spin text-white mx-auto text-1xl mr-1"></i>}
                       Create Account
                     </button>
                     {errors.apiError &&
