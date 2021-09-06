@@ -16,7 +16,7 @@ module.exports = {
   theme: {
     colors: {
       ...colors,
-    },
+    },    
     extend: {
       minHeight: {
         "screen-75": "75vh",
@@ -74,6 +74,9 @@ module.exports = {
       backgroundSize: {
         full: "100%",
       },
+      zIndex: {
+        '60': '60',
+       }
     },
   },
   variants: ["responsive", "group-hover", "focus-within", "first", "last", "odd", "even", "hover", "focus", "active", "visited","disabled"],

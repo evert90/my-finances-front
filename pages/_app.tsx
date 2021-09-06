@@ -13,6 +13,8 @@ import { PageChange } from "../components/PageChange/PageChange";
 import { userService } from "../services/user.service";
 import { LayoutComponent } from "../classes/layout-component";
 import { GetServerSideProps } from "next";
+import ToastProvider from "../components/Toast/ToastProvider";
+import Providers from "./Providers";
 
 
 export default class MyApp extends App {
@@ -126,9 +128,11 @@ export default class MyApp extends App {
           <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
           */}
         </Head>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <Providers>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </Providers>
       </React.Fragment>
     );
   }
