@@ -52,12 +52,13 @@ export default class MyApp extends App {
   }
 
   authCheck = (url: string) => {
-    
+
     // redirect to login page if accessing a private page and not logged in
     const publicPaths = ['/auth/login', '/auth/register'];
     const path = url.split('?')[0];
 
-    if (!userService.getUserValue() && !publicPaths.includes(path)) {
+    if (!userService.getUserValue()?.token && !publicPaths.includes(path)) {
+      console.log("indo para login")
       this.setState({
         authorized: false
       })
@@ -66,6 +67,7 @@ export default class MyApp extends App {
         query: { returnUrl: Router.asPath }
       });
     } else {
+      console.log("autrorizado")
       this.setState({
         authorized: true
       })
@@ -96,7 +98,7 @@ export default class MyApp extends App {
     this.authCheck(this.props.router.asPath);
   }
 
-  static async getInitialProps({ Component, router, ctx }) {    
+  static async getInitialProps({ Component, router, ctx }) {
     let pageProps = {};
 
     if (Component.getInitialProps) {
@@ -142,7 +144,7 @@ export default class MyApp extends App {
 MyApp.getInitialProps = async (appContext: AppContext) => {
   console.log("INIT", appContext)
   // calls page's `getInitialProps` and fills `appProps.pageProps`
-  const appProps = await App.getInitialProps(appContext);  
+  const appProps = await App.getInitialProps(appContext);
 
   return { ...appProps }
 }
