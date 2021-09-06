@@ -5,7 +5,7 @@ import { fetchWrapper } from '../helpers/fetch-wrapper';
 
 
 const { publicRuntimeConfig } = getConfig();
-const baseUrl = `${publicRuntimeConfig.apiUrl}/users/`;
+const baseUrl = `${publicRuntimeConfig.apiUrl}/users`;
 const userSubject = new BehaviorSubject(process.browser && JSON.parse(localStorage.getItem('user')));
 
 export const userService = {
@@ -19,7 +19,7 @@ export const userService = {
 
 function save(user) {
     console.log("user", user)
-    return fetchWrapper.post(`${baseUrl}`, user)
+    return fetchWrapper.post(`${baseUrl}/`, user)
         .then((user) => {
             // publish user to subscribers and store in local storage to stay logged in between page refreshes
             userSubject.next(user);
@@ -30,7 +30,7 @@ function save(user) {
 }
 
 function login(user) {
-    return fetchWrapper.post(`${baseUrl}/authenticate`, user)
+    return fetchWrapper.post(`${baseUrl}/auth`, user)
         .then((user) => {
             // publish user to subscribers and store in local storage to stay logged in between page refreshes
             userSubject.next(user);
