@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import * as Yup from 'yup';
 import { LayoutComponent } from "../../classes/layout-component";
 import { User } from "../../classes/user";
+import { useToast } from '../../components/Toast/ToastProvider';
 import { Auth } from "../../layouts/Auth";
 import { userService } from "../../services/user.service";
 
@@ -13,6 +14,7 @@ import { userService } from "../../services/user.service";
 export const Register: LayoutComponent = () => {
   
   const router = useRouter();
+  const toast = useToast();
 
   useEffect(() => {
       // redirect to home if already logged in      
@@ -44,10 +46,13 @@ export const Register: LayoutComponent = () => {
             // get return url from query parameters or default to '/'
             const returnUrl = router.query?.returnUrl?.toString() || '/';
             console.log("redirecionando para ", returnUrl);
+            toast?.pushSuccess("Conta cadastrada com sucesso", 999999999);
             router.push(returnUrl);
         })
         .catch(error => {
           console.log("error", error)
+          console.log("toast", toast)
+          toast?.pushError("Erro ao criar conta. " + error, 999999999, "truncate-2-lines");
             //setError('apiError', { message: error });
         });
   }  
