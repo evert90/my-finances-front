@@ -12,20 +12,18 @@ import { userService } from "../../services/user.service";
 // layout for page
 
 export const Register: LayoutComponent = () => {
-  
+
   const router = useRouter();
   const toast = useToast();
 
   useEffect(() => {
-      // redirect to home if already logged in      
-      console.log("aqui1", userService.getUserValue())
-      if (userService.getUserValue()) {
-        console.log("aqui", userService.getUserValue())
+      // redirect to home if already logged in
+      if (userService.getUserValue()?.token) {
         router.push('/');
       }
   }, []);
 
-   // form validation rules 
+   // form validation rules
    const validationSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
     email: Yup.string().required('Email is required'),
@@ -40,7 +38,7 @@ export const Register: LayoutComponent = () => {
 
   function onSubmit({ name, email, password }) {
     let user = new User(name, email, password)
-  
+
     return userService.save(user)
         .then(() => {
             // get return url from query parameters or default to '/'
@@ -53,10 +51,9 @@ export const Register: LayoutComponent = () => {
           console.log("error", error)
           console.log("toast", toast)
           toast?.pushError("Erro ao criar conta. " + error, 999999999, "truncate-2-lines");
-            //setError('apiError', { message: error });
+          setError('apiError', { message: error?.message });
         });
-  }  
-
+  }
 
   return (
     <>
@@ -102,7 +99,7 @@ export const Register: LayoutComponent = () => {
                     </label>
                     <input
                       type="text"
-                      {...register('name')} 
+                      {...register('name')}
                       className={`${errors.name ? 'is-invalid' : ''} border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150`}
                       placeholder="Full name"
                     />
@@ -118,7 +115,7 @@ export const Register: LayoutComponent = () => {
                     </label>
                     <input
                       type="email"
-                      {...register('email')} 
+                      {...register('email')}
                       className={`${errors.email ? 'is-invalid' : ''} border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150`}
                       placeholder="Email"
                     />
@@ -164,14 +161,14 @@ export const Register: LayoutComponent = () => {
                     <button
                       className="disabled:opacity-50 bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                       type="submit"
-                      disabled={formState.isSubmitting} 
+                      disabled={formState.isSubmitting}
                     >
                       {formState.isSubmitting && <i className="fas fa-circle-notch animate-spin text-white mx-auto text-1xl mr-1"></i>}
                       Create Account
                     </button>
                     {errors.apiError &&
                             <div className="alert alert-danger mt-3 mb-0">{errors.apiError?.message}</div>
-                        }                    
+                    }
                   </div>
                 </form>
               </div>
