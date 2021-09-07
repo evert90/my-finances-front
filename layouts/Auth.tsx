@@ -1,12 +1,6 @@
 import React from "react";
 
-// components
-
-type AuthProps = {
-  children: any
-}
-
-export const Auth: React.FC<AuthProps> = ({ children }) => {
+export const Auth = ({ children }) => {
   return (
     <>
       {/* <Navbar transparent /> */}

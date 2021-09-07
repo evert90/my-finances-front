@@ -1,10 +1,8 @@
 import React from "react";
 
-// components
+import { CardStats } from "../Cards/CardStats";
 
-import CardStats from "components/Cards/CardStats.js";
-
-export default function HeaderStats() {
+const HeaderStats = () => {
   return (
     <>
       {/* Header */}
@@ -68,3 +66,5 @@ export default function HeaderStats() {
     </>
   );
 }
+
+export default HeaderStats;

@@ -3,7 +3,7 @@ import Link from "next/link";
 import IndexDropdown from "../Dropdowns/IndexDropdown";
 // components
 
-export const IndexNavbar: React.FC = () => {
+export const IndexNavbar = () => {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
   return (
     <>

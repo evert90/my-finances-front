@@ -1,11 +1,11 @@
 import React from "react";
 import { createPopper } from "@popperjs/core";
 
-const NotificationDropdown = () => {
+const UserDropdown = () => {
   // dropdown props
   const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
-  const btnDropdownRef = React.createRef();
-  const popoverDropdownRef = React.createRef();
+  const btnDropdownRef: any = React.createRef();
+  const popoverDropdownRef: any = React.createRef();
   const openDropdownPopover = () => {
     createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
       placement: "bottom-start",
@@ -18,7 +18,7 @@ const NotificationDropdown = () => {
   return (
     <>
       <a
-        className="text-blueGray-500 block py-1 px-3"
+        className="text-blueGray-500 block"
         href="#pablo"
         ref={btnDropdownRef}
         onClick={(e) => {
@@ -26,7 +26,15 @@ const NotificationDropdown = () => {
           dropdownPopoverShow ? closeDropdownPopover() : openDropdownPopover();
         }}
       >
-        <i className="fas fa-bell"></i>
+        <div className="items-center flex">
+          <span className="w-12 h-12 text-sm text-white bg-blueGray-200 inline-flex items-center justify-center rounded-full">
+            <img
+              alt="..."
+              className="w-full rounded-full align-middle border-none shadow-lg"
+              src="/img/team-1-800x800.jpg"
+            />
+          </span>
+        </div>
       </a>
       <div
         ref={popoverDropdownRef}
@@ -77,4 +85,4 @@ const NotificationDropdown = () => {
   );
 };
 
-export default NotificationDropdown;
+export default UserDropdown;

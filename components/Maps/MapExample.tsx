@@ -1,6 +1,12 @@
 import React from "react";
 
-function MapExample() {
+declare global {
+  interface Window {
+    google: any
+  }
+}
+
+const MapExample = () => {
   const mapRef = React.useRef(null);
   React.useEffect(() => {
     let google = window.google;
