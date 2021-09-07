@@ -4,7 +4,7 @@ import Link from "next/link";
 import { IndexNavbar } from "../components/Navbars/IndexNavbar";
 import { Footer } from "../components/Footers/Footer";
 
-export const Index: React.FC = () => {
+export const Index = () => {
   return (
     <>
       <IndexNavbar />

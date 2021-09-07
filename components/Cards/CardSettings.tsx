@@ -2,7 +2,7 @@ import React from "react";
 
 // components
 
-export default function CardSettings() {
+export const CardSettings = () => {
   return (
     <>
       <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
@@ -168,9 +168,8 @@ export default function CardSettings() {
                     About me
                   </label>
                   <textarea
-                    type="text"
                     className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                    rows="4"
+                    rows={4}
                     defaultValue="A beautiful UI Kit and Admin for NextJS & Tailwind CSS. It is Free
                     and Open Source."
                   ></textarea>

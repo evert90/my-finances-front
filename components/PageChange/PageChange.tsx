@@ -5,11 +5,7 @@ import React from "react";
 
 // core components
 
-type PageChangeProps = {
-  path: string
-} 
-
-export const PageChange: React.FC<PageChangeProps> = ({path}) => {
+export const PageChange = ({path}) => {
   return (
     <div>
       <div

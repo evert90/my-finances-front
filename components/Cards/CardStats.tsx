@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-export default function CardStats({
+export const CardStats = ({
   statSubtitle,
   statTitle,
   statArrow,
@@ -10,7 +10,7 @@ export default function CardStats({
   statDescripiron,
   statIconName,
   statIconColor,
-}) {
+}) => {
   return (
     <>
       <div className="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg">

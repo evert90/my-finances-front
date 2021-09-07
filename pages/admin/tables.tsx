@@ -2,13 +2,14 @@ import React from "react";
 
 // components
 
-import CardTable from "components/Cards/CardTable.js";
+import { Admin } from "../../layouts/Admin";
+import { LayoutComponent } from "../../classes/layout-component";
+import { CardTable } from "../../components/Cards/CardTable";
 
 // layout for page
 
-import Admin from "layouts/Admin.js";
 
-export default function Tables() {
+const Tables: LayoutComponent = () => {
   return (
     <>
       <div className="flex flex-wrap mt-4">
@@ -24,3 +25,5 @@ export default function Tables() {
 }
 
 Tables.layout = Admin;
+
+export default Tables;
