@@ -1,8 +1,7 @@
 import React from "react";
+import UserDropdown from "../Dropdowns/UserDropdown";
 
-import UserDropdown from "components/Dropdowns/UserDropdown.js";
-
-export default function Navbar() {
+export const AdminNavbar = () => {
   return (
     <>
       {/* Navbar */}

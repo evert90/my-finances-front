@@ -1,6 +1,6 @@
 import React from "react";
 
-export const Footer: React.FC = () => {
+export const Footer = () => {
   return (
     <>
       <footer className="relative bg-blueGray-200 pt-8 pb-6">

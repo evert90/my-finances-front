@@ -1,21 +1,16 @@
-import React, { Component } from "react";
-import ReactDOM from "react-dom";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 import App, { AppContext } from "next/app";
 import Head from "next/head";
 import Router from "next/router";
-
-import "@fortawesome/fontawesome-free/css/all.min.css";
+import React from "react";
+import ReactDOM from "react-dom";
+import { LayoutComponent } from "../classes/layout-component";
+import { PageChange } from "../components/PageChange/PageChange";
+import { userService } from "../services/user.service";
 import '../styles/scrollbar.css';
 import '../styles/tailwind.css';
 import '../styles/utils.css';
-
-import { PageChange } from "../components/PageChange/PageChange";
-import { userService } from "../services/user.service";
-import { LayoutComponent } from "../classes/layout-component";
-import { GetServerSideProps } from "next";
-import ToastProvider from "../components/Toast/ToastProvider";
 import Providers from "./Providers";
-
 
 export default class MyApp extends App {
 
@@ -126,9 +121,9 @@ export default class MyApp extends App {
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
           />
           <title>Notus NextJS by Creative Tim</title>
-          {/*
+          {/* */
           <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
-          */}
+          }
         </Head>
         <Providers>
           <Layout>

@@ -1,10 +1,14 @@
 import React from "react";
 import Link from "next/link";
+
 // components
+import PagesDropdown from "../Dropdowns/PagesDropdown";
 
-import PagesDropdown from "components/Dropdowns/PagesDropdown.js";
+type AuthNavbarProps = {
+  transparent: any
+}
 
-export default function Navbar(props) {
+export const AuthNavbar: React.FC<AuthNavbarProps> = ({transparent}) =>  {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
   return (
     <>

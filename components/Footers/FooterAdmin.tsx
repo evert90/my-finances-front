@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function FooterAdmin() {
+export const FooterAdmin = () => {
   return (
     <>
       <footer className="block py-4">

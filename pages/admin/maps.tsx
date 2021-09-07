@@ -2,13 +2,12 @@ import React from "react";
 
 // components
 
-import MapExample from "components/Maps/MapExample.js";
+import LayoutComponent from "./tables";
+import MapExample from "../../components/Maps/MapExample";
 
-// layout for page
+import { Admin } from "../../layouts/Admin";
 
-import Admin from "layouts/Admin.js";
-
-export default function Maps() {
+const Maps: LayoutComponent = () => {
   return (
     <>
       <div className="flex flex-wrap">
@@ -23,3 +22,7 @@ export default function Maps() {
 }
 
 Maps.layout = Admin;
+
+export default Maps;
+
+
