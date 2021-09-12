@@ -2,10 +2,10 @@ import React from "react";
 
 // components
 
-import LayoutComponent from "./tables";
 import MapExample from "../../components/Maps/MapExample";
 
 import { Admin } from "../../layouts/Admin";
+import { LayoutComponent } from "../../classes/layout-component";
 
 const Maps: LayoutComponent = () => {
   return (

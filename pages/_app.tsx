@@ -9,7 +9,7 @@ import { PageChange } from "../components/PageChange/PageChange";
 import { userService } from "../services/user.service";
 import '../styles/scrollbar.css';
 import '../styles/tailwind.css';
-import '../styles/utils.css';
+import '../styles/utils.scss';
 import Providers from "./Providers";
 
 export default class MyApp extends App {
@@ -137,7 +137,7 @@ export default class MyApp extends App {
 
 
 MyApp.getInitialProps = async (appContext: AppContext) => {
-  console.log("INIT", appContext)
+  console.log("INITT", appContext)
   // calls page's `getInitialProps` and fills `appProps.pageProps`
   const appProps = await App.getInitialProps(appContext);
 
