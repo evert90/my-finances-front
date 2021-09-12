@@ -1,0 +1,81 @@
+.is-invalid {
+    border-left: 5px solid #a94442; /* red */
+}
+
+.box-shadow-black {
+    box-shadow: 0 4px 24px 0 rgb(34 41 47 / 100%);
+}
+
+.box-shadow-blue {
+    box-shadow: 0 4px 24px 0 rgb(8 94 165);
+}
+
+.box-shadow-gray {
+    box-shadow: 0 0 15px 0 rgb(34 41 47 / 5%);
+}
+
+@media (min-width: 990px) {
+    .background-navbar {
+        background-image: url(/img/logo/horizontal_blue3.png);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 15rem;
+    }
+}
+
+.text-xl-edit {
+    font-size: 1.5rem;
+}
+
+.arrow,
+.arrow::before {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: inherit;
+}
+
+.arrow {
+  visibility: hidden;
+}
+
+.arrow::before {
+  visibility: visible;
+  content: '';
+  transform: rotate(45deg);
+}
+
+.tooltip {
+    background: #333;
+    color: white;
+    font-weight: bold;
+    padding: 4px 8px;
+    font-size: 13px;
+    border-radius: 4px;
+  }
+
+  .tooltip[data-popper-placement^='top'] > .arrow {
+    bottom: -4px;
+  }
+
+  .tooltip[data-popper-placement^='bottom'] > .arrow {
+    top: -4px;
+  }
+
+  .tooltip[data-popper-placement^='left'] > .arrow {
+    right: -4px;
+  }
+
+  .tooltip[data-popper-placement^='right'] > .arrow {
+    left: -4px;
+  }
+
+  button:hover {
+    transform: scale(1.01);
+  }
+
+  [type='text']:focus, [type='email']:focus, [type='url']:focus, [type='password']:focus, [type='number']:focus, [type='month']:focus, [type='time']:focus, [type='week']:focus, [multiple]:focus, textarea:focus, select:focus {
+    --tw-ring-color: rgba(14, 160, 226, var(--tw-text-opacity));
+    border-color: var(--tw-ring-color);
+    border-left: 5px solid var(--tw-ring-color);
+  }

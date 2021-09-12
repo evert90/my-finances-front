@@ -2,16 +2,16 @@ import React from "react";
 
 // components
 
-import { AdminNavbar } from "../components/Navbars/AdminNavbar";
 import Sidebar from "../components/Sidebar/Sidebar";
 import HeaderStats from "../components/Headers/HeaderStats";
 import { FooterAdmin } from "../components/Footers/FooterAdmin";
+import { AdminNavbar } from "../components/Navbars/AdminNavbar";
 
 export const Admin= ({ children }) => {
   return (
     <>
       <Sidebar />
-      <div className="relative md:ml-64 bg-blueGray-100">
+      <div className="relative bg-blueGray-100">
         <AdminNavbar />
         {/* Header */}
         <HeaderStats />
