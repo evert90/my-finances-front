@@ -5,7 +5,7 @@ import { fetchWrapper } from '../helpers/fetch-wrapper';
 
 
 const { publicRuntimeConfig } = getConfig();
-const baseUrl = `${publicRuntimeConfig.apiUrl}/users`;
+const baseUrl = process.browser ?  `${window.location.origin}/api/users` : "";
 const userSubject = new BehaviorSubject(process.browser && JSON.parse(localStorage.getItem('user')));
 
 export const userService = {
