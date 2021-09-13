@@ -4,5 +4,4 @@ module.exports = {
             ? 'http://192.168.0.24:21200/api' // development api
             : 'http://192.168.0.24:21200/api' // production api
     }
-
 }
