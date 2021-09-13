@@ -5,7 +5,7 @@ import { fetchWrapper } from '../helpers/fetch-wrapper';
 
 
 const { publicRuntimeConfig } = getConfig();
-const baseUrl = process.browser ?  `${window.location.origin}/api/users` : "";
+const baseUrl =  `${publicRuntimeConfig.apiUrl}/users`;
 const userSubject = new BehaviorSubject(process.browser && JSON.parse(localStorage.getItem('user')));
 
 export const userService = {
@@ -18,7 +18,6 @@ export const userService = {
 };
 
 function save(user) {
-    console.log("user", user)
     return fetchWrapper.post(`${baseUrl}/`, user)
         .then((user) => {
             // publish user to subscribers and store in local storage to stay logged in between page refreshes
