@@ -27,55 +27,12 @@
     font-size: 1.5rem;
 }
 
-.arrow,
-.arrow::before {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background: inherit;
+button:hover {
+  transform: scale(1.01);
 }
 
-.arrow {
-  visibility: hidden;
+[type='text']:focus, [type='email']:focus, [type='url']:focus, [type='password']:focus, [type='number']:focus, [type='month']:focus, [type='time']:focus, [type='week']:focus, [multiple]:focus, textarea:focus, select:focus {
+  --tw-ring-color: rgba(14, 160, 226, var(--tw-text-opacity));
+  border-color: var(--tw-ring-color);
+  border-left: 5px solid var(--tw-ring-color);
 }
-
-.arrow::before {
-  visibility: visible;
-  content: '';
-  transform: rotate(45deg);
-}
-
-.tooltip {
-    background: #333;
-    color: white;
-    font-weight: bold;
-    padding: 4px 8px;
-    font-size: 13px;
-    border-radius: 4px;
-  }
-
-  .tooltip[data-popper-placement^='top'] > .arrow {
-    bottom: -4px;
-  }
-
-  .tooltip[data-popper-placement^='bottom'] > .arrow {
-    top: -4px;
-  }
-
-  .tooltip[data-popper-placement^='left'] > .arrow {
-    right: -4px;
-  }
-
-  .tooltip[data-popper-placement^='right'] > .arrow {
-    left: -4px;
-  }
-
-  button:hover {
-    transform: scale(1.01);
-  }
-
-  [type='text']:focus, [type='email']:focus, [type='url']:focus, [type='password']:focus, [type='number']:focus, [type='month']:focus, [type='time']:focus, [type='week']:focus, [multiple]:focus, textarea:focus, select:focus {
-    --tw-ring-color: rgba(14, 160, 226, var(--tw-text-opacity));
-    border-color: var(--tw-ring-color);
-    border-left: 5px solid var(--tw-ring-color);
-  }
