@@ -14,11 +14,11 @@ const Sidebar = () => {
 
   return (
     <>
-      <nav className="md:hidden md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-white flex flex-wrap items-center justify-between relative md:w-48 z-10 py-4 px-6 box-shadow-gray">
-        <div className="md:flex-col md:items-stretch md:min-h-full md:flex-nowrap px-0 flex flex-wrap items-center justify-between w-full mx-auto">
+      <nav className="relative z-10 flex flex-wrap items-center justify-between px-6 py-4 bg-white shadow-xl md:hidden md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden md:w-48 box-shadow-gray">
+        <div className="flex flex-wrap items-center justify-between w-full px-0 mx-auto md:flex-col md:items-stretch md:min-h-full md:flex-nowrap">
           {/* Toggler */}
           <button
-            className="cursor-pointer text-black opacity-50 md:hidden px-3 py-1 text-xl leading-none bg-transparent rounded border border-solid border-transparent"
+            className="px-3 py-1 text-xl leading-none text-black bg-transparent border border-transparent border-solid rounded opacity-50 cursor-pointer md:hidden"
             type="button"
             onClick={() => setCollapseShow("bg-white m-2 py-3 px-6")}
           >
@@ -28,17 +28,17 @@ const Sidebar = () => {
           <Link href="/">
             <a
               href="#pablo"
-              className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
+              className="inline-block p-4 px-0 mr-0 text-sm font-bold text-left uppercase md:block md:pb-2 text-blueGray-600 whitespace-nowrap"
             >
               <img src="/img/logo/horizontal_blue3.png" style={logoStyle} />
             </a>
           </Link>
           {/* User */}
-          <ul className="md:hidden items-center flex flex-wrap list-none">
-            <li className="inline-block relative">
+          <ul className="flex flex-wrap items-center list-none md:hidden">
+            <li className="relative inline-block">
               <NotificationDropdown />
             </li>
-            <li className="inline-block relative">
+            <li className="relative inline-block">
               <UserDropdown />
             </li>
           </ul>
@@ -50,22 +50,22 @@ const Sidebar = () => {
             }
           >
             {/* Collapse header */}
-            <div className="md:min-w-full md:hidden block pb-4 mb-4 border-b border-solid border-blueGray-200">
+            <div className="block pb-4 mb-4 border-b border-solid md:min-w-full md:hidden border-blueGray-200">
               <div className="flex flex-wrap">
                 <div className="w-6/12">
                   <Link href="/">
                     <a
                       href="#pablo"
-                      className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
+                      className="inline-block p-4 px-0 mr-0 text-sm font-bold text-left uppercase md:block md:pb-2 text-blueGray-600 whitespace-nowrap"
                     >
                       <img src="/img/logo/horizontal_blue3.png" style={logoStyle} />
                     </a>
                   </Link>
                 </div>
-                <div className="w-6/12 flex justify-end">
+                <div className="flex justify-end w-6/12">
                   <button
                     type="button"
-                    className="cursor-pointer text-black opacity-50 md:hidden px-3 py-1 text-xl leading-none bg-transparent rounded border border-solid border-transparent"
+                    className="px-3 py-1 text-xl leading-none text-black bg-transparent border border-transparent border-solid rounded opacity-50 cursor-pointer md:hidden"
                     onClick={() => setCollapseShow("hidden")}
                   >
                     <i className="fas fa-times"></i>
@@ -75,11 +75,11 @@ const Sidebar = () => {
             </div>
             {/* Form */}
             <form className="mt-6 mb-4 md:hidden">
-              <div className="mb-3 pt-0">
+              <div className="pt-0 mb-3">
                 <input
                   type="text"
                   placeholder="Search"
-                  className="border-0 px-3 py-2 h-12 border border-solid  border-blueGray-500 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-base leading-snug shadow-none outline-none focus:outline-none w-full font-normal"
+                  className="w-full h-12 px-3 py-2 text-base font-normal leading-snug bg-white border border-0 border-solid rounded shadow-none outline-none border-blueGray-500 placeholder-blueGray-300 text-blueGray-600 focus:outline-none"
                 />
               </div>
             </form>
@@ -88,7 +88,7 @@ const Sidebar = () => {
             <hr className="my-4 md:min-w-full" />
             */}
             {/* Navigation */}
-            <ul className="md:flex-col md:min-w-full flex flex-col list-none">
+            <ul className="flex flex-col list-none md:flex-col md:min-w-full">
               <li className="items-center">
                 <Link href="/admin/dashboard">
                   <a

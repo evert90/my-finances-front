@@ -10,7 +10,7 @@ import { userService } from "../services/user.service";
 import '../styles/scrollbar.css';
 import '../styles/tailwind.css';
 import '../styles/tooltip.css';
-import '../styles/utils.scss';
+import '../styles/utils.css';
 import Providers from "./Providers";
 
 function MyApp({ Component, pageProps }) {
