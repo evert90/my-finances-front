@@ -28,11 +28,9 @@
 }
 
 button:hover {
-  transform: scale(1.01);
+    transform: scale(1.01);
 }
 
-[type='text']:focus, [type='email']:focus, [type='url']:focus, [type='password']:focus, [type='number']:focus, [type='month']:focus, [type='time']:focus, [type='week']:focus, [multiple]:focus, textarea:focus, select:focus {
-  --tw-ring-color: rgba(14, 160, 226, var(--tw-text-opacity));
-  border-color: var(--tw-ring-color);
-  border-left: 5px solid var(--tw-ring-color);
+html, body {
+    background: theme('colors.blueGray.100')
 }

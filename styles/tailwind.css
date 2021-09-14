@@ -770,6 +770,12 @@ select {
 	outline: 1px auto -webkit-focus-ring-color;
 }
 
+    [type='text']:focus, [type='email']:focus, [type='url']:focus, [type='password']:focus, [type='number']:focus, [type='month']:focus, [type='time']:focus, [type='week']:focus, [multiple]:focus, textarea:focus, select:focus {
+        --tw-ring-color: rgba(14, 160, 226, var(--tw-text-opacity));
+        border-color: var(--tw-ring-color);
+        border-left: 5px solid var(--tw-ring-color);
+    }
+
 .container {
 	width: 100%;
 }
@@ -858,10 +864,6 @@ select {
 
 .visible {
 	visibility: visible;
-}
-
-.static {
-	position: static;
 }
 
 .fixed {
@@ -1002,6 +1004,10 @@ select {
 
 .-m-24 {
 	margin: -6rem;
+}
+
+.m-auto {
+	margin: auto;
 }
 
 .mx-auto {
@@ -1221,6 +1227,46 @@ select {
 
 .-mt-0 {
 	margin-top: 0px;
+}
+
+.-mt-14 {
+	margin-top: -3.5rem;
+}
+
+.-mt-2 {
+	margin-top: -0.5rem;
+}
+
+.-mt-1 {
+	margin-top: -0.25rem;
+}
+
+.-mt-5 {
+	margin-top: -1.25rem;
+}
+
+.-mt-10 {
+	margin-top: -2.5rem;
+}
+
+.-mt-8 {
+	margin-top: -2rem;
+}
+
+.-mt-9 {
+	margin-top: -2.25rem;
+}
+
+.-mt-16 {
+	margin-top: -4rem;
+}
+
+.-mt-6 {
+	margin-top: -1.5rem;
+}
+
+.-mt-7 {
+	margin-top: -1.75rem;
 }
 
 .block {
@@ -1474,6 +1520,10 @@ select {
 
 .flex-row {
 	flex-direction: row;
+}
+
+.flex-row-reverse {
+	flex-direction: row-reverse;
 }
 
 .flex-col {
@@ -1762,6 +1812,16 @@ select {
 	background-color: rgba(30, 41, 59, var(--tw-bg-opacity));
 }
 
+.bg-red-500 {
+	--tw-bg-opacity: 1;
+	background-color: rgba(239, 68, 68, var(--tw-bg-opacity));
+}
+
+.bg-orange-500 {
+	--tw-bg-opacity: 1;
+	background-color: rgba(249, 115, 22, var(--tw-bg-opacity));
+}
+
 .bg-indigo-500 {
 	--tw-bg-opacity: 1;
 	background-color: rgba(99, 102, 241, var(--tw-bg-opacity));
@@ -1770,11 +1830,6 @@ select {
 .bg-red-200 {
 	--tw-bg-opacity: 1;
 	background-color: rgba(254, 202, 202, var(--tw-bg-opacity));
-}
-
-.bg-red-500 {
-	--tw-bg-opacity: 1;
-	background-color: rgba(239, 68, 68, var(--tw-bg-opacity));
 }
 
 .bg-emerald-200 {
@@ -1810,11 +1865,6 @@ select {
 .bg-teal-500 {
 	--tw-bg-opacity: 1;
 	background-color: rgba(20, 184, 166, var(--tw-bg-opacity));
-}
-
-.bg-orange-500 {
-	--tw-bg-opacity: 1;
-	background-color: rgba(249, 115, 22, var(--tw-bg-opacity));
 }
 
 .bg-opacity-50 {
@@ -2015,6 +2065,18 @@ select {
 	padding-top: 2rem;
 }
 
+.pt-12 {
+	padding-top: 3rem;
+}
+
+.pb-9 {
+	padding-bottom: 2.25rem;
+}
+
+.pb-36 {
+	padding-bottom: 9rem;
+}
+
 .pt-0 {
 	padding-top: 0px;
 }
@@ -2035,12 +2097,12 @@ select {
 	padding-bottom: 0px;
 }
 
-.pb-2 {
-	padding-bottom: 0.5rem;
+.pt-4 {
+	padding-top: 1rem;
 }
 
-.pt-12 {
-	padding-top: 3rem;
+.pb-2 {
+	padding-bottom: 0.5rem;
 }
 
 .pl-3 {
@@ -2220,14 +2282,14 @@ select {
 	color: rgba(16, 185, 129, var(--tw-text-opacity));
 }
 
-.text-orange-500 {
-	--tw-text-opacity: 1;
-	color: rgba(249, 115, 22, var(--tw-text-opacity));
-}
-
 .text-red-500 {
 	--tw-text-opacity: 1;
 	color: rgba(239, 68, 68, var(--tw-text-opacity));
+}
+
+.text-orange-500 {
+	--tw-text-opacity: 1;
+	color: rgba(249, 115, 22, var(--tw-text-opacity));
 }
 
 .text-teal-500 {
@@ -2248,11 +2310,6 @@ select {
 .text-pink-400 {
 	--tw-text-opacity: 1;
 	color: rgba(244, 114, 182, var(--tw-text-opacity));
-}
-
-.text-lightBlue-200 {
-	--tw-text-opacity: 1;
-	color: rgba(186, 230, 253, var(--tw-text-opacity));
 }
 
 .text-black {
@@ -2278,26 +2335,6 @@ select {
 .text-gray-600 {
 	--tw-text-opacity: 1;
 	color: rgba(82, 82, 91, var(--tw-text-opacity));
-}
-
-.text-lightBlue-300 {
-	--tw-text-opacity: 1;
-	color: rgba(125, 211, 252, var(--tw-text-opacity));
-}
-
-.text-lightBlue-100 {
-	--tw-text-opacity: 1;
-	color: rgba(224, 242, 254, var(--tw-text-opacity));
-}
-
-.text-lightBlue-800 {
-	--tw-text-opacity: 1;
-	color: rgba(7, 89, 133, var(--tw-text-opacity));
-}
-
-.text-lightBlue-700 {
-	--tw-text-opacity: 1;
-	color: rgba(3, 105, 161, var(--tw-text-opacity));
 }
 
 .antialiased {
@@ -2640,12 +2677,24 @@ select {
 		padding-top: 0px;
 	}
 
+	.md\:pt-44 {
+		padding-top: 11rem;
+	}
+
+	.md\:pt-48 {
+		padding-top: 12rem;
+	}
+
 	.md\:pt-24 {
 		padding-top: 6rem;
 	}
 
 	.md\:pb-2 {
 		padding-bottom: 0.5rem;
+	}
+
+	.md\:pt-32 {
+		padding-top: 8rem;
 	}
 
 	.md\:text-left {
@@ -2778,6 +2827,11 @@ select {
 		padding-bottom: 0.5rem;
 	}
 
+	.lg\:px-2 {
+		padding-left: 0.5rem;
+		padding-right: 0.5rem;
+	}
+
 	.lg\:pt-12 {
 		padding-top: 3rem;
 	}
@@ -2837,15 +2891,15 @@ select {
 		width: 50%;
 	}
 
+	.xl\:w-3\/12 {
+		width: 25%;
+	}
+
 	.xl\:w-8\/12 {
 		width: 66.666667%;
 	}
 
 	.xl\:w-4\/12 {
 		width: 33.333333%;
-	}
-
-	.xl\:w-3\/12 {
-		width: 25%;
 	}
 }

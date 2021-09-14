@@ -4,18 +4,22 @@ import React from "react";
 
 import { Admin } from "../../layouts/Admin";
 import { LayoutComponent } from "../../classes/layout-component";
-import { CardSettings } from "../../components/Cards/CardSettings";
-import { CardProfile } from "../../components/Cards/CardProfile";
+import { CardTable } from "../../components/Cards/CardTable";
+import { FinancialRecordForm } from "../../components/FinancialRecord/FinancialRecordForm";
+import { FinancialRecordType } from "../../classes/FinancialRecordType";
+import { FinancialRecordTable } from "../../components/FinancialRecord/FinancialRecordTable";
 
 const IncomesLayout: LayoutComponent = () => {
     return (
         <>
-          <div className="flex flex-wrap">
-            <div className="w-full lg:w-8/12 px-4">
-              <CardSettings />
-            </div>
-            <div className="w-full lg:w-4/12 px-4">
-              <CardProfile />
+          <div className="relative pt-12 pb-9 md:pt-32">
+            <div className="flex flex-wrap">
+              <div className="w-full px-4">
+                <FinancialRecordForm type={FinancialRecordType.INCOME}/>
+              </div>
+              <div className="w-full px-4">
+                <FinancialRecordTable data={[]} color="light" />
+              </div>
             </div>
           </div>
         </>
