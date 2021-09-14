@@ -48,11 +48,11 @@ export const AdminNavbar = () => {
   return (
     <>
       {/* Navbar */}
-      <nav className="hidden md:flex top-0 fixed z-50 w-full flex flex-wrap items-center justify-between px-2 py-2 navbar-expand-lg bg-white shadow-md background-navbar">
-        <div className="w-full px-4 mx-auto flex flex-wrap items-center justify-between">
+      <nav className="fixed top-0 z-50 flex flex-wrap items-center justify-between hidden w-full px-2 py-2 bg-white shadow-md md:flex navbar-expand-lg background-navbar">
+        <div className="flex flex-wrap items-center justify-between w-full px-4 mx-auto">
           {/* Brand
           <a
-            className="text-white text-sm uppercase hidden lg:inline-block font-semibold"
+            className="hidden text-sm font-semibold text-white uppercase lg:inline-block"
             href="#pablo"
             onClick={(e) => e.preventDefault()}
           >
@@ -224,20 +224,20 @@ export const AdminNavbar = () => {
           {/* End Tooltips */}
 
           {/* Form */}
-          <form className="md:flex hidden flex-row flex-wrap items-center lg:ml-auto mr-3">
-            <div className="relative flex w-full flex-wrap items-stretch">
-              <span className="z-10 h-full leading-snug font-normal absolute text-center text-blueGray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
+          <form className="flex-row flex-wrap items-center hidden mr-3 md:flex lg:ml-auto">
+            <div className="relative flex flex-wrap items-stretch w-full">
+              <span className="absolute z-10 items-center justify-center w-8 h-full py-3 pl-3 text-base font-normal leading-snug text-center bg-transparent rounded text-blueGray-300">
                 <i className="fas fa-search"></i>
               </span>
               <input
                 type="text"
                 placeholder="Search here..."
-                className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm shadow outline-none focus:outline-none focus:ring w-full pl-10"
+                className="relative w-full px-3 py-3 pl-10 text-sm bg-white border-0 rounded shadow outline-none placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring"
               />
             </div>
           </form>
           {/* User */}
-          <ul className="flex-col md:flex-row list-none items-center hidden md:flex">
+          <ul className="flex-col items-center hidden list-none md:flex-row md:flex">
             <UserDropdown />
           </ul>
         </div>
