@@ -114,12 +114,12 @@ const Sidebar = () => {
               </li>
 
               <li className="items-center">
-                <Link href="/admin/incomes">
+                <Link href="/admin/financial-records">
                   <a
                     href="#pablo"
                     className={
                       "text-md py-3 font-bold block " +
-                      (router.pathname.indexOf("/admin/incomes") !== -1
+                      (router.pathname.indexOf("/admin/financial-records") !== -1
                         ? "text-lightBlue-500 hover:text-lightBlue-600"
                         : "text-blueGray-700 hover:text-blueGray-500")
                     }
@@ -127,36 +127,12 @@ const Sidebar = () => {
                     <i
                       className={
                         "fas fa-money-bill-alt mr-2 text-sm " +
-                        (router.pathname.indexOf("/admin/incomes") !== -1
+                        (router.pathname.indexOf("/admin/financial-records") !== -1
                           ? "opacity-75"
                           : "text-blueGray-300")
                       }
                     ></i>{" "}
-                    Receitas
-                  </a>
-                </Link>
-              </li>
-
-              <li className="items-center">
-                <Link href="/admin/expenses">
-                  <a
-                    href="#pablo"
-                    className={
-                      "text-md py-3 font-bold block " +
-                      (router.pathname.indexOf("/admin/expenses") !== -1
-                        ? "text-lightBlue-500 hover:text-lightBlue-600"
-                        : "text-blueGray-700 hover:text-blueGray-500")
-                    }
-                  >
-                    <i
-                      className={
-                        "fas fa-credit-card mr-2 text-sm " +
-                        (router.pathname.indexOf("/admin/expenses") !== -1
-                          ? "opacity-75"
-                          : "text-blueGray-300")
-                      }
-                    ></i>{" "}
-                    Despesas
+                    Receitas/Despesas
                   </a>
                 </Link>
               </li>

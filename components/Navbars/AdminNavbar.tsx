@@ -8,18 +8,15 @@ export const AdminNavbar = () => {
   const router = useRouter();
 
   const [dashboardPopoverShow, setDahsboardPopoverShow] = React.useState(false);
-  const [incomesPopoverShow, setIncomesPopoverShow] = React.useState(false);
-  const [expensesPopoverShow, setExpensesPopoverShow] = React.useState(false);
+  const [financialRecordsPopoverShow, setFinancialRecordsPopoverShow] = React.useState(false);
   const [assetsPopoverShow, setAssetsPopoverShow] = React.useState(false);
   const [debtsPopoverShow, setDebtsPopoverShow] = React.useState(false);
   const [productsPopoverShow, setProductsPopoverShow] = React.useState(false);
 
   const dashboardRef: RefObject<HTMLInputElement> = React.createRef();
   const dashboardPopoverRef: RefObject<HTMLInputElement> = React.createRef();
-  const incomesRef: RefObject<HTMLInputElement> = React.createRef();
-  const incomesPopoverRef: RefObject<HTMLInputElement> = React.createRef();
-  const expensesRef: RefObject<HTMLInputElement> = React.createRef();
-  const expensesPopoverRef: RefObject<HTMLInputElement> = React.createRef();
+  const financialRecordsRef: RefObject<HTMLInputElement> = React.createRef();
+  const financialRecordsPopoverRef: RefObject<HTMLInputElement> = React.createRef();
   const assetsRef: RefObject<HTMLInputElement> = React.createRef();
   const assetsPopoverRef: RefObject<HTMLInputElement> = React.createRef();
   const debtsRef: RefObject<HTMLInputElement> = React.createRef();
@@ -78,40 +75,21 @@ export const AdminNavbar = () => {
             </a>
           </Link>
 
-          <Link href="/admin/incomes">
+          <Link href="/admin/financial-records">
             <a
               href="#pablo"
               className={
                 "text-md py-3 font-bold block " +
-                (router.pathname.indexOf("/admin/incomes") !== -1
+                (router.pathname.indexOf("/admin/financial-records") !== -1
                   ? "text-lightBlue-600 hover:text-lightBlue-700 opacity-75"
                   : "text-blueGray-300 hover:text-blueGray-600")
               }
             >
               <i
                 className={"fas fa-money-bill-alt mr-6 text-xl-edit"}
-                onMouseEnter={() => openTooltip(incomesRef, incomesPopoverRef, setIncomesPopoverShow)}
-                onMouseLeave={() => closeTooltip(setIncomesPopoverShow)}
-                ref={incomesRef}
-              ></i>
-            </a>
-          </Link>
-
-          <Link href="/admin/expenses">
-            <a
-              href="#pablo"
-              className={
-                "text-md py-3 font-bold block " +
-                (router.pathname.indexOf("/admin/expenses") !== -1
-                  ? "text-lightBlue-600 hover:text-lightBlue-700 opacity-75"
-                  : "text-blueGray-300 hover:text-blueGray-600")
-              }
-            >
-              <i
-                className={"fas fa-credit-card mr-6 text-xl-edit"}
-                onMouseEnter={() => openTooltip(expensesRef, expensesPopoverRef, setExpensesPopoverShow)}
-                onMouseLeave={() => closeTooltip(setExpensesPopoverShow)}
-                ref={expensesRef}
+                onMouseEnter={() => openTooltip(financialRecordsRef, financialRecordsPopoverRef, setFinancialRecordsPopoverShow)}
+                onMouseLeave={() => closeTooltip(setFinancialRecordsPopoverShow)}
+                ref={financialRecordsRef}
               ></i>
             </a>
           </Link>
@@ -181,19 +159,11 @@ export const AdminNavbar = () => {
               </div>
             </div>
           </div>
-          <div className={(incomesPopoverShow ? "" : "hidden ") + "tooltip"} ref={incomesPopoverRef}>
+          <div className={(financialRecordsPopoverShow ? "" : "hidden ") + "tooltip"} ref={financialRecordsPopoverRef}>
             <div className="arrow" data-popper-arrow></div>
             <div>
               <div>
-                Receitas
-              </div>
-            </div>
-          </div>
-          <div className={(expensesPopoverShow ? "" : "hidden ") + "tooltip"} ref={expensesPopoverRef}>
-            <div className="arrow" data-popper-arrow></div>
-            <div>
-              <div>
-                Despesas
+                Receitas/Despesas
               </div>
             </div>
           </div>
