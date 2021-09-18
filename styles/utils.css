@@ -34,3 +34,7 @@ button:hover {
 html, body {
     background: theme('colors.blueGray.100')
 }
+
+.react-select-tw__input > input {
+    --tw-ring-shadow: 0 !important
+}
