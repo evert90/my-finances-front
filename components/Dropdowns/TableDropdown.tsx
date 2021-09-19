@@ -18,7 +18,7 @@ const TableDropdown = () => {
   return (
     <>
       <a
-        className="text-blueGray-500 py-1 px-3"
+        className="px-3 py-1 text-blueGray-500"
         href="#pablo"
         ref={btnDropdownRef}
         onClick={(e) => {
@@ -32,35 +32,26 @@ const TableDropdown = () => {
         ref={popoverDropdownRef}
         className={
           (dropdownPopoverShow ? "block " : "hidden ") +
-          "bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48"
+          "bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-[10rem]"
         }
       >
         <a
           href="#pablo"
           className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700 hover:bg-gray-100"
           }
           onClick={(e) => e.preventDefault()}
         >
-          Action
+          <i className="mr-2 fas fa-edit"></i> Editar
         </a>
         <a
           href="#pablo"
           className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700 hover:bg-gray-100"
           }
           onClick={(e) => e.preventDefault()}
         >
-          Another action
-        </a>
-        <a
-          href="#pablo"
-          className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-          }
-          onClick={(e) => e.preventDefault()}
-        >
-          Something else here
+          <i className="mr-2.5 fas fa-trash"></i> Remover
         </a>
       </div>
     </>
