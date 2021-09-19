@@ -38,3 +38,12 @@ html, body {
 .react-select-tw__input > input {
     --tw-ring-shadow: 0 !important
 }
+
+.tr:nth-child(odd) {
+    @apply bg-blue-200;
+}
+
+.column-fit {
+    width: 1%;
+    white-space: nowrap;
+}

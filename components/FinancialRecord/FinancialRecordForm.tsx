@@ -1,10 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FinancialRecordType } from "../../classes/FinancialRecordType";
 import CreatableSelect from 'react-select/creatable';
 import { useToast } from "../Toast/ToastProvider";
+import { tagService } from "../../services/tag.service";
+import { Tag } from "../../classes/tag";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from 'yup';
+import { useForm } from "react-hook-form";
+import { FinancialRecord } from "../../classes/financial-record";
+import { financialRecordService } from "../../services/financial-record.service";
 
+type FinancialRecordFormProps = {
+  records: Array<FinancialRecord>,
+}
 
-export const FinancialRecordForm = () => {
+export const FinancialRecordForm: React.FC<FinancialRecordFormProps> = (props) => {
 
     const [showForm, setShowForm] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -14,6 +24,19 @@ export const FinancialRecordForm = () => {
     const toast = useToast();
 
     const keys = Object.keys;
+
+    useEffect(() => {
+      setIsLoading(true)
+
+      tagService.getAll()
+        .then((tags: Array<Tag>) => {
+          setOptionsTags(tags.map(tag => ({...tag, label: tag.name, value: tag.name})))
+        })
+        .catch(error => {
+          toast?.pushError("Erro ao consultar tags. " + error, 999999999, "truncate-2-lines");
+        }).finally(() => setIsLoading(false))
+
+    }, [])
 
     const customStyles = {
       control: (base, state) => ({
@@ -29,27 +52,49 @@ export const FinancialRecordForm = () => {
     };
 
     const handleCreate = (inputValue: any) => {
-      setIsLoading(true)
-      console.group('Option created');
-      console.log('Wait a moment...');
-      setTimeout(() => {
-        const  options: any = optionsTags;
-        console.log("opTags", optionsTags)
-        console.log("op", options)
-        const newOption = createOption(inputValue);
-        console.log(newOption);
-        console.groupEnd();
-        setIsLoading(false);
-        setOptionsTags([...options, newOption])
-        setValues([...values, newOption]);
-        toast?.pushSuccess("Tag criada com sucesso", 5000);
-      }, 1000);
+      const options: any = optionsTags;
+      const newOption = createOption(inputValue);
+      setOptionsTags([...options, newOption]);
+      setValues([...values, newOption]);
     };
 
     const createOption = (label: string) => ({
+      id: undefined,
       label,
-      value: label.toLowerCase().replace(/\W/g, ''),
+      name: label,
+      value: label
     });
+
+   // form validation rules
+   const validationSchema = Yup.object().shape({
+    name: Yup.string().required(),
+    date: Yup.string().required(),
+    value: Yup.string().required(),
+    type: Yup.string().required()
+  });
+
+  const formOptions = { resolver: yupResolver(validationSchema) };
+
+  // get functions to build form with useForm() hook
+  const { register, handleSubmit, setError, formState } = useForm(formOptions);
+  const { errors } = formState;
+
+  function onSubmit({ name, date, value, tags, type, details }) {
+    console.log('tagssss', tags)
+    let financialRecord = new FinancialRecord(null, name, details, value, date, type, values)
+
+    return financialRecordService.save(financialRecord)
+        .then((response: FinancialRecord) => {
+            console.log(response)
+            response.date = new Date(response.date)
+            props.records.push(response)
+            toast.pushSuccess("Registro salvo com sucesso", 5000);
+        })
+        .catch(error => {
+          toast?.pushError("Erro ao salvar registro. " + error, 999999999, "truncate-2-lines");
+          setError('apiError', { message: error?.message });
+        });
+  }
 
     return (
         <>
@@ -63,7 +108,7 @@ export const FinancialRecordForm = () => {
             </div>
           </div>
           <div className={`${showForm ? '' : 'hidden'} flex-auto px-4 py-2 pt-0 lg:px-2`}>
-            <form>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <div className="flex flex-wrap mt-6 mb-6">
                 <div className="w-full px-4 lg:w-4/12">
                   <div className="relative w-full mb-3">
@@ -75,7 +120,8 @@ export const FinancialRecordForm = () => {
                     </label>
                     <input
                       type="text"
-                      className="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring"
+                      {...register('name')}
+                      className={`${errors.name ? 'is-invalid' : ''} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
                       defaultValue=""
                     />
                   </div>
@@ -90,8 +136,8 @@ export const FinancialRecordForm = () => {
                     </label>
                     <input
                       type="date"
-                      className="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring"
-                      defaultValue="Lucky"
+                      {...register('date')}
+                      className={`${errors.date ? 'is-invalid' : ''} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
                     />
                   </div>
                 </div>
@@ -105,7 +151,8 @@ export const FinancialRecordForm = () => {
                     </label>
                     <input
                       type="number" min="1" step="any"
-                      className="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring"
+                      {...register('value')}
+                      className={`${errors.value ? 'is-invalid' : ''} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
                       defaultValue=""
                     />
                   </div>
@@ -119,13 +166,15 @@ export const FinancialRecordForm = () => {
                       Tags
                     </label>
                     <CreatableSelect
+                      {...register('tags')}
+                      name="tags"
                       classNamePrefix="react-select-tw"
                       instanceId={1}
                       isClearable
                       isDisabled={isLoading}
                       isLoading={isLoading}
                       isMulti
-                      onChange={(value: []) =>  setValues(value)}
+                      onChange={(value: []) => setValues(value)}
                       onCreateOption={handleCreate}
                       options={optionsTags}
                       placeholder="Crie ou selecione as tags..."
@@ -143,11 +192,12 @@ export const FinancialRecordForm = () => {
                       Tipo
                     </label>
                     <select
-                      className="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring"
+                      {...register('type')}
+                      className={`${errors.type ? 'is-invalid' : ''} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
                     >
-                        <option>Selecione o tipo</option>
+                        <option value="" label="Selecione o tipo"/>
                         {keys(FinancialRecordType).map(type =>
-                          <option value={type}>{FinancialRecordType[type]}</option>
+                          <option key={FinancialRecordType[type]} value={type} label={FinancialRecordType[type]}/>
                         )}
                     </select>
                   </div>
@@ -161,9 +211,9 @@ export const FinancialRecordForm = () => {
                       Descrição
                     </label>
                     <textarea
+                      {...register('details')}
                         rows={3}
                         className="w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring"
-                        defaultValue=""
                     />
                   </div>
                 </div>
@@ -171,7 +221,9 @@ export const FinancialRecordForm = () => {
                     <button
                         className="w-full px-0 py-2 mb-1 text-base font-bold text-center text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none disabled:opacity-50 bg-lightBlue-600 active:bg-blueGray-600 hover:shadow-lg focus:outline-none"
                         type="submit"
+                        disabled={formState.isSubmitting}
                         >
+                        {formState.isSubmitting && <i className="mx-auto mr-2 text-white fas fa-circle-notch animate-spin text-1xl"></i>}
                         <i className="mr-2 fas fa-cloud-upload-alt"></i> Salvar
                     </button>
                 </div>

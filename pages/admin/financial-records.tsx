@@ -1,23 +1,44 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 // components
 
 import { Admin } from "../../layouts/Admin";
 import { LayoutComponent } from "../../classes/layout-component";
-import { CardTable } from "../../components/Cards/CardTable";
-import { FinancialRecordForm } from "../../components/FinancialRecord/FinancialRecordForm";
 import { FinancialRecordTable } from "../../components/FinancialRecord/FinancialRecordTable";
+import { FinancialRecordForm } from "../../components/FinancialRecord/FinancialRecordForm";
+import { financialRecordService } from "../../services/financial-record.service";
+import { FinancialRecord } from "../../classes/financial-record";
+import { useToast } from "../../components/Toast/ToastProvider";
 
 const FinancialRecordsLayout: LayoutComponent = () => {
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [records, setRecords] = useState([]);
+
+  const toast = useToast();
+
+  useEffect(() => {
+    setIsLoading(true)
+
+    financialRecordService.getAll()
+      .then((records: Array<FinancialRecord>) => {
+        setRecords(records.map(record => {record.date = new Date(record.date); return record}))
+      })
+      .catch(error => {
+        toast?.pushError("Erro ao consultar receitas/despesas. " + error, 999999999, "truncate-2-lines");
+      }).finally(() => setIsLoading(false))
+
+  }, [])
+
     return (
         <>
           <div className="relative pt-12 pb-9 md:pt-32">
             <div className="flex flex-wrap">
               <div className="w-full px-4">
-                <FinancialRecordForm/>
+                <FinancialRecordForm records={records}/>
               </div>
               <div className="w-full px-4">
-                <FinancialRecordTable data={[]} color="light" />
+                <FinancialRecordTable records={records} color="light" />
               </div>
             </div>
           </div>
