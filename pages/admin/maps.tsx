@@ -5,14 +5,14 @@ import React from "react";
 import MapExample from "../../components/Maps/MapExample";
 
 import { Admin } from "../../layouts/Admin";
-import { LayoutComponent } from "../../classes/layout-component";
+import { LayoutComponent } from "../../classes/LayoutComponent";
 
 const Maps: LayoutComponent = () => {
   return (
     <>
       <div className="flex flex-wrap">
         <div className="w-full px-4">
-          <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
+          <div className="relative flex flex-col w-full min-w-0 mb-6 break-words bg-white rounded shadow-lg">
             <MapExample />
           </div>
         </div>

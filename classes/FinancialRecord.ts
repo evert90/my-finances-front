@@ -1,3 +1,4 @@
+import { Moment } from "moment";
 import { Tag } from "./tag";
 
 export class FinancialRecord {
@@ -6,7 +7,7 @@ export class FinancialRecord {
         public name: string,
         public details: string,
         public value: number,
-        public date: Date,
+        public date: Moment,
         public type: string,
         public tags: Array<Tag>
     ) {}

@@ -3,12 +3,13 @@ import { FinancialRecordType } from "../../classes/FinancialRecordType";
 import CreatableSelect from 'react-select/creatable';
 import { useToast } from "../Toast/ToastProvider";
 import { tagService } from "../../services/tag.service";
-import { Tag } from "../../classes/tag";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from 'yup';
 import { useForm } from "react-hook-form";
-import { FinancialRecord } from "../../classes/financial-record";
+import { FinancialRecord } from "../../classes/FinancialRecord";
 import { financialRecordService } from "../../services/financial-record.service";
+import { Tag } from "../../classes/tag";
+import moment from "moment";
 
 type FinancialRecordFormProps = {
   records: Array<FinancialRecord>,
@@ -80,14 +81,14 @@ export const FinancialRecordForm: React.FC<FinancialRecordFormProps> = (props) =
   const { errors } = formState;
 
   function onSubmit({ name, date, value, tags, type, details }) {
-    console.log('tagssss', tags)
     let financialRecord = new FinancialRecord(null, name, details, value, date, type, values)
 
     return financialRecordService.save(financialRecord)
         .then((response: FinancialRecord) => {
             console.log(response)
-            response.date = new Date(response.date)
+            response.date = moment(response.date, 'YYYY-MM-DD')
             props.records.push(response)
+            props.records.sort((a: FinancialRecord , b: FinancialRecord) => b.date.unix() - a.date.unix())
             toast.pushSuccess("Registro salvo com sucesso", 5000);
         })
         .catch(error => {

@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as Yup from 'yup';
-import { LayoutComponent } from "../../classes/layout-component";
+import { LayoutComponent } from "../../classes/LayoutComponent";
 import { User } from "../../classes/user";
 import { useToast } from '../../components/Toast/ToastProvider';
 import { Auth } from "../../layouts/Auth";
