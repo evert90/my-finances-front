@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useToast } from "../../components/Toast/ToastProvider";
-import { User } from "../../classes/user";
+import { User } from "../../classes/User";
 
 // layout for page
 
