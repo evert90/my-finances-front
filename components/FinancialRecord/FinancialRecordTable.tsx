@@ -5,11 +5,16 @@ import TableDropdown from "../Dropdowns/TableDropdown";
 
 type FinancialRecordTableProps = {
     records: Array<FinancialRecord>,
+    recordsState: React.Dispatch<React.SetStateAction<FinancialRecord[]>>,
     color: any
 }
 
 export const FinancialRecordTable: React.FC<FinancialRecordTableProps> = (props) => {
   const currencyOptions = Intl.NumberFormat('pt-BR', { style: "currency", currency: "BRL" });
+
+  const removeFromTable = (record: FinancialRecord) => {
+    props.recordsState(props.records.filter(it => it.id != record.id))
+  }
 
   return (
       <>
@@ -102,8 +107,8 @@ export const FinancialRecordTable: React.FC<FinancialRecordTableProps> = (props)
                 <tr key={record.id} v-for="row in rows" className="odd:bg-blueGray-50 even:bg-white hover:bg-blueGray-100">
                   <td className="flex items-center justify-center p-4 px-6 text-base align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">
                   {FinancialRecordType[record.type] == FinancialRecordType.INCOME ?
-                    <div className="w-3.5 h-3.5 bg-green-700 rounded-full cursor-pointer" title="Receitas"></div> :
-                    <div className="w-3.5 h-3.5 bg-red-600 rounded-full cursor-pointer" title="Despesas"></div>
+                    <div className="w-2.5 h-2.5 mt-2 bg-green-700 rounded-full cursor-pointer" title="Receitas"></div> :
+                    <div className="w-2.5 h-2.5 mt-2 bg-red-600 rounded-full cursor-pointer" title="Despesas"></div>
                   }
                   </td>
                   <td className="p-4 px-6 text-base align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">{record.name}</td>
@@ -117,7 +122,7 @@ export const FinancialRecordTable: React.FC<FinancialRecordTableProps> = (props)
                   )}
                   </td>
                   <td className="p-4 px-6 text-sm text-right align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">
-                    <TableDropdown />
+                    <TableDropdown record={record} stateChanger={removeFromTable} />
                   </td>
                 </tr>
               )}
