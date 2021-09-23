@@ -1,8 +1,8 @@
 import { useState } from "react";
 import Moment from "react-moment";
-import { FinancialRecord } from "../../classes/FinancialRecord"
-import { FinancialRecordType } from "../../classes/FinancialRecordType";
-import { Period } from "../../classes/Period";
+import { FinancialRecord } from "../../class/FinancialRecord"
+import { FinancialRecordType } from "../../class/FinancialRecordType";
+import { Period } from "../../class/Period";
 
 type CardFinancialRecordProps = {
     period: Period,

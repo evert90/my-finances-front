@@ -1,5 +1,5 @@
 import getConfig from 'next/config';
-import { FinancialRecord } from '../classes/FinancialRecord';
+import { FinancialRecord } from '../class/FinancialRecord';
 import { fetchWrapper } from '../helpers/fetch-wrapper';
 
 const { publicRuntimeConfig } = getConfig();

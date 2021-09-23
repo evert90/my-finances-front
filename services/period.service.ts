@@ -1,4 +1,4 @@
-import { Period } from "../classes/Period";
+import { Period } from "../class/Period";
 import moment from "moment"
 
 export const periodService = {

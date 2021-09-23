@@ -5,18 +5,18 @@ import { CardLineChart } from "../../components/Cards/CardLineChart";
 import { CardPageVisits } from "../../components/Cards/CardPageVisits";
 import { CardSocialTraffic } from "../../components/Cards/CardSocialTraffic";
 
-import { LayoutComponent } from "../../classes/LayoutComponent";
+import { LayoutComponent } from "../../class/LayoutComponent";
 import { Admin } from "../../layouts/Admin";
 import { CardStats } from "../../components/Cards/CardStats";
 import { financialRecordService } from "../../services/financial-record.service";
-import { FinancialRecordTotal } from "../../classes/FinancialRecordTotal";
+import { FinancialRecordTotal } from "../../class/FinancialRecordTotal";
 import { useToast } from "../../components/Toast/ToastProvider";
-import { FinancialRecordType } from "../../classes/FinancialRecordType";
+import { FinancialRecordType } from "../../class/FinancialRecordType";
 
 import moment from 'moment';
 import { CardFinancialRecord } from "../../components/Cards/CardFinancialRecord";
-import { FinancialRecord } from "../../classes/FinancialRecord";
-import { Period } from "../../classes/Period";
+import { FinancialRecord } from "../../class/FinancialRecord";
+import { Period } from "../../class/Period";
 import { periodService } from "../../services/period.service";
 
 export const Dashboard: LayoutComponent = () => {

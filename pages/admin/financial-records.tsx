@@ -3,11 +3,11 @@ import React, { useEffect, useState } from "react";
 // components
 
 import { Admin } from "../../layouts/Admin";
-import { LayoutComponent } from "../../classes/LayoutComponent";
+import { LayoutComponent } from "../../class/LayoutComponent";
 import { FinancialRecordTable } from "../../components/FinancialRecord/FinancialRecordTable";
 import { FinancialRecordForm } from "../../components/FinancialRecord/FinancialRecordForm";
 import { financialRecordService } from "../../services/financial-record.service";
-import { FinancialRecord } from "../../classes/FinancialRecord";
+import { FinancialRecord } from "../../class/FinancialRecord";
 import { useToast } from "../../components/Toast/ToastProvider";
 import moment from "moment";
 
