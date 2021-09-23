@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 import { useForm } from "react-hook-form";
 import { FinancialRecord } from "../../classes/FinancialRecord";
 import { financialRecordService } from "../../services/financial-record.service";
-import { Tag } from "../../classes/tag";
+import { Tag } from "../../classes/Tag";
 import moment from "moment";
 
 type FinancialRecordFormProps = {
