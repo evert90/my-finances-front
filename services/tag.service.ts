@@ -1,5 +1,4 @@
 import getConfig from 'next/config';
-import { Tag } from '../classes/tag';
 import { fetchWrapper } from '../helpers/fetch-wrapper';
 
 const { publicRuntimeConfig } = getConfig();
