@@ -4,7 +4,7 @@ import Head from "next/head";
 import Router, { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
-import { LayoutComponent } from "../classes/LayoutComponent";
+import { LayoutComponent } from "../class/LayoutComponent";
 import { PageChange } from "../components/PageChange/PageChange";
 import { userService } from "../services/user.service";
 import '../styles/scrollbar.css';

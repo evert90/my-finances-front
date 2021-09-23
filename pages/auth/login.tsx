@@ -3,12 +3,12 @@ import Link from "next/link";
 import { Auth } from "../../layouts/Auth";
 import { userService } from "../../services/user.service";
 import { useRouter } from "next/router";
-import { LayoutComponent } from "../../classes/LayoutComponent";
+import { LayoutComponent } from "../../class/LayoutComponent";
 import * as Yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useToast } from "../../components/Toast/ToastProvider";
-import { User } from "../../classes/User";
+import { User } from "../../class/User";
 
 // layout for page
 

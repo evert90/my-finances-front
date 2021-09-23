@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import { FinancialRecordType } from "../../classes/FinancialRecordType";
+import { FinancialRecordType } from "../../class/FinancialRecordType";
 import CreatableSelect from 'react-select/creatable';
 import { useToast } from "../Toast/ToastProvider";
 import { tagService } from "../../services/tag.service";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from 'yup';
 import { useForm } from "react-hook-form";
-import { FinancialRecord } from "../../classes/FinancialRecord";
+import { FinancialRecord } from "../../class/FinancialRecord";
 import { financialRecordService } from "../../services/financial-record.service";
 import moment from "moment";
-import { Tag } from "../../classes/Tag";
+import { Tag } from "../../class/Tag";
 
 
 type FinancialRecordFormProps = {

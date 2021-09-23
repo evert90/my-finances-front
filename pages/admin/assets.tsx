@@ -3,7 +3,7 @@ import React from "react";
 // components
 
 import { Admin } from "../../layouts/Admin";
-import { LayoutComponent } from "../../classes/LayoutComponent";
+import { LayoutComponent } from "../../class/LayoutComponent";
 import { CardSettings } from "../../components/Cards/CardSettings";
 import { CardProfile } from "../../components/Cards/CardProfile";
 

@@ -5,7 +5,7 @@ import React from "react";
 import MapExample from "../../components/Maps/MapExample";
 
 import { Admin } from "../../layouts/Admin";
-import { LayoutComponent } from "../../classes/LayoutComponent";
+import { LayoutComponent } from "../../class/LayoutComponent";
 
 const Maps: LayoutComponent = () => {
   return (
