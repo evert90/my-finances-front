@@ -14,7 +14,7 @@ import moment from "moment";
 const FinancialRecordsLayout: LayoutComponent = () => {
 
   const [isLoading, setIsLoading] = useState(false);
-  const [records, setRecords] = useState([]);
+  const [records, setRecords] = useState<Array<FinancialRecord>>([]);
 
   const toast = useToast();
 
@@ -39,7 +39,7 @@ const FinancialRecordsLayout: LayoutComponent = () => {
                 <FinancialRecordForm records={records}/>
               </div>
               <div className="w-full px-4">
-                <FinancialRecordTable records={records} color="light" />
+                <FinancialRecordTable records={records} recordsState={setRecords} color="light"/>
               </div>
             </div>
           </div>

@@ -10,7 +10,8 @@ export const financialRecordService = {
     getByPeriod,
     getTotal,
     getTotalByPeriod,
-    save
+    save,
+    deleteById
 }
 
 function getAll() {
@@ -34,4 +35,8 @@ function save(financialRecord: FinancialRecord) {
         .then((response: FinancialRecord) => {
             return response;
         });
+}
+
+function deleteById(id: number) {
+    return fetchWrapper.delete(`${baseUrl}/${id}`)
 }

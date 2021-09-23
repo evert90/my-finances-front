@@ -1,5 +1,5 @@
 import { Moment } from "moment";
-import { Tag } from "./tag";
+import { Tag } from "./Tag";
 
 export class FinancialRecord {
     constructor(
