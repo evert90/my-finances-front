@@ -1,6 +1,6 @@
 import React from "react";
 import { createPopper } from "@popperjs/core";
-import { FinancialRecord } from "../../classes/FinancialRecord";
+import { FinancialRecord } from "../../class/FinancialRecord";
 import { financialRecordService } from "../../services/financial-record.service";
 import { useToast } from "../Toast/ToastProvider";
 

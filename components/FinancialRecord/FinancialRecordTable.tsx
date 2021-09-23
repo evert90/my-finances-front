@@ -1,6 +1,6 @@
 import Moment from "react-moment";
-import { FinancialRecord } from "../../classes/FinancialRecord";
-import { FinancialRecordType } from "../../classes/FinancialRecordType";
+import { FinancialRecord } from "../../class/FinancialRecord";
+import { FinancialRecordType } from "../../class/FinancialRecordType";
 import TableDropdown from "../Dropdowns/TableDropdown";
 
 type FinancialRecordTableProps = {
