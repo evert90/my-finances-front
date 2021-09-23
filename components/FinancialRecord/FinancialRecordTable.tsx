@@ -1,4 +1,5 @@
-import { FinancialRecord } from "../../classes/financial-record";
+import Moment from "react-moment";
+import { FinancialRecord } from "../../classes/FinancialRecord";
 import { FinancialRecordType } from "../../classes/FinancialRecordType";
 import TableDropdown from "../Dropdowns/TableDropdown";
 
@@ -8,7 +9,6 @@ type FinancialRecordTableProps = {
 }
 
 export const FinancialRecordTable: React.FC<FinancialRecordTableProps> = (props) => {
-  const dateOptions: Intl.DateTimeFormatOptions = { timeZone: 'UTC', month: 'numeric', day: 'numeric', year: 'numeric' };
   const currencyOptions = Intl.NumberFormat('pt-BR', { style: "currency", currency: "BRL" });
 
   return (
@@ -107,7 +107,7 @@ export const FinancialRecordTable: React.FC<FinancialRecordTableProps> = (props)
                   }
                   </td>
                   <td className="p-4 px-6 text-base align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">{record.name}</td>
-                  <td className="p-4 px-6 text-base align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">{record.date.toLocaleDateString('pt-BR', dateOptions)}</td>
+                  <td className="p-4 px-6 text-base align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"><Moment date={record.date} format="DD/MM/YYYY" /></td>
                   <td className="p-4 px-6 text-base align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">{currencyOptions.format(record.value)}</td>
                   <td className="p-4 px-6 text-base align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">
                   {record.tags.map(tag =>

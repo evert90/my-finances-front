@@ -3,12 +3,13 @@ import React, { useEffect, useState } from "react";
 // components
 
 import { Admin } from "../../layouts/Admin";
-import { LayoutComponent } from "../../classes/layout-component";
+import { LayoutComponent } from "../../classes/LayoutComponent";
 import { FinancialRecordTable } from "../../components/FinancialRecord/FinancialRecordTable";
 import { FinancialRecordForm } from "../../components/FinancialRecord/FinancialRecordForm";
 import { financialRecordService } from "../../services/financial-record.service";
-import { FinancialRecord } from "../../classes/financial-record";
+import { FinancialRecord } from "../../classes/FinancialRecord";
 import { useToast } from "../../components/Toast/ToastProvider";
+import moment from "moment";
 
 const FinancialRecordsLayout: LayoutComponent = () => {
 
@@ -22,7 +23,7 @@ const FinancialRecordsLayout: LayoutComponent = () => {
 
     financialRecordService.getAll()
       .then((records: Array<FinancialRecord>) => {
-        setRecords(records.map(record => {record.date = new Date(record.date); return record}))
+        setRecords(records.map(record => {record.date = moment(record.date, 'YYYY-MM-DD'); return record}))
       })
       .catch(error => {
         toast?.pushError("Erro ao consultar receitas/despesas. " + error, 999999999, "truncate-2-lines");
