@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as Yup from 'yup';
 import { LayoutComponent } from "../../classes/LayoutComponent";
-import { User } from "../../classes/user";
+import { User } from '../../classes/User';
 import { useToast } from '../../components/Toast/ToastProvider';
 import { Auth } from "../../layouts/Auth";
 import { userService } from "../../services/user.service";
