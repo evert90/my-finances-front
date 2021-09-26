@@ -1,10 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
 
-import { CardBarChart } from "../../components/Cards/CardBarChart";
-import { CardLineChart } from "../../components/Cards/CardLineChart";
-import { CardPageVisits } from "../../components/Cards/CardPageVisits";
-import { CardSocialTraffic } from "../../components/Cards/CardSocialTraffic";
-
 import { LayoutComponent } from "../../class/LayoutComponent";
 import { Admin } from "../../layouts/Admin";
 import { CardStats } from "../../components/Cards/CardStats";
@@ -19,14 +14,21 @@ import { FinancialRecord } from "../../class/FinancialRecord";
 import { Period } from "../../class/Period";
 import { periodService } from "../../services/period.service";
 
+import dynamic from "next/dynamic";
+const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
+import { PeriodTotal } from "../../class/PeriodTotal";
+import { chartService } from "../../services/chart.service";
+import { ModalAddChart } from "../../components/Modal/ModalAddChart";
+
 export const Dashboard: LayoutComponent = () => {
 
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [incomeTotal, setIncomeTotal] = useState<number>(undefined)
     const [expenseTotal, setExpenseTotal] = useState<number>(undefined)
-    const [incomeMonthTotal, setIncomeMonthTotal] = useState<number>(undefined)
-    const [expenseMonthTotal, setExpenseMonthTotal] = useState<number>(undefined)
     const [financialRecordsCards, setFinancialRecordsCards] = useState<Array<Period>>(periodService.getPeriodMonths(4))
+    const [financialRecordsChartTotal, setFinancialRecordsChartTotal] = useState<Array<PeriodTotal>>(periodService.getPeriodTotalMonths(12))
+
+    const [showModal, setShowModal] = useState(false);
 
     const toast = useToast()
 
@@ -46,23 +48,21 @@ export const Dashboard: LayoutComponent = () => {
             toast?.pushError("Erro ao consultar total de receitas/despesas. " + error, 999999999, "truncate-2-lines")
         }).finally(() => {})
 
-        financialRecordService.getTotalByPeriod(startOfCurrentMonth, endOfCurrentMonth)
-        .then((totals: Array<FinancialRecordTotal>) => {
-            setIncomeMonthTotal(totals?.find(it => FinancialRecordType[it.type] == FinancialRecordType.INCOME)?.total || 0)
-            setExpenseMonthTotal(totals?.find(it => FinancialRecordType[it.type] == FinancialRecordType.EXPENSE)?.total || 0)
+        financialRecordsChartTotal.map(period => {
+            financialRecordService.getTotalByPeriod(period.start, period.end)
+            .then((totals: Array<FinancialRecordTotal>) => {
+                period.totals = totals
+                setFinancialRecordsChartTotal([...financialRecordsChartTotal])
+            })
+            .catch(error => {
+                toast?.pushError("Erro ao consultar totais de receitas/despesas " + error, 999999999, "truncate-2-lines")
+            }).finally(() => {})
         })
-        .catch(error => {
-            toast?.pushError("Erro ao consultar total de receitas/despesas do mês atual. " + error, 999999999, "truncate-2-lines")
-        }).finally(() => {})
 
         financialRecordsCards.map(period => {
             financialRecordService.getByPeriod(period.start, period.end)
             .then((records: Array<FinancialRecord>) => {
-                console.log("period", period.start)
-                console.log("records", records)
                 period.records = records.map(record => {record.date = moment(record.date, 'YYYY-MM-DD'); return record});
-                console.log("saving in", financialRecordsCards)
-                console.log("after", financialRecordsCards)
                 setFinancialRecordsCards([...financialRecordsCards])
             })
             .catch(error => {
@@ -138,6 +138,37 @@ export const Dashboard: LayoutComponent = () => {
             </div>
 
             <div className="flex flex-wrap">
+                <div className="w-full px-4 mb-8 xl:w-12/12">
+                    <div className="bg-white">
+                        <Chart
+                            options={chartService.periodTotalToLineBarOptions(financialRecordsChartTotal)}
+                            series={chartService.periodTotalToLineBarSeries(financialRecordsChartTotal)}
+                            type="line"
+                            width="100%"
+                            height="420"
+                        />
+                    </div>
+                </div>
+            </div>
+
+            <div className="flex flex-wrap">
+                <div className="w-full px-4 mb-8 xl:w-12/12">
+                    <div className="bg-white">
+                    <button
+                        className="w-full px-0 py-2 text-base font-bold text-center text-white transition-all duration-150 ease-linear rounded shadow outline-none disabled:opacity-50 bg-lightBlue-600 active:bg-blueGray-600 hover:shadow-lg focus:outline-none"
+                        type="button"
+                        onClick={() => setShowModal(true)}
+                        >
+                        <i className="mr-2 fas fa-chart-pie"></i> Adicionar novo gráfico
+                    </button>
+                    </div>
+                </div>
+            </div>
+            {showModal ? (
+                <ModalAddChart callback={() => toast.pushSuccess("Gráfico adicionado com sucesso!", 5000)} setShowModalState={setShowModal} ></ModalAddChart>
+            ) : null}
+{/*
+            <div className="flex flex-wrap">
                 <div className="w-full px-4 mb-12 xl:w-8/12 xl:mb-0">
                     <CardLineChart />
                 </div>
@@ -152,7 +183,7 @@ export const Dashboard: LayoutComponent = () => {
                 <div className="w-full px-4 xl:w-4/12">
                     <CardSocialTraffic />
                 </div>
-            </div>
+            </div> */}
         </>
     );
 }
