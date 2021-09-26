@@ -1,13 +1,20 @@
 import moment from "moment";
+import { ChartOnDemand } from "../class/ChartOnDemand";
 import { FinancialRecordType } from "../class/FinancialRecordType";
+import { PeriodTagTotal } from "../class/PeriodTagTotal";
 import { PeriodTotal } from "../class/PeriodTotal"
+import { TagTotal } from "../class/TagTotal";
+import { ToastContextType, useToast } from "../components/Toast/ToastProvider";
+import { financialRecordService } from "./financial-record.service";
 
 export const chartService = {
     periodTotalToLineBarOptions,
-    periodTotalToLineBarSeries
+    periodTotalToLineBarSeries,
+    periodTagTotalToLineBarSeries,
+    setChartValues
 }
 
-function periodTotalToLineBarOptions(data: Array<PeriodTotal>): ApexCharts.ApexOptions {
+function periodTotalToLineBarOptions(data: Array<PeriodTotal> | Array<PeriodTagTotal>, colors?: Array<string>): ApexCharts.ApexOptions {
     return {
         chart: {
             id: "line-bar",
@@ -24,12 +31,15 @@ function periodTotalToLineBarOptions(data: Array<PeriodTotal>): ApexCharts.ApexO
                 enabled: false
             }
         },
+        yaxis: {
+            tickAmount: 5,
+        },
         dataLabels: {
             enabled: true,
             formatter: (val) => `R$ ${val}`,
 
         },
-        colors: ['rgb(21, 128, 61)', 'rgb(220, 38, 38)'],
+        colors,
         stroke: {
             curve: 'smooth'
         },
@@ -53,4 +63,31 @@ function periodTotalToLineBarSeries(data: Array<PeriodTotal>): Array<any> {
             data: data.map(period => period?.totals?.find(it => FinancialRecordType[it.type] == FinancialRecordType.EXPENSE)?.total || 0).reverse()
         }
     ]
+}
+
+function periodTagTotalToLineBarSeries(tags: Array<string>, data: Array<PeriodTagTotal>): Array<any> {
+    return tags.map( tag => (
+        {
+            name: tag,
+            data: data.map(period => period?.totals?.find(it => it?.tag?.name == tag)?.total || 0).reverse()
+        }
+    ))
+}
+
+async function setChartValues(chartOnDemand: ChartOnDemand, toast?: ToastContextType) {
+    const promises: Array<Promise<any>> = []
+
+    chartOnDemand.data.forEach(period => {
+        promises.push(
+            financialRecordService.getTotalByPeriodAndTags(period.start, period.end, chartOnDemand.tags.map(tag => tag.id))
+            .then((totals: Array<TagTotal>) => {
+                period.totals = totals
+            })
+            .catch(error => {
+                toast?.pushError("Erro ao consultar totais de receitas/despesas " + error, 999999999, "truncate-2-lines")
+            }).finally(() => {})
+        )
+    })
+
+    await Promise.all(promises)
 }

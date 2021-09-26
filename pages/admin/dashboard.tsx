@@ -19,23 +19,27 @@ const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 import { PeriodTotal } from "../../class/PeriodTotal";
 import { chartService } from "../../services/chart.service";
 import { ModalAddChart } from "../../components/Modal/ModalAddChart";
+import { ChartOnDemand } from "../../class/ChartOnDemand";
 
 export const Dashboard: LayoutComponent = () => {
 
-    const [isLoading, setIsLoading] = useState<boolean>(true)
+    const toast = useToast()
+
+    //const [isLoading, setIsLoading] = useState<boolean>(true)
     const [incomeTotal, setIncomeTotal] = useState<number>(undefined)
     const [expenseTotal, setExpenseTotal] = useState<number>(undefined)
     const [financialRecordsCards, setFinancialRecordsCards] = useState<Array<Period>>(periodService.getPeriodMonths(4))
     const [financialRecordsChartTotal, setFinancialRecordsChartTotal] = useState<Array<PeriodTotal>>(periodService.getPeriodTotalMonths(12))
+    const [chartsOnDemand, setChartsOnDemand] = useState<Array<ChartOnDemand>>((process.browser && JSON.parse(localStorage.getItem("chartsOnDemand"))) || [])
+
+    if(chartsOnDemand?.length > 0) {
+        console.log("atualizando")
+        chartsOnDemand.map(chartOnDemand => chartService.setChartValues(chartOnDemand, toast))
+    }
 
     const [showModal, setShowModal] = useState(false);
 
-    const toast = useToast()
-
     const currencyOptions = Intl.NumberFormat('pt-BR', { style: "currency", currency: "BRL" })
-
-    const startOfCurrentMonth = moment().startOf('month').format('YYYY-MM-DD');
-    const endOfCurrentMonth   = moment().endOf('month').format('YYYY-MM-DD');
 
     useEffect(() => {
         console.log("dashboard useeffect")
@@ -69,7 +73,6 @@ export const Dashboard: LayoutComponent = () => {
                 toast?.pushError("Erro ao consultar de receitas/despesas de um período. " + error, 999999999, "truncate-2-lines")
             }).finally(() => {})
         })
-
     }, [])
 
 
@@ -139,16 +142,32 @@ export const Dashboard: LayoutComponent = () => {
 
             <div className="flex flex-wrap">
                 <div className="w-full px-4 mb-8 xl:w-12/12">
-                    <div className="bg-white">
+                    <div className="bg-white rounded shadow-lg">
                         <Chart
-                            options={chartService.periodTotalToLineBarOptions(financialRecordsChartTotal)}
+                            options={chartService.periodTotalToLineBarOptions(financialRecordsChartTotal, ['rgb(21, 128, 61)', 'rgb(220, 38, 38)'])}
                             series={chartService.periodTotalToLineBarSeries(financialRecordsChartTotal)}
                             type="line"
                             width="100%"
-                            height="420"
+                            height="450"
                         />
                     </div>
                 </div>
+            </div>
+
+            <div className="flex flex-wrap">
+                {chartsOnDemand?.map(chart =>
+                <div key={chart.id} className="w-full px-4 mb-8 xl:w-12/12">
+                    <div className="bg-white rounded shadow-lg">
+                        <Chart
+                            options={chartService.periodTotalToLineBarOptions(chart.data)}
+                            series={chartService.periodTagTotalToLineBarSeries(chart.tags.map(tag => tag.name), chart.data)}
+                            type={chart.type}
+                            width={chart.width}
+                            height={chart.height}
+                        />
+                    </div>
+                </div>
+                )}
             </div>
 
             <div className="flex flex-wrap">
@@ -159,13 +178,13 @@ export const Dashboard: LayoutComponent = () => {
                         type="button"
                         onClick={() => setShowModal(true)}
                         >
-                        <i className="mr-2 fas fa-chart-pie"></i> Adicionar novo gráfico
+                        <i className="mr-1 fas fa-chart-pie"></i> Adicionar novo gráfico
                     </button>
                     </div>
                 </div>
             </div>
             {showModal ? (
-                <ModalAddChart callback={() => toast.pushSuccess("Gráfico adicionado com sucesso!", 5000)} setShowModalState={setShowModal} ></ModalAddChart>
+                <ModalAddChart setShowModalState={setShowModal} setChartsOnDemandState={setChartsOnDemand} chartsOnDemand={chartsOnDemand} ></ModalAddChart>
             ) : null}
 {/*
             <div className="flex flex-wrap">

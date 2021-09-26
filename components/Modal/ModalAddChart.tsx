@@ -1,11 +1,18 @@
 import { useEffect, useState } from 'react';
 import Select from 'react-select'
+import { ChartOnDemand } from '../../class/ChartOnDemand';
 import { Tag } from '../../class/Tag';
+import { TagTotal } from '../../class/TagTotal';
+import { financialRecordService } from '../../services/financial-record.service';
+import { periodService } from '../../services/period.service';
 import { tagService } from '../../services/tag.service';
 import { useToast } from '../Toast/ToastProvider';
+import { v4 as uuidv4 } from 'uuid';
+import { chartService } from '../../services/chart.service';
 
 type ModalAddChartProps = {
-    callback: Function,
+    chartsOnDemand: Array<ChartOnDemand>,
+    setChartsOnDemandState: React.Dispatch<React.SetStateAction<Array<ChartOnDemand>>>,
     setShowModalState: React.Dispatch<React.SetStateAction<boolean>>
 }
 
@@ -31,17 +38,35 @@ export const ModalAddChart: React.FC<ModalAddChartProps> = (props) => {
     }, [])
 
     const customStyles = {
-    control: (base, state) => ({
-        ...base,
-        height: 44,
-        minHeight: 35,
-        borderColor: state.isFocused ? "rgb(14, 160, 226)" : base.borderColor,
-        "&:hover": {
-        borderColor: state.isFocused ? "rgb(14, 160, 226)" : base.borderColor
-        },
-        borderLeft: state.isFocused ? "5px solid rgb(14, 160, 226)" : null
-    })
+        control: (base, state) => ({
+            ...base,
+            height: 44,
+            minHeight: 35,
+            borderColor: state.isFocused ? "rgb(14, 160, 226)" : base.borderColor,
+            "&:hover": {
+            borderColor: state.isFocused ? "rgb(14, 160, 226)" : base.borderColor
+            },
+            borderLeft: state.isFocused ? "5px solid rgb(14, 160, 226)" : null
+        })
     };
+
+    async function save() {
+        let chartOnDemand = new ChartOnDemand(
+            uuidv4(),
+            "line",
+            "100%",
+            "450",
+            values.map(value => new Tag(value.id, value.label)),
+            12,
+            periodService.getPeriodTagTotalMonths(12)
+        );
+
+        await chartService.setChartValues(chartOnDemand, toast)
+        const charts = [...props.chartsOnDemand, chartOnDemand]
+        props.setChartsOnDemandState(charts)
+        localStorage.setItem("chartsOnDemand", JSON.stringify(charts))
+        props.setShowModalState(false)
+    }
 
     return (
         <>
@@ -56,9 +81,10 @@ export const ModalAddChart: React.FC<ModalAddChartProps> = (props) => {
                             </h3>
                             <button
                                 className="float-right p-1 ml-auto text-3xl font-semibold leading-none text-black bg-transparent border-0 outline-none opacity-70 focus:outline-none"
+                                title="Fechar"
                                 onClick={() => props.setShowModalState(false)}
                             >
-                                <span className="block w-6 h-6 text-2xl text-black bg-transparent outline-none opacity-70 focus:outline-none">
+                                <span className="block w-6 h-6 -mt-1 text-2xl text-black bg-transparent outline-none opacity-70 focus:outline-none">
                                 ×
                                 </span>
                             </button>
@@ -89,7 +115,7 @@ export const ModalAddChart: React.FC<ModalAddChartProps> = (props) => {
                             <button
                                 className="px-6 py-3 mb-1 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-lightBlue-600 active:bg-lightBlue-700 hover:shadow-lg focus:outline-none"
                                 type="button"
-                                onClick={() => props.callback()}
+                                onClick={() => save()}
                             >
                                 Salvar
                             </button>

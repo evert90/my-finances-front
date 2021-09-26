@@ -1,5 +1,6 @@
 import getConfig from 'next/config';
 import { FinancialRecord } from '../class/FinancialRecord';
+import { Tag } from '../class/Tag';
 import { fetchWrapper } from '../helpers/fetch-wrapper';
 
 const { publicRuntimeConfig } = getConfig();
@@ -10,6 +11,7 @@ export const financialRecordService = {
     getByPeriod,
     getTotal,
     getTotalByPeriod,
+    getTotalByPeriodAndTags,
     save,
     deleteById
 }
@@ -26,8 +28,13 @@ function getTotal() {
     return fetchWrapper.get(`${baseUrl}/report/total`)
 }
 
+
 function getTotalByPeriod(start: string, end: string) {
     return fetchWrapper.get(`${baseUrl}/report/total/period?` + new URLSearchParams({ start, end }))
+}
+
+function getTotalByPeriodAndTags(start: string, end: string, tagIds: Array<number>) {
+    return fetchWrapper.get(`${baseUrl}/report/total/period/tag?` + new URLSearchParams({ start, end, tagIds: tagIds.join(",") }))
 }
 
 function save(financialRecord: FinancialRecord) {
