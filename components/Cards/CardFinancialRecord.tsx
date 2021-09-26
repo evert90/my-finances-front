@@ -6,7 +6,7 @@ import { Period } from "../../class/Period";
 
 type CardFinancialRecordProps = {
     period: Period,
-  }
+}
 
 export const CardFinancialRecord: React.FC<CardFinancialRecordProps> = (props) => {
 
@@ -61,8 +61,8 @@ export const CardFinancialRecord: React.FC<CardFinancialRecordProps> = (props) =
                                 ${showInfo ? "" : "hidden"}
                                 border-t-[1px]
                                 `}>
-                                <td className={`p-4 px-6 text-xs align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap`}>{record.name}</td>
-                                <td className="p-4 px-6 text-xs align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">{currencyOptions.format(record.value)}</td>
+                                <td className={`p-4 px-6 text-xs font-medium align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap`}>{record.name}</td>
+                                <td className="p-4 px-6 text-xs font-medium align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">{currencyOptions.format(record.value)}</td>
                             </tr>
                         )}
                         </tbody>
