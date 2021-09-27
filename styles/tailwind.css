@@ -2156,6 +2156,14 @@ select {
 	padding-left: 2.5rem;
 }
 
+.pb-5 {
+	padding-bottom: 1.25rem;
+}
+
+.pb-3 {
+	padding-bottom: 0.75rem;
+}
+
 .text-left {
 	text-align: left;
 }
@@ -2839,6 +2847,14 @@ select {
 		margin-right: 0.25rem;
 	}
 
+	.lg\:mb-6 {
+		margin-bottom: 1.5rem;
+	}
+
+	.lg\:mb-7 {
+		margin-bottom: 1.75rem;
+	}
+
 	.lg\:block {
 		display: block;
 	}
@@ -2938,6 +2954,10 @@ select {
 		padding-top: 1rem;
 	}
 
+	.lg\:pb-7 {
+		padding-bottom: 1.75rem;
+	}
+
 	.lg\:text-left {
 		text-align: left;
 	}
@@ -2971,6 +2991,10 @@ select {
 
 	.xl\:mb-0 {
 		margin-bottom: 0px;
+	}
+
+	.xl\:mb-6 {
+		margin-bottom: 1.5rem;
 	}
 
 	.xl\:w-6\/12 {

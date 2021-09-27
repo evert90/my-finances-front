@@ -27,7 +27,7 @@ export const CardFinancialRecord: React.FC<CardFinancialRecordProps> = (props) =
 
     return (
         <>
-            <div className="relative flex flex-col w-full min-w-0 mb-6 break-words bg-white rounded shadow-lg">
+            <div className="relative flex flex-col w-full min-w-0 break-words bg-white rounded shadow-lg lg:mb-7">
                 <div className="px-2 py-3 mb-0 border-0 rounded-t">
                     <div className="flex flex-wrap items-center">
                         <div className="relative flex-1 flex-grow w-full max-w-full px-4">
