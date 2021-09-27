@@ -78,7 +78,7 @@ export const Dashboard: LayoutComponent = () => {
 
     return (
         <>
-            <div className="relative pt-12 pb-9 md:pt-32">
+            <div className="relative pt-12 pb-3 lg:pb-7 md:pt-32">
                 {/* Card stats */}
                 <div className="flex flex-wrap">
                     <div className="w-full px-4 lg:w-6/12 xl:6-3/12">

@@ -49,7 +49,9 @@ function MyApp({ Component, pageProps }) {
     const publicPaths = ['/auth/login', '/auth/register'];
     const path = url.split('?')[0];
 
+    console.log("TEEEEEESTE", userService.getUserValue()?.token)
     if (!userService.getUserValue()?.token && !publicPaths.includes(path)) {
+      console.log("unat")
       setAuthorized(false);
       Router.push({
         pathname: '/auth/login',
@@ -86,8 +88,8 @@ function MyApp({ Component, pageProps }) {
           content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
         />
         <link rel="manifest" href="/manifest.json" />
-        <link rel="apple-touch-icon" href="/img/logo/icon-144x144.png"></link>
-        <meta name="theme-color" content="#317EFB" />
+        <link rel="apple-touch-icon" href="/img/icons/icon-144x144.png"></link>
+        <meta name="theme-color" content="#fff" />
         <title>Notus NextJS by Creative Tim</title>
         {/* */
         <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
