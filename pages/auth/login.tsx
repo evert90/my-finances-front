@@ -60,7 +60,7 @@ export const Login: LayoutComponent = () => {
               <div className="px-6 py-6 mb-0 rounded-t">
                 <div className="mb-3 text-center">
                   <h6 className="text-sm font-bold text-blueGray-500">
-                    Sign in with
+                    Entre com sua conta
                   </h6>
                 </div>
                 <div className="text-center btn-wrapper">
@@ -83,7 +83,7 @@ export const Login: LayoutComponent = () => {
               </div>
               <div className="flex-auto px-4 py-10 pt-0 lg:px-10">
                 <div className="mb-3 font-bold text-center text-blueGray-400">
-                  <small>Or sign in with credentials</small>
+                  <small>Ou entre com seus dados</small>
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="relative w-full mb-3">
@@ -106,13 +106,13 @@ export const Login: LayoutComponent = () => {
                       className="block mb-2 text-xs font-bold uppercase text-blueGray-600"
                       htmlFor="grid-password"
                     >
-                      Password
+                      Senha
                     </label>
                     <input
                       type="password"
                       {...register('password')}
                       className={`${errors.password ? 'is-invalid' : ''} border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150`}
-                      placeholder="Password"
+                      placeholder="Senha"
                     />
                   </div>
                   <div>
@@ -123,7 +123,7 @@ export const Login: LayoutComponent = () => {
                         className="w-5 h-5 ml-1 transition-all duration-150 ease-linear border-0 rounded form-checkbox text-blueGray-700"
                       />
                       <span className="ml-2 text-sm font-semibold text-blueGray-600">
-                        Remember me
+                        Lembrar-me
                       </span>
                     </label>
                   </div>
@@ -135,7 +135,7 @@ export const Login: LayoutComponent = () => {
                       disabled={formState.isSubmitting}
                     >
                       {formState.isSubmitting && <i className="mx-auto mr-1 text-white fas fa-circle-notch animate-spin text-1xl"></i>}
-                      Sign In
+                      Enviar
                     </button>
                   </div>
                 </form>
@@ -148,13 +148,13 @@ export const Login: LayoutComponent = () => {
                   onClick={(e) => e.preventDefault()}
                   className="text-blueGray-200"
                 >
-                  <small>Forgot password?</small>
+                  <small>Esqueceu a senha?</small>
                 </a>
               </div>
               <div className="w-1/2 text-right">
                 <Link href="/auth/register">
                   <a href="#pablo" className="text-blueGray-200">
-                    <small>Create new account</small>
+                    <small>Criar nova conta</small>
                   </a>
                 </Link>
               </div>

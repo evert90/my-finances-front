@@ -8,6 +8,7 @@ import { User } from '../../class/User';
 import { useToast } from '../../components/Toast/ToastProvider';
 import { Auth } from "../../layouts/Auth";
 import { userService } from "../../services/user.service";
+import Link from "next/link";
 
 // layout for page
 
@@ -62,7 +63,7 @@ export const Register: LayoutComponent = () => {
               <div className="px-6 py-6 mb-0 rounded-t">
                 <div className="mb-3 text-center">
                   <h6 className="text-sm font-bold text-blueGray-500">
-                    Sign up with
+                    Cadastre-se com sua conta
                   </h6>
                 </div>
                 <div className="text-center btn-wrapper">
@@ -85,7 +86,7 @@ export const Register: LayoutComponent = () => {
               </div>
               <div className="flex-auto px-4 py-10 pt-0 lg:px-10">
                 <div className="mb-3 font-bold text-center text-blueGray-400">
-                  <small>Or sign up with credentials</small>
+                  <small>Ou cadastre-se com seus dados</small>
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="relative w-full mb-3">
@@ -93,13 +94,13 @@ export const Register: LayoutComponent = () => {
                       className="block mb-2 text-xs font-bold uppercase text-blueGray-600"
                       htmlFor="grid-password"
                     >
-                      Name
+                      Nome
                     </label>
                     <input
                       type="text"
                       {...register('name')}
                       className={`${errors.name ? 'is-invalid' : ''} border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150`}
-                      placeholder="Full name"
+                      placeholder="Nome completo"
                     />
                     <div className="invalid-feedback" style={{display: "none"}}>{errors.name?.message}</div>
                   </div>
@@ -125,12 +126,13 @@ export const Register: LayoutComponent = () => {
                       className="block mb-2 text-xs font-bold uppercase text-blueGray-600"
                       htmlFor="grid-password"
                     >
-                      Password
+                      Senha
                     </label>
                     <input
                       type="password"
                       {...register('password')}
-                      className={`${errors.password ? 'is-invalid' : ''} border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150`}                      placeholder="Password"
+                      className={`${errors.password ? 'is-invalid' : ''} border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150`}
+                      placeholder="Senha"
                     />
                     <div className="invalid-feedback" style={{display: "none"}}>{errors.password?.message}</div>
                   </div>
@@ -143,13 +145,13 @@ export const Register: LayoutComponent = () => {
                         className="w-5 h-5 ml-1 transition-all duration-150 ease-linear border-0 rounded form-checkbox text-blueGray-700"
                       />
                       <span className="ml-2 text-sm font-semibold text-blueGray-600">
-                        I agree with the{" "}
+                        Eu concordo com os termos das{" "}
                         <a
                           href="#pablo"
                           className="text-lightBlue-500"
                           onClick={(e) => e.preventDefault()}
                         >
-                          Privacy Policy
+                          políticas de privacidade
                         </a>
                       </span>
                     </label>
@@ -162,10 +164,24 @@ export const Register: LayoutComponent = () => {
                       disabled={formState.isSubmitting}
                     >
                       {formState.isSubmitting && <i className="mx-auto mr-1 text-white fas fa-circle-notch animate-spin text-1xl"></i>}
-                      Create Account
+                      Criar conta
                     </button>
                   </div>
                 </form>
+              </div>
+            </div>
+            <div className="relative flex flex-wrap mt-6">
+              <div className="w-1/2">
+                <Link href="/auth/login">
+                  <a href="#pablo" className="text-blueGray-200">
+                    <small>Área de login</small>
+                  </a>
+                </Link>
+              </div>
+              <div className="w-1/2 text-right">
+                  <a href="#pablo" className="text-blueGray-200">
+                    <small>Precisa de ajuda?</small>
+                  </a>
               </div>
             </div>
           </div>
