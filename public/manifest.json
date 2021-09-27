@@ -6,7 +6,7 @@
     "display": "fullscreen",
     "orientation": "portrait",
     "scope": "/",
-    "start_url": "/",
+    "start_url": "/auth/login",
     "icons": [
         {
           "src": "img/icons/android-launchericon-72-72.png",
