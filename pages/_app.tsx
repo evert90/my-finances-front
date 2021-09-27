@@ -83,8 +83,11 @@ function MyApp({ Component, pageProps }) {
       <Head>
         <meta
           name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
         />
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="apple-touch-icon" href="/img/logo/icon-144x144.png"></link>
+        <meta name="theme-color" content="#317EFB" />
         <title>Notus NextJS by Creative Tim</title>
         {/* */
         <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
