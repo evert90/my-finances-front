@@ -36,6 +36,10 @@ button:hover {
     transform: scale(1.005);
 }
 
+.scale-005:hover {
+    transform: scale(1.003);
+}
+
 html, body {
     background: theme('colors.blueGray.100')
 }

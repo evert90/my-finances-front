@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Moment from "react-moment";
-import { FinancialRecord } from "../../class/FinancialRecord"
 import { FinancialRecordType } from "../../class/FinancialRecordType";
 import { Period } from "../../class/Period";
 
@@ -27,17 +26,18 @@ export const CardFinancialRecord: React.FC<CardFinancialRecordProps> = (props) =
 
     return (
         <>
-            <div className="relative flex flex-col w-full min-w-0 break-words bg-white rounded shadow-lg lg:mb-7">
+            <div className="relative flex flex-col w-full min-w-0 break-words bg-white rounded shadow-lg cursor-pointer lg:mb-7 scale-005"
+                 onClick={() => setShowInfo(!showInfo)}
+            >
                 <div className="px-2 py-3 mb-0 border-0 rounded-t">
                     <div className="flex flex-wrap items-center">
                         <div className="relative flex-1 flex-grow w-full max-w-full px-4">
                             <h3 className="text-base font-semibold capitalize text-blueGray-700">
-                                Lançamentos (<Moment format="MMMM/YYYY" locale="pt-BR">{props.period.start}</Moment>)
+                                <Moment format="MMMM/YYYY" locale="pt-BR">{props.period.start}</Moment>
                             </h3>
                         </div>
-                        <div className="relative flex-1 flex-grow w-full max-w-[50px] px-1 text-right">
-                            <i onClick={() => setShowInfo(!showInfo)}
-                                className={`mt-1 mr-1 cursor-pointer text-base fas ${showInfo ? 'fa-chevron-circle-up' : 'fa-chevron-circle-down'} `}
+                        <div className="relative flex-1 flex-grow w-full max-w-[25px] px-1 text-right">
+                            <i className={`mt-1 mr-1 cursor-pointer text-base fas ${showInfo ? 'fa-chevron-circle-up' : 'fa-chevron-circle-down'} `}
                             ></i>
                         </div>
                     </div>
