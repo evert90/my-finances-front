@@ -52,3 +52,10 @@ html, body {
     width: 1%;
     white-space: nowrap;
 }
+
+.cursor-grab {
+    cursor: move; /* fallback if grab cursor is unsupported */
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}

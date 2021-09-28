@@ -976,18 +976,6 @@ select {
 	left: 50%;
 }
 
-.-left-3\.5 {
-	left: -0.875rem;
-}
-
-.-left-3 {
-	left: -0.75rem;
-}
-
-.left-5 {
-	left: 1.25rem;
-}
-
 .z-10 {
 	z-index: 10;
 }
@@ -1199,6 +1187,14 @@ select {
 	margin-right: 1rem;
 }
 
+.-ml-3 {
+	margin-left: -0.75rem;
+}
+
+.-mr-3 {
+	margin-right: -0.75rem;
+}
+
 .mb-0 {
 	margin-bottom: 0px;
 }
@@ -1253,50 +1249,6 @@ select {
 
 .-mt-7 {
 	margin-top: -1.75rem;
-}
-
-.-ml-2 {
-	margin-left: -0.5rem;
-}
-
-.-ml-1 {
-	margin-left: -0.25rem;
-}
-
-.-ml-3 {
-	margin-left: -0.75rem;
-}
-
-.-mr-2 {
-	margin-right: -0.5rem;
-}
-
-.ml-36 {
-	margin-left: 9rem;
-}
-
-.-ml-36 {
-	margin-left: -9rem;
-}
-
-.mr-36 {
-	margin-right: 9rem;
-}
-
-.ml-5 {
-	margin-left: 1.25rem;
-}
-
-.ml-4 {
-	margin-left: 1rem;
-}
-
-.-ml-5 {
-	margin-left: -1.25rem;
-}
-
-.-mr-3 {
-	margin-right: -0.75rem;
 }
 
 .block {
@@ -1363,6 +1315,10 @@ select {
 	height: 500px;
 }
 
+.h-\[250px\] {
+	height: 250px;
+}
+
 .h-5 {
 	height: 1.25rem;
 }
@@ -1395,18 +1351,6 @@ select {
 	height: 1.5rem;
 }
 
-.h-\[130px\] {
-	height: 130px;
-}
-
-.h-\[170px\] {
-	height: 170px;
-}
-
-.h-\[250px\] {
-	height: 250px;
-}
-
 .max-h-860-px {
 	max-height: 860px;
 }
@@ -1421,10 +1365,6 @@ select {
 
 .min-h-screen-75 {
 	min-height: 75vh;
-}
-
-.min-h-full {
-	min-height: 100%;
 }
 
 .min-h-screen {
@@ -1451,8 +1391,8 @@ select {
 	width: 2rem;
 }
 
-.w-0 {
-	width: 0px;
+.w-\[50px\] {
+	width: 50px;
 }
 
 .w-5 {
@@ -1487,136 +1427,12 @@ select {
 	width: 50%;
 }
 
-.w-3\/12 {
-	width: 25%;
-}
-
-.w-\[95\%\] {
-	width: 95%;
-}
-
-.w-\[full\] {
-	width: full;
-}
-
-.w-4\/12 {
-	width: 33.333333%;
-}
-
-.w-\[20vh\] {
-	width: 20vh;
-}
-
-.w-\[20vw\] {
-	width: 20vw;
-}
-
-.w-\[40vh\] {
-	width: 40vh;
-}
-
-.w-\[10vh\] {
-	width: 10vh;
-}
-
-.w-1\/4 {
-	width: 25%;
-}
-
-.w-1\/3 {
-	width: 33.333333%;
-}
-
-.w-\[2400px\] {
-	width: 2400px;
-}
-
-.w-\[3000px\] {
-	width: 3000px;
-}
-
-.w-\[9000px\] {
-	width: 9000px;
-}
-
-.w-\[100\%\] {
-	width: 100%;
-}
-
-.w-\[98\%\] {
-	width: 98%;
-}
-
-.w-\[40px\] {
-	width: 40px;
-}
-
-.w-\[20px\] {
-	width: 20px;
-}
-
-.w-\[30px\] {
-	width: 30px;
-}
-
-.w-\[5px\] {
-	width: 5px;
-}
-
-.w-\[60px\] {
-	width: 60px;
-}
-
-.w-\[70px\] {
-	width: 70px;
-}
-
-.w-\[90px\] {
-	width: 90px;
-}
-
-.w-\[50px\] {
-	width: 50px;
-}
-
-.w-\[315px\] {
-	width: 315px;
-}
-
-.w-\[350px\] {
-	width: 350px;
-}
-
-.w-\[325px\] {
-	width: 325px;
-}
-
-.w-\[300px\] {
-	width: 300px;
-}
-
-.w-\[280px\] {
-	width: 280px;
-}
-
-.w-\[295px\] {
-	width: 295px;
-}
-
-.w-\[290px\] {
-	width: 290px;
-}
-
-.w-\[285px\] {
-	width: 285px;
-}
-
-.w-\[289px\] {
-	width: 289px;
-}
-
 .min-w-0 {
 	min-width: 0px;
+}
+
+.min-w-\[260px\] {
+	min-width: 260px;
 }
 
 .min-w-140-px {
@@ -1663,8 +1479,8 @@ select {
 	max-width: 150px;
 }
 
-.max-w-\[100px\] {
-	max-width: 100px;
+.max-w-\[25px\] {
+	max-width: 25px;
 }
 
 .max-w-3xl {
@@ -1673,50 +1489,6 @@ select {
 
 .max-w-sm {
 	max-width: 24rem;
-}
-
-.max-w-\[50px\] {
-	max-width: 50px;
-}
-
-.max-w-\[80\%\] {
-	max-width: 80%;
-}
-
-.max-w-\[95\%\] {
-	max-width: 95%;
-}
-
-.max-w-\[99\%\] {
-	max-width: 99%;
-}
-
-.max-w-\[98\%\] {
-	max-width: 98%;
-}
-
-.max-w-\[97\%\] {
-	max-width: 97%;
-}
-
-.max-w-\[98\.5\%\] {
-	max-width: 98.5%;
-}
-
-.max-w-\[90\%\] {
-	max-width: 90%;
-}
-
-.max-w-\[30px\] {
-	max-width: 30px;
-}
-
-.max-w-\[20px\] {
-	max-width: 20px;
-}
-
-.max-w-\[25px\] {
-	max-width: 25px;
 }
 
 .flex-auto {
@@ -1782,10 +1554,6 @@ select {
 
 .flex-col {
 	flex-direction: column;
-}
-
-.flex-col-reverse {
-	flex-direction: column-reverse;
 }
 
 .flex-wrap {
@@ -2886,14 +2654,6 @@ select {
 		margin-right: 0.5rem;
 	}
 
-	.sm\:ml-3 {
-		margin-left: 0.75rem;
-	}
-
-	.sm\:ml-10 {
-		margin-left: 2.5rem;
-	}
-
 	.sm\:ml-0 {
 		margin-left: 0px;
 	}
@@ -2904,10 +2664,6 @@ select {
 
 	.sm\:block {
 		display: block;
-	}
-
-	.sm\:hidden {
-		display: none;
 	}
 
 	.sm\:w-6\/12 {
@@ -2953,16 +2709,12 @@ select {
 		margin-top: 16rem;
 	}
 
-	.md\:mt-4 {
-		margin-top: 1rem;
-	}
-
-	.md\:ml-3 {
-		margin-left: 0.75rem;
-	}
-
 	.md\:ml-0 {
 		margin-left: 0px;
+	}
+
+	.md\:mt-4 {
+		margin-top: 1rem;
 	}
 
 	.md\:block {

@@ -37,33 +37,108 @@ export const Dashboard: LayoutComponent = () => {
     const [chartsOnDemand, setChartsOnDemand] = useState<Array<ChartOnDemand>>((process.browser && JSON.parse(localStorage.getItem(`chartsOnDemand${userService.getUserValue()?.user?.id}`))) || [])
     const [scrollX, setScrollX] = useState(0);
 
+    const scrollXRef = React.useRef(scrollX);
+
     const [showModal, setShowModal] = useState(false);
 
     const currencyOptions = Intl.NumberFormat('pt-BR', { style: "currency", currency: "BRL" })
 
     const handleLeftArrow = () => {
-        let x = scrollX + (window.innerWidth > 640 ? Math.round(window.innerWidth / 2) : 140)
+        console.log("left", scrollX)
+        //let x = scrollXRef.current + (window.innerWidth > 640 ? Math.round(window.innerWidth / 2) : 140)
+        let x = scrollXRef.current +  Math.round(window.innerWidth / 2)
         if(x > 0) {
             x = 0;
         }
+        console.log("setting", x)
+        scrollXRef.current = x
         setScrollX(x)
     }
 
     const handleRightArrow = () => {
-        let x = scrollX - (window.innerWidth > 640 ? Math.round(window.innerWidth / 2) : 140)
+        console.log("right", scrollX)
+        //let x = scrollXRef.current - (window.innerWidth > 640 ? Math.round(window.innerWidth / 2) : 140)
+        let x = scrollXRef.current - Math.round(window.innerWidth / 2)
         let total = totalFinancialRecordsCards * widthFinancialRecordsCard
         if((window.innerWidth - total) > x ) {
             x = (window.innerWidth - total) - 60
         }
+        console.log("setting", x)
+        scrollXRef.current = x
         setScrollX(x)
     }
 
+
+
+let slider = undefined
     useEffect(() => {
         if(chartsOnDemand?.length > 0) {
             console.log("atualizando")
             chartsOnDemand.map(chartOnDemand => chartService.setChartValues(chartOnDemand, toast))
         }
+
+        slider = document.querySelector('.slider-container')
+
+                // disable default image drag
+        slider.addEventListener('dragstart', (e) => e.preventDefault())
+
+            // set up our state
+let isDragging = false,
+startPos = 0,
+currentTranslate = 0,
+prevTranslate = 0
+
+        // use a HOF so we have index in a closure
+function touchStart() {
+    return function (event) {
+     // currentIndex = index
+      isDragging = true
+      startPos = getPositionX(event)
+      slider.classList.add('cursor-grab')
+    }
+  }
+
+  function touchMove(event) {
+     // console.log("move", isDragging)
+    if (isDragging) {
+      const currentPosition = getPositionX(event)
+      currentTranslate = prevTranslate + currentPosition - startPos
+    }
+  }
+
+  function getPositionX(event) {
+    return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX
+  }
+
+  function touchEnd() {
+    isDragging = false
+    const movedBy = currentTranslate - prevTranslate
+
+    console.log("end", movedBy)
+
+    // if moved enough negative then snap to next slide if there is one
+    if (movedBy < -150) handleRightArrow()
+
+    // if moved enough positive then snap to previous slide if there is one
+    if (movedBy > 150) handleLeftArrow()
+
+
+    slider.classList.remove('cursor-grab')
+  }
+
+        // touch events
+        slider.addEventListener('touchstart', touchStart())
+        slider.addEventListener('touchend', touchEnd)
+        slider.addEventListener('touchmove', touchMove)
+        // mouse events
+        slider.addEventListener('mousedown', touchStart())
+        slider.addEventListener('mouseup', touchEnd)
+        slider.addEventListener('mousemove', touchMove)
+        slider.addEventListener('mouseleave', touchEnd)
      }, [])
+
+
+
 
     useEffect(() => {
         console.log("dashboard useeffect")
@@ -160,13 +235,13 @@ export const Dashboard: LayoutComponent = () => {
 
 
             <div className="flex flex-row mr-4 overflow-hidden md:ml-0" style={{marginLeft: scrollX < 0 ? "17px" : 0}}>
-                <div className="-ml-3 sm:ml-0 absolute left-0 w-[50px] h-[250px] z-60 flex items-center justify-center ease-in">
+                <div className="-ml-3 sm:ml-0 absolute left-0 w-[50px] h-[250px] flex items-center justify-center ease-in">
                     <i className="cursor-pointer fa fa-chevron-left" onClick={handleLeftArrow}></i>
                 </div>
-                <div className="-mr-3 sm:mr-0 absolute right-0 w-[50px] h-[250px] z-60 flex items-center justify-center ease-in">
+                <div className="-mr-3 sm:mr-0 absolute right-0 w-[50px] h-[250px] flex items-center justify-center ease-in">
                     <i className="cursor-pointer fa fa-chevron-right" onClick={handleRightArrow}></i>
                 </div>
-                <div className="flex flex-row" style={{
+                <div className="flex flex-row slider-container" style={{
                     marginLeft: scrollX,
                     width: totalFinancialRecordsCards * widthFinancialRecordsCard,
                     transition: "all ease 0.5s"
