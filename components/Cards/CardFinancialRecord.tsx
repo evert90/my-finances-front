@@ -35,7 +35,7 @@ export const CardFinancialRecord: React.FC<CardFinancialRecordProps> = (props) =
                                 Lançamentos (<Moment format="MMMM/YYYY" locale="pt-BR">{props.period.start}</Moment>)
                             </h3>
                         </div>
-                        <div className="relative flex-1 flex-grow w-full max-w-[100px] px-1 text-right">
+                        <div className="relative flex-1 flex-grow w-full max-w-[50px] px-1 text-right">
                             <i onClick={() => setShowInfo(!showInfo)}
                                 className={`mt-1 mr-1 cursor-pointer text-base fas ${showInfo ? 'fa-chevron-circle-up' : 'fa-chevron-circle-down'} `}
                             ></i>
