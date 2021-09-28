@@ -43,13 +43,13 @@ export const Register: LayoutComponent = () => {
     return userService.save(user)
         .then(() => {
             // get return url from query parameters or default to '/'
-            const returnUrl = router.query?.returnUrl?.toString() || '/';
+            const returnUrl = router.query?.returnUrl?.toString() || '/admin/dashboard';
             console.log("redirecionando para ", returnUrl);
             toast?.pushSuccess("Conta cadastrada com sucesso", 5000);
             router.push(returnUrl);
         })
         .catch(error => {
-          toast?.pushError("Erro ao criar conta. " + error, 999999999, "truncate-2-lines");
+          toast?.pushError("Erro ao criar conta. " + error, 7000, "truncate-2-lines");
           setError('apiError', { message: error?.message });
         });
   }

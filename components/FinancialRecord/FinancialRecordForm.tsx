@@ -35,7 +35,7 @@ export const FinancialRecordForm: React.FC<FinancialRecordFormProps> = (props) =
           setOptionsTags(tags.map(tag => ({...tag, label: tag.name, value: tag.name})))
         })
         .catch(error => {
-          toast?.pushError("Erro ao consultar tags. " + error, 999999999, "truncate-2-lines");
+          toast?.pushError("Erro ao consultar tags. " + error, 7000, "truncate-2-lines");
         }).finally(() => setIsLoading(false))
 
     }, [])
@@ -93,7 +93,7 @@ export const FinancialRecordForm: React.FC<FinancialRecordFormProps> = (props) =
             toast.pushSuccess("Registro salvo com sucesso", 5000);
         })
         .catch(error => {
-          toast?.pushError("Erro ao salvar registro. " + error, 999999999, "truncate-2-lines");
+          toast?.pushError("Erro ao salvar registro. " + error, 7000, "truncate-2-lines");
           setError('apiError', { message: error?.message });
         });
   }

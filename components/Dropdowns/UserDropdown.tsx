@@ -1,5 +1,7 @@
 import React from "react";
 import { createPopper } from "@popperjs/core";
+import { Router, useRouter } from "next/router";
+import { userService } from "../../services/user.service";
 
 const UserDropdown = () => {
   // dropdown props
@@ -15,10 +17,18 @@ const UserDropdown = () => {
   const closeDropdownPopover = () => {
     setDropdownPopoverShow(false);
   };
+
+  const router = useRouter()
+
+  const logout = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    event.preventDefault()
+    userService.logout()
+  }
+
   return (
     <>
       <a
-        className="text-blueGray-500 block"
+        className="block text-blueGray-500"
         href="#pablo"
         ref={btnDropdownRef}
         onClick={(e) => {
@@ -26,11 +36,11 @@ const UserDropdown = () => {
           dropdownPopoverShow ? closeDropdownPopover() : openDropdownPopover();
         }}
       >
-        <div className="items-center flex">
-          <span className="w-12 h-12 text-sm text-white bg-blueGray-200 inline-flex items-center justify-center rounded-full">
+        <div className="flex items-center">
+          <span className="inline-flex items-center justify-center w-12 h-12 text-sm text-white rounded-full bg-blueGray-200">
             <img
               alt="..."
-              className="w-full rounded-full align-middle border-none shadow-lg"
+              className="w-full align-middle border-none rounded-full shadow-lg"
               src="/img/team-1-800x800.jpg"
             />
           </span>
@@ -46,7 +56,7 @@ const UserDropdown = () => {
         <a
           href="#pablo"
           className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700 hover:bg-gray-100"
           }
           onClick={(e) => e.preventDefault()}
         >
@@ -55,7 +65,7 @@ const UserDropdown = () => {
         <a
           href="#pablo"
           className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700 hover:bg-gray-100"
           }
           onClick={(e) => e.preventDefault()}
         >
@@ -64,7 +74,7 @@ const UserDropdown = () => {
         <a
           href="#pablo"
           className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700 hover:bg-gray-100"
           }
           onClick={(e) => e.preventDefault()}
         >
@@ -74,11 +84,11 @@ const UserDropdown = () => {
         <a
           href="#pablo"
           className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700 hover:bg-gray-100"
           }
-          onClick={(e) => e.preventDefault()}
+          onClick={(e) => logout(e)}
         >
-          Seprated link
+          <i className="mr-1 fa fa-sign-out-alt"></i> Sair
         </a>
       </div>
     </>

@@ -2116,6 +2116,10 @@ select {
 	padding-top: 3rem;
 }
 
+.pb-3 {
+	padding-bottom: 0.75rem;
+}
+
 .pb-9 {
 	padding-bottom: 2.25rem;
 }
@@ -2154,14 +2158,6 @@ select {
 
 .pl-10 {
 	padding-left: 2.5rem;
-}
-
-.pb-5 {
-	padding-bottom: 1.25rem;
-}
-
-.pb-3 {
-	padding-bottom: 0.75rem;
 }
 
 .text-left {
@@ -2839,20 +2835,16 @@ select {
 		margin-right: 1rem;
 	}
 
+	.lg\:mb-7 {
+		margin-bottom: 1.75rem;
+	}
+
 	.lg\:ml-auto {
 		margin-left: auto;
 	}
 
 	.lg\:mr-1 {
 		margin-right: 0.25rem;
-	}
-
-	.lg\:mb-6 {
-		margin-bottom: 1.5rem;
-	}
-
-	.lg\:mb-7 {
-		margin-bottom: 1.75rem;
 	}
 
 	.lg\:block {
@@ -2991,10 +2983,6 @@ select {
 
 	.xl\:mb-0 {
 		margin-bottom: 0px;
-	}
-
-	.xl\:mb-6 {
-		margin-bottom: 1.5rem;
 	}
 
 	.xl\:w-6\/12 {

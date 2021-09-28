@@ -4,7 +4,7 @@ import { FinancialRecordType } from "../class/FinancialRecordType";
 import { PeriodTagTotal } from "../class/PeriodTagTotal";
 import { PeriodTotal } from "../class/PeriodTotal"
 import { TagTotal } from "../class/TagTotal";
-import { ToastContextType, useToast } from "../components/Toast/ToastProvider";
+import { ToastContextType } from "../components/Toast/ToastProvider";
 import { financialRecordService } from "./financial-record.service";
 
 export const chartService = {
@@ -84,7 +84,7 @@ async function setChartValues(chartOnDemand: ChartOnDemand, toast?: ToastContext
                 period.totals = totals
             })
             .catch(error => {
-                toast?.pushError("Erro ao consultar totais de receitas/despesas " + error, 999999999, "truncate-2-lines")
+                toast?.pushError("Erro ao consultar totais de receitas/despesas: " + error, 7000, "truncate-2-lines")
             }).finally(() => {})
         )
     })

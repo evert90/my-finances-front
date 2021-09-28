@@ -56,7 +56,7 @@ export const AdminNavbar = () => {
             Dashboard
           </a>
             */}
-          <Link href="/admin/dashboard">
+          <Link href="/admin/dashboard" as="/admin/dashboard">
             <a
               href="#pablo"
               className={
@@ -75,7 +75,7 @@ export const AdminNavbar = () => {
             </a>
           </Link>
 
-          <Link href="/admin/financial-records">
+          <Link href="/admin/financial-records" as="/admin/financial-records">
             <a
               href="#pablo"
               className={
