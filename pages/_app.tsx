@@ -23,26 +23,65 @@ function MyApp({ Component, pageProps }) {
 
   const router = useRouter();
 
-  Router.events.on("routeChangeStart", (url) => {
-    setAuthorized(false);
+  useEffect(() => {
+    console.log("APP EFFECT")
+
+    let comment = document.createComment(`
+    =========================================================
+    * Notus NextJS - v1.1.0 based on Tailwind Starter Kit by Creative Tim
+    =========================================================
+    * Product Page: https://www.creative-tim.com/product/notus-nextjs
+    * Copyright 2021 Creative Tim (https://www.creative-tim.com)
+    * Licensed under MIT (https://github.com/creativetimofficial/notus-nextjs/blob/main/LICENSE.md)
+    * Tailwind Starter Kit Page: https://www.creative-tim.com/learning-lab/tailwind-starter-kit/presentation
+    * Coded by Creative Tim
+    =========================================================
+    * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+    `);
+    document.insertBefore(comment, document.documentElement);
+
+    //unregisterServiceWorkers()
+
+    authCheck(router.asPath);
+
+    Router.events.on("routeChangeStart", routeChangeStart);
+
+    Router.events.on("routeChangeComplete", routeChangeComplete);
+
+    Router.events.on("routeChangeError", () => {
+      ReactDOM.unmountComponentAtNode(document.getElementById("page-transition"));
+      document.body.classList.remove("body-page-transition");
+    });
+
+    // unsubscribe from events in useEffect return function
+    return () => {
+      router.events.off('routeChangeStart', routeChangeStart);
+      router.events.off('routeChangeComplete', routeChangeComplete);
+    }
+
+  }, []);
+
+  const unregisterServiceWorkers = () => {
+    navigator.serviceWorker.getRegistrations().then(function(registrations) {
+      console.log("registrations", registrations)
+      for(let registration of registrations) {
+       registration.unregister()
+    } })
+  }
+
+  const routeChangeComplete = (url) => {
+    authCheck(url)
+    ReactDOM.unmountComponentAtNode(document.getElementById("page-transition"));
+    document.body.classList.remove("body-page-transition");
+  }
+
+  const routeChangeStart = (url) => {
     document.body.classList.add("body-page-transition");
     ReactDOM.render(
       <PageChange path={url} />,
       document.getElementById("page-transition")
     );
-  });
-
-  Router.events.on("routeChangeComplete", (url) => {
-    authCheck(url)
-    ReactDOM.unmountComponentAtNode(document.getElementById("page-transition"));
-    document.body.classList.remove("body-page-transition");
-  });
-
-  Router.events.on("routeChangeError", () => {
-    ReactDOM.unmountComponentAtNode(document.getElementById("page-transition"));
-    document.body.classList.remove("body-page-transition");
-  });
-
+  }
 
   const authCheck = (url: string) => {
     // redirect to login page if accessing a private page and not logged in
@@ -62,24 +101,6 @@ function MyApp({ Component, pageProps }) {
     }
   }
 
-
-  useEffect(() => {
-    let comment = document.createComment(`
-    =========================================================
-    * Notus NextJS - v1.1.0 based on Tailwind Starter Kit by Creative Tim
-    =========================================================
-    * Product Page: https://www.creative-tim.com/product/notus-nextjs
-    * Copyright 2021 Creative Tim (https://www.creative-tim.com)
-    * Licensed under MIT (https://github.com/creativetimofficial/notus-nextjs/blob/main/LICENSE.md)
-    * Tailwind Starter Kit Page: https://www.creative-tim.com/learning-lab/tailwind-starter-kit/presentation
-    * Coded by Creative Tim
-    =========================================================
-    * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-    `);
-        document.insertBefore(comment, document.documentElement);
-        authCheck(router.asPath);
-  }, []);
-
   return (
     <React.Fragment>
       <Head>
@@ -87,17 +108,19 @@ function MyApp({ Component, pageProps }) {
           name="viewport"
           content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
         />
-        <link rel="manifest" href="/manifest.json" />
+        { <link rel="manifest" href="/manifest.json" /> }
         <link rel="apple-touch-icon" href="/img/icons/icon-144x144.png"></link>
         <meta name="theme-color" content="#fff" />
-        <title>Notus NextJS by Creative Tim</title>
-        {/* */
+        <title>My Finances</title>
+        {/*
         <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
-        }
+        */}
       </Head>
       <Providers>
         <Layout>
-          <Component {...pageProps} />
+          {authorized &&
+            <Component {...pageProps} />
+          }
         </Layout>
       </Providers>
     </React.Fragment>
