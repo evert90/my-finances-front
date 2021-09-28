@@ -26,16 +26,37 @@ export const Dashboard: LayoutComponent = () => {
 
     const toast = useToast()
 
+    const totalFinancialRecordsCards = 18
+    const widthFinancialRecordsCard = 315
+
     //const [isLoading, setIsLoading] = useState<boolean>(true)
     const [incomeTotal, setIncomeTotal] = useState<number>(undefined)
     const [expenseTotal, setExpenseTotal] = useState<number>(undefined)
-    const [financialRecordsCards, setFinancialRecordsCards] = useState<Array<Period>>(periodService.getPeriodMonths(12))
+    const [financialRecordsCards, setFinancialRecordsCards] = useState<Array<Period>>(periodService.getPeriodMonths(totalFinancialRecordsCards))
     const [financialRecordsChartTotal, setFinancialRecordsChartTotal] = useState<Array<PeriodTotal>>(periodService.getPeriodTotalMonths(12))
     const [chartsOnDemand, setChartsOnDemand] = useState<Array<ChartOnDemand>>((process.browser && JSON.parse(localStorage.getItem(`chartsOnDemand${userService.getUserValue()?.user?.id}`))) || [])
+    const [scrollX, setScrollX] = useState(0);
 
     const [showModal, setShowModal] = useState(false);
 
     const currencyOptions = Intl.NumberFormat('pt-BR', { style: "currency", currency: "BRL" })
+
+    const handleLeftArrow = () => {
+        let x = scrollX + (window.innerWidth > 640 ? Math.round(window.innerWidth / 2) : 140)
+        if(x > 0) {
+            x = 0;
+        }
+        setScrollX(x)
+    }
+
+    const handleRightArrow = () => {
+        let x = scrollX - (window.innerWidth > 640 ? Math.round(window.innerWidth / 2) : 140)
+        let total = totalFinancialRecordsCards * widthFinancialRecordsCard
+        if((window.innerWidth - total) > x ) {
+            x = (window.innerWidth - total) - 60
+        }
+        setScrollX(x)
+    }
 
     useEffect(() => {
         if(chartsOnDemand?.length > 0) {
@@ -136,21 +157,26 @@ export const Dashboard: LayoutComponent = () => {
                 </div>
             </div>
 
-            <div className="flex flex-wrap">
-                <div className="relative top-auto flex flex-col-reverse justify-center w-0 min-h-full">
-                    <i className="-ml-2 cursor-pointer fa fa-chevron-left" onClick={() => alert("teste")}></i>
+
+
+            <div className="flex flex-row mr-4 overflow-hidden md:ml-0" style={{marginLeft: scrollX < 0 ? "17px" : 0}}>
+                <div className="-ml-3 sm:ml-0 absolute left-0 w-[50px] h-[250px] z-60 flex items-center justify-center ease-in">
+                    <i className="cursor-pointer fa fa-chevron-left" onClick={handleLeftArrow}></i>
                 </div>
-                <div className="flex flex-row overflow-x-hidden max-w-[99%]">
+                <div className="-mr-3 sm:mr-0 absolute right-0 w-[50px] h-[250px] z-60 flex items-center justify-center ease-in">
+                    <i className="cursor-pointer fa fa-chevron-right" onClick={handleRightArrow}></i>
+                </div>
+                <div className="flex flex-row" style={{
+                    marginLeft: scrollX,
+                    width: totalFinancialRecordsCards * widthFinancialRecordsCard,
+                    transition: "all ease 0.5s"
+                }}>
                     {financialRecordsCards?.map(period =>
                         <div key={period.start} className="w-full px-4 mb-12 xl:mb-0">
                             <CardFinancialRecord period={period} />
                         </div>
                     )}
                 </div>
-                <div className="flex flex-col-reverse justify-center w-0 min-h-full">
-                    <i className="ml-1 cursor-pointer sm:ml-1 md:ml-3 fa fa-chevron-right"onClick={() => alert("teste2")}></i>
-                </div>
-
             </div>
 
             <div className="flex flex-wrap">
