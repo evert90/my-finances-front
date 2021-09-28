@@ -29,7 +29,7 @@ export const Dashboard: LayoutComponent = () => {
     //const [isLoading, setIsLoading] = useState<boolean>(true)
     const [incomeTotal, setIncomeTotal] = useState<number>(undefined)
     const [expenseTotal, setExpenseTotal] = useState<number>(undefined)
-    const [financialRecordsCards, setFinancialRecordsCards] = useState<Array<Period>>(periodService.getPeriodMonths(4))
+    const [financialRecordsCards, setFinancialRecordsCards] = useState<Array<Period>>(periodService.getPeriodMonths(12))
     const [financialRecordsChartTotal, setFinancialRecordsChartTotal] = useState<Array<PeriodTotal>>(periodService.getPeriodTotalMonths(12))
     const [chartsOnDemand, setChartsOnDemand] = useState<Array<ChartOnDemand>>((process.browser && JSON.parse(localStorage.getItem(`chartsOnDemand${userService.getUserValue()?.user?.id}`))) || [])
 
@@ -137,11 +137,20 @@ export const Dashboard: LayoutComponent = () => {
             </div>
 
             <div className="flex flex-wrap">
-                {financialRecordsCards?.map(period =>
-                <div key={period.start} className="w-full px-4 mb-12 xl:w-3/12 xl:mb-0">
-                    <CardFinancialRecord period={period} />
+                <div className="relative top-auto flex flex-col-reverse justify-center w-0 min-h-full">
+                    <i className="-ml-2 cursor-pointer fa fa-chevron-left" onClick={() => alert("teste")}></i>
                 </div>
-                )}
+                <div className="flex flex-row overflow-x-hidden max-w-[99%]">
+                    {financialRecordsCards?.map(period =>
+                        <div key={period.start} className="w-full px-4 mb-12 xl:mb-0">
+                            <CardFinancialRecord period={period} />
+                        </div>
+                    )}
+                </div>
+                <div className="flex flex-col-reverse justify-center w-0 min-h-full">
+                    <i className="ml-1 cursor-pointer sm:ml-1 md:ml-3 fa fa-chevron-right"onClick={() => alert("teste2")}></i>
+                </div>
+
             </div>
 
             <div className="flex flex-wrap">
