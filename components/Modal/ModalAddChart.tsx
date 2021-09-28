@@ -9,6 +9,7 @@ import { tagService } from '../../services/tag.service';
 import { useToast } from '../Toast/ToastProvider';
 import { v4 as uuidv4 } from 'uuid';
 import { chartService } from '../../services/chart.service';
+import { userService } from '../../services/user.service';
 
 type ModalAddChartProps = {
     chartsOnDemand: Array<ChartOnDemand>,
@@ -32,7 +33,7 @@ export const ModalAddChart: React.FC<ModalAddChartProps> = (props) => {
             setOptionsTags(tags.map(tag => ({...tag, label: tag.name, value: tag.name})))
           })
           .catch(error => {
-            toast?.pushError("Erro ao consultar tags. " + error, 999999999, "truncate-2-lines");
+            toast?.pushError("Erro ao consultar tags. " + error, 7000, "truncate-2-lines");
           }).finally(() => setIsLoading(false))
 
     }, [])
@@ -64,7 +65,7 @@ export const ModalAddChart: React.FC<ModalAddChartProps> = (props) => {
         await chartService.setChartValues(chartOnDemand, toast)
         const charts = [...props.chartsOnDemand, chartOnDemand]
         props.setChartsOnDemandState(charts)
-        localStorage.setItem("chartsOnDemand", JSON.stringify(charts))
+        localStorage.setItem(`chartsOnDemand${userService.getUserValue()?.user?.id}`, JSON.stringify(charts))
         props.setShowModalState(false)
     }
 

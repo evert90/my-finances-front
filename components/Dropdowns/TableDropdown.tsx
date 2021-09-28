@@ -36,7 +36,7 @@ const TableDropdown: React.FC<TableDropdownProps> = (props) => {
                 props.stateChanger(props.record)
             })
             .catch(error => {
-                toast?.pushError("Erro ao exclupir registro. " + error, 999999999, "truncate-2-lines");
+                toast?.pushError("Erro ao excluir registro. " + error, 7000, "truncate-2-lines");
             }).finally(() => {})
     }
 

@@ -20,6 +20,7 @@ import { PeriodTotal } from "../../class/PeriodTotal";
 import { chartService } from "../../services/chart.service";
 import { ModalAddChart } from "../../components/Modal/ModalAddChart";
 import { ChartOnDemand } from "../../class/ChartOnDemand";
+import { userService } from "../../services/user.service";
 
 export const Dashboard: LayoutComponent = () => {
 
@@ -30,16 +31,18 @@ export const Dashboard: LayoutComponent = () => {
     const [expenseTotal, setExpenseTotal] = useState<number>(undefined)
     const [financialRecordsCards, setFinancialRecordsCards] = useState<Array<Period>>(periodService.getPeriodMonths(4))
     const [financialRecordsChartTotal, setFinancialRecordsChartTotal] = useState<Array<PeriodTotal>>(periodService.getPeriodTotalMonths(12))
-    const [chartsOnDemand, setChartsOnDemand] = useState<Array<ChartOnDemand>>((process.browser && JSON.parse(localStorage.getItem("chartsOnDemand"))) || [])
-
-    if(chartsOnDemand?.length > 0) {
-        console.log("atualizando")
-        chartsOnDemand.map(chartOnDemand => chartService.setChartValues(chartOnDemand, toast))
-    }
+    const [chartsOnDemand, setChartsOnDemand] = useState<Array<ChartOnDemand>>((process.browser && JSON.parse(localStorage.getItem(`chartsOnDemand${userService.getUserValue()?.user?.id}`))) || [])
 
     const [showModal, setShowModal] = useState(false);
 
     const currencyOptions = Intl.NumberFormat('pt-BR', { style: "currency", currency: "BRL" })
+
+    useEffect(() => {
+        if(chartsOnDemand?.length > 0) {
+            console.log("atualizando")
+            chartsOnDemand.map(chartOnDemand => chartService.setChartValues(chartOnDemand, toast))
+        }
+     }, [])
 
     useEffect(() => {
         console.log("dashboard useeffect")
@@ -49,7 +52,7 @@ export const Dashboard: LayoutComponent = () => {
             setExpenseTotal(totals?.find(it => FinancialRecordType[it.type] == FinancialRecordType.EXPENSE)?.total || 0)
         })
         .catch(error => {
-            toast?.pushError("Erro ao consultar total de receitas/despesas. " + error, 999999999, "truncate-2-lines")
+            toast?.pushError("Erro ao consultar total de receitas/despesas. " + error, 7000, "truncate-2-lines")
         }).finally(() => {})
 
         financialRecordsChartTotal.map(period => {
@@ -59,7 +62,7 @@ export const Dashboard: LayoutComponent = () => {
                 setFinancialRecordsChartTotal([...financialRecordsChartTotal])
             })
             .catch(error => {
-                toast?.pushError("Erro ao consultar totais de receitas/despesas " + error, 999999999, "truncate-2-lines")
+                toast?.pushError("Erro ao consultar totais de receitas/despesas " + error, 7000, "truncate-2-lines")
             }).finally(() => {})
         })
 
@@ -70,11 +73,12 @@ export const Dashboard: LayoutComponent = () => {
                 setFinancialRecordsCards([...financialRecordsCards])
             })
             .catch(error => {
-                toast?.pushError("Erro ao consultar de receitas/despesas de um período. " + error, 999999999, "truncate-2-lines")
+                toast?.pushError("Erro ao consultar de receitas/despesas de um período. " + error, 7000, "truncate-2-lines")
             }).finally(() => {})
         })
     }, [])
 
+    useEffect(() => () => {console.log("SAINDOOOO")}, [])
 
     return (
         <>

@@ -26,7 +26,7 @@ const FinancialRecordsLayout: LayoutComponent = () => {
         setRecords(records.map(record => {record.date = moment(record.date, 'YYYY-MM-DD'); return record}))
       })
       .catch(error => {
-        toast?.pushError("Erro ao consultar receitas/despesas. " + error, 999999999, "truncate-2-lines");
+        toast?.pushError("Erro ao consultar receitas/despesas. " + error, 7000, "truncate-2-lines");
       }).finally(() => setIsLoading(false))
 
   }, [])
