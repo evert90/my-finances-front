@@ -22,6 +22,21 @@ import { ModalAddChart } from "../../components/Modal/ModalAddChart";
 import { ChartOnDemand } from "../../class/ChartOnDemand";
 import { userService } from "../../services/user.service";
 
+// Import Swiper React components
+import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperCore, { Navigation} from 'swiper'
+SwiperCore.use([Navigation])
+
+// Import Swiper styles
+// swiper bundle styles
+import 'swiper/swiper-bundle.min.css'
+
+// swiper core styles
+import 'swiper/swiper.min.css'
+
+// modules styles
+import 'swiper/components/navigation/navigation.min.css'
+
 export const Dashboard: LayoutComponent = () => {
 
     const toast = useToast()
@@ -40,23 +55,6 @@ export const Dashboard: LayoutComponent = () => {
     const [showModal, setShowModal] = useState(false);
 
     const currencyOptions = Intl.NumberFormat('pt-BR', { style: "currency", currency: "BRL" })
-
-    const handleLeftArrow = () => {
-        let x = scrollX + (window.innerWidth > 640 ? Math.round(window.innerWidth / 2) : 140)
-        if(x > 0) {
-            x = 0;
-        }
-        setScrollX(x)
-    }
-
-    const handleRightArrow = () => {
-        let x = scrollX - (window.innerWidth > 640 ? Math.round(window.innerWidth / 2) : 140)
-        let total = totalFinancialRecordsCards * widthFinancialRecordsCard
-        if((window.innerWidth - total) > x ) {
-            x = (window.innerWidth - total) - 60
-        }
-        setScrollX(x)
-    }
 
     useEffect(() => {
         if(chartsOnDemand?.length > 0) {
@@ -98,8 +96,6 @@ export const Dashboard: LayoutComponent = () => {
             }).finally(() => {})
         })
     }, [])
-
-    useEffect(() => () => {console.log("SAINDOOOO")}, [])
 
     return (
         <>
@@ -157,26 +153,51 @@ export const Dashboard: LayoutComponent = () => {
                 </div>
             </div>
 
-
-
-            <div className="flex flex-row mr-4 overflow-hidden md:ml-0" style={{marginLeft: scrollX < 0 ? "17px" : 0}}>
-                <div className="-ml-3 sm:ml-0 absolute left-0 w-[50px] h-[250px] z-60 flex items-center justify-center ease-in">
-                    <i className="cursor-pointer fa fa-chevron-left" onClick={handleLeftArrow}></i>
+            <div className="flex flex-row pl-4 pr-4 mb-7 lg:mb-0">
+                <div className="ml-3 md:ml-7 absolute w-[1px] left-0 h-[250px] z-60 flex items-center justify-center">
+                    <i className="text-xl cursor-pointer fa fa-chevron-left cards-swiper-button-prev hover:scale-125"></i>
                 </div>
-                <div className="-mr-3 sm:mr-0 absolute right-0 w-[50px] h-[250px] z-60 flex items-center justify-center ease-in">
-                    <i className="cursor-pointer fa fa-chevron-right" onClick={handleRightArrow}></i>
+                <div className="mr-3 md:mr-7 absolute right-0 h-[250px] z-60 flex items-center justify-center">
+                    <i className="text-xl cursor-pointer fa fa-chevron-right cards-swiper-button-next hover:scale-125"></i>
                 </div>
-                <div className="flex flex-row" style={{
-                    marginLeft: scrollX,
-                    width: totalFinancialRecordsCards * widthFinancialRecordsCard,
-                    transition: "all ease 0.5s"
-                }}>
+
+                <Swiper
+                    breakpoints={{
+                        320: {
+                            slidesPerView: 1,
+                            spaceBetween: 20
+                        },
+                        480: {
+                            slidesPerView: 1,
+                            spaceBetween: 30
+                        },
+                        800: {
+                            slidesPerView: 2,
+                            spaceBetween: 30
+                            },
+                            1000: {
+                            slidesPerView: 3,
+                            spaceBetween: 35
+                            },
+                            1200: {
+                            slidesPerView: 4,
+                            spaceBetween: 40
+                            },
+                    }}
+                    navigation={{
+                        nextEl: ".cards-swiper-button-next",
+                        prevEl: ".cards-swiper-button-prev",
+                    }}
+                >
                     {financialRecordsCards?.map(period =>
                         <div key={period.start} className="w-full px-4 mb-12 xl:mb-0">
-                            <CardFinancialRecord period={period} />
+                            <SwiperSlide key={period.start}>
+                                <CardFinancialRecord period={period} />
+                            </SwiperSlide>
                         </div>
                     )}
-                </div>
+                </Swiper>
+
             </div>
 
             <div className="flex flex-wrap">
@@ -195,17 +216,17 @@ export const Dashboard: LayoutComponent = () => {
 
             <div className="flex flex-wrap">
                 {chartsOnDemand?.map(chart =>
-                <div key={chart.id} className="w-full px-4 mb-8 xl:w-12/12">
-                    <div className="bg-white rounded shadow-lg">
-                        <Chart
-                            options={chartService.periodTotalToLineBarOptions(chart.data)}
-                            series={chartService.periodTagTotalToLineBarSeries(chart.tags.map(tag => tag.name), chart.data)}
-                            type={chart.type}
-                            width={chart.width}
-                            height={chart.height}
-                        />
+                    <div key={chart.id} className="w-full px-4 mb-8 xl:w-12/12">
+                        <div className="bg-white rounded shadow-lg">
+                            <Chart
+                                options={chartService.periodTotalToLineBarOptions(chart.data)}
+                                series={chartService.periodTagTotalToLineBarSeries(chart.tags.map(tag => tag.name), chart.data)}
+                                type={chart.type}
+                                width={chart.width}
+                                height={chart.height}
+                            />
+                        </div>
                     </div>
-                </div>
                 )}
             </div>
 
