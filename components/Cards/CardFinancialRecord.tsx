@@ -27,7 +27,7 @@ export const CardFinancialRecord: React.FC<CardFinancialRecordProps> = (props) =
     return (
         <>
             <div className="relative flex flex-col w-full min-w-0 break-words bg-white rounded shadow-lg cursor-pointer lg:mb-7 scale-005"
-                 onClick={() => setShowInfo(!showInfo)}
+
             >
                 <div className="px-2 py-3 mb-0 border-0 rounded-t">
                     <div className="flex flex-wrap items-center">
@@ -38,6 +38,7 @@ export const CardFinancialRecord: React.FC<CardFinancialRecordProps> = (props) =
                         </div>
                         <div className="relative flex-1 flex-grow w-full max-w-[25px] px-1 text-right">
                             <i className={`mt-1 mr-1 cursor-pointer text-base fas ${showInfo ? 'fa-chevron-circle-up' : 'fa-chevron-circle-down'} `}
+                               onClick={() => setShowInfo(!showInfo)}
                             ></i>
                         </div>
                     </div>
