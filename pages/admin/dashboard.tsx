@@ -154,10 +154,10 @@ export const Dashboard: LayoutComponent = () => {
             </div>
 
             <div className="flex flex-row pl-4 pr-4 mb-7 lg:mb-0">
-                <div className="ml-3 md:ml-7 absolute w-[1px] left-0 h-[250px] z-60 flex items-center justify-center">
+                <div className="ml-3 md:ml-7 absolute w-[1px] left-0 h-[250px] flex items-center justify-center">
                     <i className="text-xl cursor-pointer fa fa-chevron-left cards-swiper-button-prev hover:scale-125"></i>
                 </div>
-                <div className="mr-3 md:mr-7 absolute right-0 h-[250px] z-60 flex items-center justify-center">
+                <div className="mr-3 md:mr-7 absolute right-0 h-[250px] flex items-center justify-center">
                     <i className="text-xl cursor-pointer fa fa-chevron-right cards-swiper-button-next hover:scale-125"></i>
                 </div>
 
