@@ -188,13 +188,14 @@ export const Dashboard: LayoutComponent = () => {
                         prevEl: ".cards-swiper-button-prev",
                     }}
                 >
-                    {financialRecordsCards?.map(period =>
-                        <div key={period.start} className="w-full px-4 mb-12 xl:mb-0">
+                    {financialRecordsCards?.map((period, index) => {
+                        return ((index == 0 && (periodService.getPeriodIncomeTotal(period) != 0 || periodService.getPeriodExpenseTotal(period) != 0)) || index != 0) &&
+                         <div key={period.start} className="w-full px-4 mb-12 xl:mb-0">
                             <SwiperSlide key={period.start}>
                                 <CardFinancialRecord period={period} />
                             </SwiperSlide>
                         </div>
-                    )}
+                    })}
                 </Swiper>
 
             </div>

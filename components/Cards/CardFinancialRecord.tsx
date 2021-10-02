@@ -2,6 +2,7 @@ import { useState } from "react";
 import Moment from "react-moment";
 import { FinancialRecordType } from "../../class/FinancialRecordType";
 import { Period } from "../../class/Period";
+import { periodService } from "../../services/period.service";
 
 type CardFinancialRecordProps = {
     period: Period,
@@ -14,15 +15,9 @@ export const CardFinancialRecord: React.FC<CardFinancialRecordProps> = (props) =
     const currencyOptions = Intl.NumberFormat('pt-BR', { style: "currency", currency: "BRL" });
     const [showInfo, setShowInfo] = useState(false)
 
-    const incomeTotal: number = props.period.records
-        ?.filter(it => FinancialRecordType[it.type] == FinancialRecordType.INCOME)
-        ?.map(it => it.value)
-        ?.reduce((a, b) => a + b, 0) || 0
+    const incomeTotal: number = periodService.getPeriodIncomeTotal(props.period)
 
-    const expenseTotal: number = props.period.records
-        ?.filter(it => FinancialRecordType[it.type] == FinancialRecordType.EXPENSE)
-        ?.map(it => it.value)
-        ?.reduce((a, b) => a + b, 0) || 0
+    const expenseTotal: number = periodService.getPeriodExpenseTotal(props.period)
 
     return (
         <>
