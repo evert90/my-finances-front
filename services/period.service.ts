@@ -12,7 +12,7 @@ export const periodService = {
 function getPeriodMonths(meses: number): Array<Period> {
     let periodos: Array<Period> = [];
 
-    for(let i = -1; i - 1 < meses - 2; i++) {
+    for(let i = -1; i < meses - 1; i++) {
         let dataInicial = moment()
             .startOf('month')
             .subtract(i, 'months')
@@ -32,7 +32,7 @@ function getPeriodMonths(meses: number): Array<Period> {
 function getPeriodTotalMonths(meses: number): Array<PeriodTotal> {
     let periodos: Array<PeriodTotal> = [];
 
-    for(let i = -1; i - 1 < meses - 2; i++) {
+    for(let i = 0; i < meses; i++) {
         let dataInicial = moment()
             .startOf('month')
             .subtract(i, 'months')
@@ -52,7 +52,7 @@ function getPeriodTotalMonths(meses: number): Array<PeriodTotal> {
 function getPeriodTagTotalMonths(meses: number): Array<PeriodTagTotal> {
     let periodos: Array<PeriodTagTotal> = [];
 
-    for(let i = -1; i - 1 < meses - 2; i++) {
+    for(let i = 0; i < meses; i++) {
         let dataInicial = moment()
             .startOf('month')
             .subtract(i, 'months')

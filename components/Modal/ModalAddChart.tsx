@@ -59,7 +59,7 @@ export const ModalAddChart: React.FC<ModalAddChartProps> = (props) => {
             "450",
             values.map(value => new Tag(value.id, value.label)),
             12,
-            periodService.getPeriodTagTotalMonths(12)
+            []
         );
 
         await chartService.setChartValues(chartOnDemand, toast)
