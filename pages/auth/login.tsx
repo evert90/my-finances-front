@@ -23,7 +23,7 @@ export const Login: LayoutComponent = () => {
   useEffect(() => {
     // redirect to home if already logged in
     if (userService.getUserValue()?.token) {
-      router.push('/');
+      router.push('/admin/dashboard');
     }
   }, []);
 

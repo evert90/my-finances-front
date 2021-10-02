@@ -23,7 +23,7 @@ export class ChartOnDemand {
         public width: string,
         public height: string,
         public tags: Array<Tag>,
-        public numberMonths: number,
+        public numberOfMonths: number,
         public data: Array<PeriodTagTotal>
     ) { }
 }

@@ -6,6 +6,7 @@ import { PeriodTotal } from "../class/PeriodTotal"
 import { TagTotal } from "../class/TagTotal";
 import { ToastContextType } from "../components/Toast/ToastProvider";
 import { financialRecordService } from "./financial-record.service";
+import { periodService } from "./period.service";
 
 export const chartService = {
     periodTotalToLineBarOptions,
@@ -76,6 +77,8 @@ function periodTagTotalToLineBarSeries(tags: Array<string>, data: Array<PeriodTa
 
 async function setChartValues(chartOnDemand: ChartOnDemand, toast?: ToastContextType) {
     const promises: Array<Promise<any>> = []
+
+    chartOnDemand.data = periodService.getPeriodTagTotalMonths(12)
 
     chartOnDemand.data.forEach(period => {
         promises.push(
