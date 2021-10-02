@@ -4,7 +4,7 @@ import { Tag } from '../class/Tag';
 import { fetchWrapper } from '../helpers/fetch-wrapper';
 
 const { publicRuntimeConfig } = getConfig();
-const baseUrl = `${publicRuntimeConfig.apiUrl}/financial-records`;
+const baseUrl = process.browser && localStorage.getItem("apiUrl") ? `${localStorage.getItem("apiUrl")}/financial-records` : `${publicRuntimeConfig.apiUrl}/financial-records`;
 
 export const financialRecordService = {
     getAll,
