@@ -50,7 +50,6 @@ export const Dashboard: LayoutComponent = () => {
     const [financialRecordsCards, setFinancialRecordsCards] = useState<Array<Period>>(periodService.getPeriodMonths(totalFinancialRecordsCards))
     const [financialRecordsChartTotal, setFinancialRecordsChartTotal] = useState<Array<PeriodTotal>>(periodService.getPeriodTotalMonths(12))
     const [chartsOnDemand, setChartsOnDemand] = useState<Array<ChartOnDemand>>((process.browser && JSON.parse(localStorage.getItem(`chartsOnDemand${userService.getUserValue()?.user?.id}`))) || [])
-    const [scrollX, setScrollX] = useState(0);
 
     const [showModal, setShowModal] = useState(false);
 
