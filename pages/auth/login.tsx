@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
+import getConfig from 'next/config';
 import { Auth } from "../../layouts/Auth";
 import { userService } from "../../services/user.service";
 import { useRouter } from "next/router";
@@ -13,6 +14,8 @@ import { User } from "../../class/User";
 // layout for page
 
 export const Login: LayoutComponent = () => {
+
+  const { publicRuntimeConfig } = getConfig();
 
   const router = useRouter();
   const toast = useToast();
@@ -146,10 +149,18 @@ export const Login: LayoutComponent = () => {
               <div className="w-1/2">
                 <a
                   href="#pablo"
-                  onClick={(e) => e.preventDefault()}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    const response = prompt("API URL:", process.browser && localStorage.getItem("apiUrl") || publicRuntimeConfig.apiUrl)
+                    if(response != null && response != "") {
+                      localStorage.setItem("apiUrl", response)
+                      window.location.reload()
+                    }
+                  }
+                  }
                   className="text-blueGray-200"
                 >
-                  <small>Esqueceu a senha?</small>
+                  <small>Alterar api?</small>
                 </a>
               </div>
               <div className="w-1/2 text-right">
