@@ -2,11 +2,14 @@ import { Period } from "../class/Period";
 import moment from "moment"
 import { PeriodTotal } from "../class/PeriodTotal";
 import { PeriodTagTotal } from "../class/PeriodTagTotal";
+import { FinancialRecordType } from "../class/FinancialRecordType";
 
 export const periodService = {
     getPeriodMonths,
     getPeriodTotalMonths,
-    getPeriodTagTotalMonths
+    getPeriodTagTotalMonths,
+    getPeriodIncomeTotal,
+    getPeriodExpenseTotal
 }
 
 function getPeriodMonths(meses: number): Array<Period> {
@@ -67,4 +70,18 @@ function getPeriodTagTotalMonths(meses: number): Array<PeriodTagTotal> {
     }
 
     return periodos
+}
+
+function getPeriodIncomeTotal(period: Period) {
+    return period.records
+        ?.filter(it => FinancialRecordType[it.type] == FinancialRecordType.INCOME)
+        ?.map(it => it.value)
+        ?.reduce((a, b) => a + b, 0) || 0
+}
+
+function getPeriodExpenseTotal(period: Period) {
+    return period.records
+        ?.filter(it => FinancialRecordType[it.type] == FinancialRecordType.EXPENSE)
+        ?.map(it => it.value)
+        ?.reduce((a, b) => a + b, 0) || 0
 }
