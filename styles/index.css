@@ -29,3 +29,9 @@
 }
 
 @tailwind utilities;
+
+@layer utilities {
+    .z-70 {
+        z-index: 70;
+    }
+}
