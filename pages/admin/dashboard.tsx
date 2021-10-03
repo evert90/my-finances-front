@@ -42,7 +42,6 @@ export const Dashboard: LayoutComponent = () => {
     const toast = useToast()
 
     const totalFinancialRecordsCards = 18
-    const widthFinancialRecordsCard = 315
 
     //const [isLoading, setIsLoading] = useState<boolean>(true)
     const [incomeTotal, setIncomeTotal] = useState<number>(undefined)
@@ -57,7 +56,7 @@ export const Dashboard: LayoutComponent = () => {
 
     useEffect(() => {
         if(chartsOnDemand?.length > 0) {
-            console.log("atualizando")
+            console.log("atualizando charts on demand")
             chartsOnDemand.map(chartOnDemand => chartService.setChartValues(chartOnDemand, toast))
         }
      }, [])
@@ -101,29 +100,29 @@ export const Dashboard: LayoutComponent = () => {
             <div className="relative pt-12 pb-3 lg:pb-7 md:pt-32">
                 {/* Card stats */}
                 <div className="flex flex-wrap">
-                    <div className="w-full px-4 lg:w-6/12 xl:6-3/12">
-                    <CardStats
-                        statSubtitle="Receitas"
-                        statTitle={currencyOptions.format(incomeTotal)}
-                        statArrow="up"
-                        statPercent="3.48"
-                        statPercentColor="text-emerald-500"
-                        statDescripiron="Since last month"
-                        statIconName="far fa-chart-bar"
-                        statIconColor="bg-red-500"
-                    />
+                    <div className={`w-full px-4 lg:w-6/12 xl:6-3/12`}>
+                        <CardStats
+                            statSubtitle="Receitas"
+                            statTitle={isNaN(incomeTotal) ? null : currencyOptions.format(incomeTotal)}
+                            statArrow="up"
+                            statPercent="3.48"
+                            statPercentColor="text-emerald-500"
+                            statDescripiron="Since last month"
+                            statIconName="far fa-chart-bar"
+                            statIconColor="bg-red-500"
+                        />
                     </div>
-                    <div className="w-full px-4 lg:w-6/12 xl:6-3/12">
-                    <CardStats
-                        statSubtitle="Despesas"
-                        statTitle={currencyOptions.format(expenseTotal)}
-                        statArrow="down"
-                        statPercent="3.48"
-                        statPercentColor="text-red-500"
-                        statDescripiron="Since last week"
-                        statIconName="fas fa-chart-pie"
-                        statIconColor="bg-orange-500"
-                    />
+                    <div className={`w-full px-4 lg:w-6/12 xl:6-3/12`}>
+                        <CardStats
+                            statSubtitle="Despesas"
+                            statTitle={isNaN(incomeTotal) ? null : currencyOptions.format(expenseTotal)}
+                            statArrow="down"
+                            statPercent="3.48"
+                            statPercentColor="text-red-500"
+                            statDescripiron="Since last week"
+                            statIconName="fas fa-chart-pie"
+                            statIconColor="bg-orange-500"
+                        />
                     </div>
 {/*                     <div className="w-full px-4 lg:w-6/12 xl:w-3/12">
                     <CardStats
@@ -201,8 +200,13 @@ export const Dashboard: LayoutComponent = () => {
             </div>
 
             <div className="flex flex-wrap">
-                <div className="w-full px-4 mb-8 xl:w-12/12">
-                    <div className="bg-white rounded shadow-lg">
+                <div className="w-full px-4 mb-8 xl:w-12/12" id={"chart-receitas-despesas"}>
+                    <div className={`${financialRecordsChartTotal.some(period => period.totals == null) && "opacity-50"} bg-white rounded shadow-lg`}>
+                    {financialRecordsChartTotal.some(period => period.totals == null) && document.querySelector("#chart-receitas-despesas")?.clientHeight > 400 &&
+                        <div className="center-top-40">
+                            <i className="mx-auto mr-1 text-3xl text-blueGray-700 fas fa-circle-notch animate-spin"></i>
+                        </div>
+                    }
                         <Chart
                             options={chartService.periodTotalToLineBarOptions(financialRecordsChartTotal, ['rgb(21, 128, 61)', 'rgb(220, 38, 38)'])}
                             series={chartService.periodTotalToLineBarSeries(financialRecordsChartTotal)}
@@ -216,7 +220,7 @@ export const Dashboard: LayoutComponent = () => {
 
             <div className="flex flex-wrap">
                 {chartsOnDemand?.map(chart =>
-                    <div key={chart.id} className="w-full px-4 mb-8 xl:w-12/12">
+                    <div key={chart.id} className={`w-full px-4 mb-8 xl:w-12/12`}>
                         <div className="bg-white rounded shadow-lg">
                             <Chart
                                 options={chartService.periodTotalToLineBarOptions(chart.data)}

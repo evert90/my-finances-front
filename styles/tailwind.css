@@ -853,6 +853,27 @@ select {
 	}
 }
 
+.center {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	right: 50%;
+}
+
+.center-top-40 {
+	position: absolute;
+	left: 50%;
+	right: 50%;
+        top: 40%;
+}
+
+.center-top-33 {
+	position: absolute;
+	left: 50%;
+	right: 50%;
+        top: 33%;
+}
+
 .pointer-events-none {
 	pointer-events: none;
 }
@@ -980,16 +1001,16 @@ select {
 	z-index: 10;
 }
 
-.z-60 {
-	z-index: 60;
-}
-
 .z-50 {
 	z-index: 50;
 }
 
 .z-40 {
 	z-index: 40;
+}
+
+.z-60 {
+	z-index: 60;
 }
 
 .float-right {
