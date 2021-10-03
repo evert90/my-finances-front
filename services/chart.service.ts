@@ -3,6 +3,7 @@ import { ChartOnDemand } from "../class/ChartOnDemand";
 import { FinancialRecordType } from "../class/FinancialRecordType";
 import { PeriodTagTotal } from "../class/PeriodTagTotal";
 import { PeriodTotal } from "../class/PeriodTotal"
+import { PeriodType } from "../class/PeriodType";
 import { TagTotal } from "../class/TagTotal";
 import { ToastContextType } from "../components/Toast/ToastProvider";
 import { fetchWrapper } from "../helpers/fetch-wrapper";
@@ -18,17 +19,20 @@ export const chartService = {
     getChartsOnDemandStorageName
 }
 
-function periodTotalToLineBarOptions(data: Array<PeriodTotal> | Array<PeriodTagTotal>, colors?: Array<string>): ApexCharts.ApexOptions {
+function periodTotalToLineBarOptions(data: Array<PeriodTotal> | Array<PeriodTagTotal>, chartType: string, periodType: any, colors?: Array<string>): ApexCharts.ApexOptions {
+    return chartType == "bar" ? getPeriodTotalToBar(data, periodType, colors) : getPeriodTotalToLineArea(data, periodType, colors)
+}
+
+function getPeriodTotalToLineArea(data: Array<PeriodTotal> | Array<PeriodTagTotal>, periodType: any, colors?: Array<string>): ApexCharts.ApexOptions {
     return {
         chart: {
-            id: "line-bar",
             toolbar: {
                 offsetY: 3
             }
         },
         xaxis: {
             categories: data.map(period => {
-                const category = moment(period.start, 'YYYY-MM-DD').locale("pt-BR").format("MMMM/YYYY")
+                const category = moment(period.start, 'YYYY-MM-DD').locale("pt-BR").format(periodService.periodTypeToDateFormat(periodType))
                 return category.charAt(0).toUpperCase() + category.slice(1)
             }).reverse(),
             tooltip: {
@@ -40,12 +44,64 @@ function periodTotalToLineBarOptions(data: Array<PeriodTotal> | Array<PeriodTagT
         },
         dataLabels: {
             enabled: true,
-            formatter: (val) => `R$ ${val}`,
+            formatter: (val) => `R$ ${val.toString().replace(".", ",")}`,
+        },
+        colors,
+        stroke: {
+            curve: 'smooth',
+        },
+        tooltip: {
+            enabled: true,
+            x: {
+                show: false
+            }
+        }
+    }
+}
+
+function getPeriodTotalToBar(data: Array<PeriodTotal> | Array<PeriodTagTotal>, periodType: any, colors?: Array<string>): ApexCharts.ApexOptions {
+    return {
+        chart: {
+            toolbar: {
+                offsetY: 3
+            }
+        },
+        xaxis: {
+            categories: data.map(period => {
+                const category = moment(period.start, 'YYYY-MM-DD').locale("pt-BR").format(periodService.periodTypeToDateFormat(periodType))
+                return category.charAt(0).toUpperCase() + category.slice(1)
+            }).reverse(),
+            tooltip: {
+                enabled: false
+            }
+        },
+        yaxis: {
+            tickAmount: 5,
+        },
+        dataLabels: {
+            enabled: true,
+            formatter: (val) => val.toString().replace(".", ","),
+            offsetY: -20,
+            style: {
+              fontSize: '10px',
+              colors: ["#304758"]
+            }
+        },
+        plotOptions: {
+            bar: {
+                borderRadius: 10,
+                dataLabels: {
+                  position: 'top', // top, center, bottom
+                },
+                columnWidth: "70%",
+            }
 
         },
         colors,
         stroke: {
-            curve: 'smooth'
+            curve: 'smooth',
+            colors: ['transparent'],
+            width: 4,
         },
         tooltip: {
             enabled: true,
@@ -81,7 +137,15 @@ function periodTagTotalToLineBarSeries(tags: Array<string>, data: Array<PeriodTa
 async function setChartValues(chartOnDemand: ChartOnDemand, toast?: ToastContextType) {
     const promises: Array<Promise<any>> = []
 
-    chartOnDemand.data = periodService.getPeriodTagTotalMonths(12)
+    console.log("periodType", PeriodType[chartOnDemand.periodType])
+    if(PeriodType[chartOnDemand.periodType] == PeriodType.DAILY) {
+        chartOnDemand.data = periodService.getPeriodTagTotalDays(chartOnDemand.totalPeriods)
+    } else if(PeriodType[chartOnDemand.periodType] == PeriodType.MONTHLY) {
+        chartOnDemand.data = periodService.getPeriodTagTotalMonths(chartOnDemand.totalPeriods)
+    } else if(PeriodType[chartOnDemand.periodType] == PeriodType.YEARLY) {
+        chartOnDemand.data = periodService.getPeriodTagTotalYears(chartOnDemand.totalPeriods)
+    }
+
 
     chartOnDemand.data.forEach(period => {
         promises.push(
@@ -99,5 +163,5 @@ async function setChartValues(chartOnDemand: ChartOnDemand, toast?: ToastContext
 }
 
 function getChartsOnDemandStorageName() {
-    return `chartsOnDemand_${fetchWrapper.getApiUrl()}_${userService.getUserValue()?.user?.id}`
+    return `chartsOnDemandV2_${fetchWrapper.getApiUrl()}_${userService.getUserValue()?.user?.id}`
 }

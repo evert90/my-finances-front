@@ -1,4 +1,5 @@
 import { PeriodTagTotal } from "./PeriodTagTotal";
+import { PeriodType } from "./PeriodType";
 import { Tag } from "./Tag";
 
 export class ChartOnDemand {
@@ -23,7 +24,8 @@ export class ChartOnDemand {
         public width: string,
         public height: string,
         public tags: Array<Tag>,
-        public numberOfMonths: number,
+        public periodType: PeriodType,
+        public totalPeriods: number,
         public data: Array<PeriodTagTotal>
     ) { }
 }
