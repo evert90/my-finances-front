@@ -36,6 +36,8 @@ import 'swiper/swiper.min.css'
 
 // modules styles
 import 'swiper/components/navigation/navigation.min.css'
+import { ChartOnDemandWidthType } from "../../class/ChartOnDemandWidthType";
+import { PeriodType } from "../../class/PeriodType";
 
 export const Dashboard: LayoutComponent = () => {
 
@@ -226,7 +228,7 @@ export const Dashboard: LayoutComponent = () => {
                             </div>
                         </div>
                         <Chart
-                            options={chartService.periodTotalToLineBarOptions(financialRecordsChartTotal, ['rgb(21, 128, 61)', 'rgb(220, 38, 38)'])}
+                            options={chartService.periodTotalToLineBarOptions(financialRecordsChartTotal, "line", "MONTHLY", ['rgb(21, 128, 61)', 'rgb(220, 38, 38)'])}
                             series={chartService.periodTotalToLineBarSeries(financialRecordsChartTotal)}
                             type="line"
                             width="100%"
@@ -238,7 +240,7 @@ export const Dashboard: LayoutComponent = () => {
 
             <div className="flex flex-wrap">
                 {chartsOnDemand?.map(chart =>
-                    <div key={chart.id} className={`w-full px-4 mb-8 xl:w-12/12`}>
+                    <div key={chart.id} className={`w-full px-4 mb-8 ${ChartOnDemandWidthType[chart.width] == ChartOnDemandWidthType.HALF && "xl:w-6/12"}`}>
                        <div className="pr-2 py-2 mb-0 border-0 border-b-[1px] rounded-t bg-white">
                             <div className="flex flex-wrap items-center">
                                 <div className="relative flex-1 flex-grow w-full max-w-full px-4">
@@ -250,7 +252,7 @@ export const Dashboard: LayoutComponent = () => {
                                     </h3>
                                 </div>
                                 <div className="relative flex-1 flex-grow w-full max-w-[25px] px-1 text-right">
-                                    <i className={`mr-1 cursor-pointer text-base fas fa-trash `}
+                                    <i className={`mr-[-0.125rem] cursor-pointer text-base fas fa-trash `}
                                         title="Remover"
                                         onClick={() => removeChartOnDemand(chart)}
                                     ></i>
@@ -259,10 +261,10 @@ export const Dashboard: LayoutComponent = () => {
                         </div>
                         <div className="bg-white rounded shadow-lg">
                             <Chart
-                                options={chartService.periodTotalToLineBarOptions(chart.data)}
+                                options={chartService.periodTotalToLineBarOptions(chart.data, chart.type, chart.periodType)}
                                 series={chartService.periodTagTotalToLineBarSeries(chart.tags.map(tag => tag.name), chart.data)}
                                 type={chart.type}
-                                width={chart.width}
+                                width={"100%"}
                                 height={chart.height}
                             />
                         </div>
@@ -271,7 +273,7 @@ export const Dashboard: LayoutComponent = () => {
             </div>
 
             <div className="flex flex-wrap">
-                <div className="w-full px-4 mb-8 xl:w-12/12">
+                <div className="w-full px-4 mb-5 xl:w-12/12">
                     <div className="bg-white">
                     <button
                         className="w-full px-0 py-2 text-base font-bold text-center text-white transition-all duration-150 ease-linear rounded shadow outline-none disabled:opacity-50 bg-lightBlue-600 active:bg-blueGray-600 hover:shadow-lg focus:outline-none"
