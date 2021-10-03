@@ -11,17 +11,19 @@
 @tailwind components;
 
 @layer components {
-    .center {
-        @apply absolute top-1/2 left-1/2 right-1/2
+    .center-card {
+        @apply absolute top-1/2 right-1/2;
+        left: 46.5%;
     }
 
-    .center-top-40 {
+    .center-chart {
         @apply absolute left-1/2 right-1/2;
         top: 40%;
     }
 
-    .center-top-33 {
-        @apply absolute left-1/2 right-1/2;
+    .center-stat {
+        @apply absolute right-1/2;
+        left: 46%;
         top: 33%;
     }
 }
