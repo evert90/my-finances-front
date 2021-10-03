@@ -65,7 +65,7 @@ export const ModalAddChart: React.FC<ModalAddChartProps> = (props) => {
         await chartService.setChartValues(chartOnDemand, toast)
         const charts = [...props.chartsOnDemand, chartOnDemand]
         props.setChartsOnDemandState(charts)
-        localStorage.setItem(`chartsOnDemand${userService.getUserValue()?.user?.id}`, JSON.stringify(charts))
+        localStorage.setItem(chartService.getChartsOnDemandStorageName(), JSON.stringify(charts))
         props.setShowModalState(false)
     }
 
@@ -92,7 +92,7 @@ export const ModalAddChart: React.FC<ModalAddChartProps> = (props) => {
                         </div>
                         {/*body*/}
                         <div className="relative flex-auto p-6">
-                            <div className="w-full px-4 lg:w-[35rem]">
+                            <div className="w-full px-4 sm:w-[25rem] lg:w-[35rem]">
                                 <div className="relative w-full mb-3">
                                     <Select
                                         name="tags"
