@@ -31,8 +31,7 @@ const TableDropdown: React.FC<TableDropdownProps> = (props) => {
         event.preventDefault();
         financialRecordService.deleteById(props.record.id)
             .then((response) => {
-                toast.pushSuccess("Registro excluído com sucesso", 5000)
-                console.log("AQUI PORRA", props.children)
+                toast.pushSuccess("Registro removido com sucesso", 5000)
                 props.stateChanger(props.record)
             })
             .catch(error => {

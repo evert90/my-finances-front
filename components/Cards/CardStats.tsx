@@ -16,7 +16,7 @@ export const CardStats = ({
       <div className={`${!statTitle && "opacity-50"} relative flex flex-col min-w-0 mb-6 break-words bg-white rounded shadow-lg xl:mb-0`}>
         <div className="flex-auto p-4">
         {!statTitle &&
-          <div className="center-top-33">
+          <div className="center-stat">
               <i className="mx-auto mr-1 text-3xl text-blueGray-700 fas fa-circle-notch animate-spin"></i>
           </div>
         }

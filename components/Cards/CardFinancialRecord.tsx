@@ -23,7 +23,7 @@ export const CardFinancialRecord: React.FC<CardFinancialRecordProps> = (props) =
         <>
             <div className={`${!props.period.records && "opacity-50"} relative flex flex-col w-full min-w-0 break-words bg-white rounded shadow-lg cursor-pointer lg:mb-7 scale-005`}>
             {!props.period.records &&
-                <div className="center">
+                <div className="center-card">
                     <i className="mx-auto mr-1 text-3xl text-blueGray-700 fas fa-circle-notch animate-spin"></i>
                 </div>
             }

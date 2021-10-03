@@ -203,7 +203,7 @@ export const Dashboard: LayoutComponent = () => {
                 <div className="w-full px-4 mb-8 xl:w-12/12" id={"chart-receitas-despesas"}>
                     <div className={`${financialRecordsChartTotal.some(period => period.totals == null) && "opacity-50"} bg-white rounded shadow-lg`}>
                     {financialRecordsChartTotal.some(period => period.totals == null) && document.querySelector("#chart-receitas-despesas")?.clientHeight > 400 &&
-                        <div className="center-top-40">
+                        <div className="center-chart">
                             <i className="mx-auto mr-1 text-3xl text-blueGray-700 fas fa-circle-notch animate-spin"></i>
                         </div>
                     }
