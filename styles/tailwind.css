@@ -853,24 +853,24 @@ select {
 	}
 }
 
-.center {
+.center-card {
 	position: absolute;
 	top: 50%;
-	left: 50%;
 	right: 50%;
+        left: 46.5%;
 }
 
-.center-top-40 {
+.center-chart {
 	position: absolute;
 	left: 50%;
 	right: 50%;
         top: 40%;
 }
 
-.center-top-33 {
+.center-stat {
 	position: absolute;
-	left: 50%;
 	right: 50%;
+        left: 46%;
         top: 33%;
 }
 
