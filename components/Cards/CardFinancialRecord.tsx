@@ -10,7 +10,7 @@ type CardFinancialRecordProps = {
 
 export const CardFinancialRecord: React.FC<CardFinancialRecordProps> = (props) => {
 
-    props.period.records = props.period.records.sort((a,b) => a.name.localeCompare(b.name))
+    props.period.records = props.period.records?.sort((a,b) => a.name.localeCompare(b.name))
 
     const currencyOptions = Intl.NumberFormat('pt-BR', { style: "currency", currency: "BRL" });
     const [showInfo, setShowInfo] = useState(false)
@@ -21,9 +21,12 @@ export const CardFinancialRecord: React.FC<CardFinancialRecordProps> = (props) =
 
     return (
         <>
-            <div className="relative flex flex-col w-full min-w-0 break-words bg-white rounded shadow-lg cursor-pointer lg:mb-7 scale-005"
-
-            >
+            <div className={`${!props.period.records && "opacity-50"} relative flex flex-col w-full min-w-0 break-words bg-white rounded shadow-lg cursor-pointer lg:mb-7 scale-005`}>
+            {!props.period.records &&
+                <div className="center">
+                    <i className="mx-auto mr-1 text-3xl text-blueGray-700 fas fa-circle-notch animate-spin"></i>
+                </div>
+            }
                 <div className="px-2 py-3 mb-0 border-0 rounded-t">
                     <div className="flex flex-wrap items-center">
                         <div className="relative flex-1 flex-grow w-full max-w-full px-4">
@@ -51,7 +54,7 @@ export const CardFinancialRecord: React.FC<CardFinancialRecordProps> = (props) =
                             </tr>
                         </thead>
                         <tbody>
-                        {props.period.records.map(record =>
+                        {props.period.records?.map(record =>
                             <tr key={record.id} className={`
                                 ${FinancialRecordType[record.type] == FinancialRecordType.INCOME ? "text-green-600" : "text-red-600"}
                                 ${showInfo ? "" : "hidden"}

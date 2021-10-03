@@ -26,7 +26,7 @@ function getPeriodMonths(meses: number): Array<Period> {
             .subtract(i, 'months')
             .format('YYYY-MM-DD');
 
-        periodos.push(new Period(dataInicial, dataFinal, []))
+        periodos.push(new Period(dataInicial, dataFinal, null))
     }
 
     return periodos
@@ -46,7 +46,7 @@ function getPeriodTotalMonths(meses: number): Array<PeriodTotal> {
             .subtract(i, 'months')
             .format('YYYY-MM-DD');
 
-        periodos.push(new PeriodTotal(dataInicial, dataFinal, []))
+        periodos.push(new PeriodTotal(dataInicial, dataFinal, null))
     }
 
     return periodos
@@ -66,7 +66,7 @@ function getPeriodTagTotalMonths(meses: number): Array<PeriodTagTotal> {
             .subtract(i, 'months')
             .format('YYYY-MM-DD');
 
-        periodos.push(new PeriodTagTotal(dataInicial, dataFinal, []))
+        periodos.push(new PeriodTagTotal(dataInicial, dataFinal, null))
     }
 
     return periodos
