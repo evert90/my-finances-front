@@ -5,14 +5,17 @@ import { PeriodTagTotal } from "../class/PeriodTagTotal";
 import { PeriodTotal } from "../class/PeriodTotal"
 import { TagTotal } from "../class/TagTotal";
 import { ToastContextType } from "../components/Toast/ToastProvider";
+import { fetchWrapper } from "../helpers/fetch-wrapper";
 import { financialRecordService } from "./financial-record.service";
 import { periodService } from "./period.service";
+import { userService } from "./user.service";
 
 export const chartService = {
     periodTotalToLineBarOptions,
     periodTotalToLineBarSeries,
     periodTagTotalToLineBarSeries,
-    setChartValues
+    setChartValues,
+    getChartsOnDemandStorageName
 }
 
 function periodTotalToLineBarOptions(data: Array<PeriodTotal> | Array<PeriodTagTotal>, colors?: Array<string>): ApexCharts.ApexOptions {
@@ -93,4 +96,8 @@ async function setChartValues(chartOnDemand: ChartOnDemand, toast?: ToastContext
     })
 
     await Promise.all(promises)
+}
+
+function getChartsOnDemandStorageName() {
+    return `chartsOnDemand_${fetchWrapper.getApiUrl()}_${userService.getUserValue()?.user?.id}`
 }

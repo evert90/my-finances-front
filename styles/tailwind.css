@@ -1706,6 +1706,14 @@ select {
 	border-left-width: 4px;
 }
 
+.border-b-2 {
+	border-bottom-width: 2px;
+}
+
+.border-b-\[1px\] {
+	border-bottom-width: 1px;
+}
+
 .border-solid {
 	border-style: solid;
 }
@@ -2056,14 +2064,14 @@ select {
 	padding-bottom: 2.5rem;
 }
 
-.px-0 {
-	padding-left: 0px;
-	padding-right: 0px;
-}
-
 .px-1 {
 	padding-left: 0.25rem;
 	padding-right: 0.25rem;
+}
+
+.px-0 {
+	padding-left: 0px;
+	padding-right: 0px;
 }
 
 .py-0\.5 {
@@ -2191,6 +2199,10 @@ select {
 
 .pl-10 {
 	padding-left: 2.5rem;
+}
+
+.pr-2 {
+	padding-right: 0.5rem;
 }
 
 .text-left {
@@ -2667,6 +2679,14 @@ select {
 
 	.sm\:w-6\/12 {
 		width: 50%;
+	}
+
+	.sm\:w-\[20rem\] {
+		width: 20rem;
+	}
+
+	.sm\:w-\[25rem\] {
+		width: 25rem;
 	}
 
 	.sm\:pt-0 {

@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
-import getConfig from 'next/config';
 import { Auth } from "../../layouts/Auth";
 import { userService } from "../../services/user.service";
 import { useRouter } from "next/router";
@@ -10,12 +9,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useToast } from "../../components/Toast/ToastProvider";
 import { User } from "../../class/User";
+import { fetchWrapper } from "../../helpers/fetch-wrapper";
 
 // layout for page
 
 export const Login: LayoutComponent = () => {
-
-  const { publicRuntimeConfig } = getConfig();
 
   const router = useRouter();
   const toast = useToast();
@@ -151,7 +149,7 @@ export const Login: LayoutComponent = () => {
                   href="#pablo"
                   onClick={(e) => {
                     e.preventDefault()
-                    const response = prompt("API URL:", process.browser && localStorage.getItem("apiUrl") || publicRuntimeConfig.apiUrl)
+                    const response = prompt("API URL:", fetchWrapper.getApiUrl())
                     if(response != null && response != "") {
                       localStorage.setItem("apiUrl", response)
                       window.location.reload()
