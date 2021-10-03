@@ -1,10 +1,8 @@
-import getConfig from 'next/config';
+
 import { FinancialRecord } from '../class/FinancialRecord';
-import { Tag } from '../class/Tag';
 import { fetchWrapper } from '../helpers/fetch-wrapper';
 
-const { publicRuntimeConfig } = getConfig();
-const baseUrl = process.browser && localStorage.getItem("apiUrl") ? `${localStorage.getItem("apiUrl")}/financial-records` : `${publicRuntimeConfig.apiUrl}/financial-records`;
+const baseUrl = `${fetchWrapper.getApiUrl()}/financial-records`;
 
 export const financialRecordService = {
     getAll,

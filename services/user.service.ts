@@ -1,10 +1,8 @@
 import { BehaviorSubject } from 'rxjs';
-import getConfig from 'next/config';
 import Router from 'next/router'
 import { fetchWrapper } from '../helpers/fetch-wrapper';
 
-const { publicRuntimeConfig } = getConfig();
-const baseUrl = process.browser && localStorage.getItem("apiUrl") ? `${localStorage.getItem("apiUrl")}/users` : `${publicRuntimeConfig.apiUrl}/users`;
+const baseUrl = `${fetchWrapper.getApiUrl()}/users`;
 const userSubject = new BehaviorSubject(process.browser && JSON.parse(localStorage.getItem('user')));
 
 export const userService = {

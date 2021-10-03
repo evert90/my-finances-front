@@ -48,9 +48,15 @@ export const Dashboard: LayoutComponent = () => {
     const [expenseTotal, setExpenseTotal] = useState<number>(undefined)
     const [financialRecordsCards, setFinancialRecordsCards] = useState<Array<Period>>(periodService.getPeriodMonths(totalFinancialRecordsCards))
     const [financialRecordsChartTotal, setFinancialRecordsChartTotal] = useState<Array<PeriodTotal>>(periodService.getPeriodTotalMonths(12))
-    const [chartsOnDemand, setChartsOnDemand] = useState<Array<ChartOnDemand>>((process.browser && JSON.parse(localStorage.getItem(`chartsOnDemand${userService.getUserValue()?.user?.id}`))) || [])
+    const [chartsOnDemand, setChartsOnDemand] = useState<Array<ChartOnDemand>>((process.browser && JSON.parse(localStorage.getItem(chartService.getChartsOnDemandStorageName()))) || [])
 
-    const [showModal, setShowModal] = useState(false);
+    const [showModal, setShowModal] =  useState<boolean>(false)
+
+    const removeChartOnDemand = (chartToRemove: ChartOnDemand) => {
+        const removed = chartsOnDemand.filter(chart => chart.id != chartToRemove.id)
+        setChartsOnDemand(removed)
+        localStorage.setItem(chartService.getChartsOnDemandStorageName(), JSON.stringify(removed))
+    }
 
     const currencyOptions = Intl.NumberFormat('pt-BR', { style: "currency", currency: "BRL" })
 
@@ -207,6 +213,18 @@ export const Dashboard: LayoutComponent = () => {
                             <i className="mx-auto mr-1 text-3xl text-blueGray-700 fas fa-circle-notch animate-spin"></i>
                         </div>
                     }
+                        <div className="py-2 mb-1 border-0 border-b-[1px] rounded-t">
+                            <div className="flex flex-wrap items-center">
+                                <div className="relative flex-1 flex-grow w-full max-w-full px-4">
+                                    <h3 className="text-base font-semibold text-blueGray-700">
+                                        Receitas e despesas
+                                    </h3>
+                                </div>
+                                <div className="relative flex-1 flex-grow w-full max-w-[25px] px-1 text-right">
+
+                                </div>
+                            </div>
+                        </div>
                         <Chart
                             options={chartService.periodTotalToLineBarOptions(financialRecordsChartTotal, ['rgb(21, 128, 61)', 'rgb(220, 38, 38)'])}
                             series={chartService.periodTotalToLineBarSeries(financialRecordsChartTotal)}
@@ -221,6 +239,24 @@ export const Dashboard: LayoutComponent = () => {
             <div className="flex flex-wrap">
                 {chartsOnDemand?.map(chart =>
                     <div key={chart.id} className={`w-full px-4 mb-8 xl:w-12/12`}>
+                       <div className="pr-2 py-2 mb-0 border-0 border-b-[1px] rounded-t bg-white">
+                            <div className="flex flex-wrap items-center">
+                                <div className="relative flex-1 flex-grow w-full max-w-full px-4">
+                                    <h3 className="text-base font-semibold text-blueGray-700 text-overflow-ellipsis-1-line">
+                                        {chart.tags.map((tag, index) => {
+                                            const separator = index + 2 < chart.tags.length ? ", " : index + 1 < chart.tags.length ? " e " : ""
+                                            return `${tag.name}${separator}`
+                                        })}
+                                    </h3>
+                                </div>
+                                <div className="relative flex-1 flex-grow w-full max-w-[25px] px-1 text-right">
+                                    <i className={`mr-1 cursor-pointer text-base fas fa-trash `}
+                                        title="Remover"
+                                        onClick={() => removeChartOnDemand(chart)}
+                                    ></i>
+                                </div>
+                            </div>
+                        </div>
                         <div className="bg-white rounded shadow-lg">
                             <Chart
                                 options={chartService.periodTotalToLineBarOptions(chart.data)}

@@ -7,7 +7,8 @@ export const fetchWrapper = {
     get,
     post,
     put,
-    delete: _delete
+    delete: _delete,
+    getApiUrl
 };
 
 function get(url) {
@@ -52,7 +53,7 @@ function authHeader(url) {
     // return auth header with jwt if user is logged in and request is to the api url
     const user: any = userService.getUserValue();
     const isLoggedIn = user && user.token;
-    const isApiUrl = url.startsWith(process.browser && localStorage.getItem("apiUrl") || publicRuntimeConfig.apiUrl);
+    const isApiUrl = url.startsWith(getApiUrl());
     if (isLoggedIn && isApiUrl) {
         return { Authorization: `Bearer ${user.token}` };
     } else {
@@ -76,4 +77,8 @@ function handleResponse(response) {
 
         return data;
     });
+}
+
+function getApiUrl() {
+    return process.browser && localStorage.getItem("apiUrl") || publicRuntimeConfig.apiUrl
 }

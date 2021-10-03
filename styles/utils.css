@@ -56,3 +56,11 @@ html, body {
 .swiper-button-disabled {
     opacity: 35%;
 }
+
+.text-overflow-ellipsis-1-line {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
