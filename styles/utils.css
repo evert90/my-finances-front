@@ -52,3 +52,7 @@ html, body {
     width: 1%;
     white-space: nowrap;
 }
+
+.swiper-button-disabled {
+    opacity: 35%;
+}
