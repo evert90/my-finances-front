@@ -12,6 +12,7 @@ import moment from 'moment';
 import { CardFinancialRecord } from "../../components/Cards/CardFinancialRecord";
 import { FinancialRecord } from "../../class/FinancialRecord";
 import { Period } from "../../class/Period";
+import { PeriodType } from "../../class/PeriodType";
 import { periodService } from "../../services/period.service";
 
 import dynamic from "next/dynamic";
@@ -20,7 +21,7 @@ import { PeriodTotal } from "../../class/PeriodTotal";
 import { chartService } from "../../services/chart.service";
 import { ModalAddChart } from "../../components/Modal/ModalAddChart";
 import { ChartOnDemand } from "../../class/ChartOnDemand";
-import { userService } from "../../services/user.service";
+import { ChartOnDemandWidthType } from "../../class/ChartOnDemandWidthType";
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -36,8 +37,7 @@ import 'swiper/swiper.min.css'
 
 // modules styles
 import 'swiper/components/navigation/navigation.min.css'
-import { ChartOnDemandWidthType } from "../../class/ChartOnDemandWidthType";
-import { PeriodType } from "../../class/PeriodType";
+import { ChartOnDemandType } from "../../class/ChartOnDemandType";
 
 export const Dashboard: LayoutComponent = () => {
 
@@ -45,7 +45,6 @@ export const Dashboard: LayoutComponent = () => {
 
     const totalFinancialRecordsCards = 18
 
-    //const [isLoading, setIsLoading] = useState<boolean>(true)
     const [incomeTotal, setIncomeTotal] = useState<number>(undefined)
     const [expenseTotal, setExpenseTotal] = useState<number>(undefined)
     const [financialRecordsCards, setFinancialRecordsCards] = useState<Array<Period>>(periodService.getPeriodMonths(totalFinancialRecordsCards))
@@ -132,30 +131,6 @@ export const Dashboard: LayoutComponent = () => {
                             statIconColor="bg-orange-500"
                         />
                     </div>
-{/*                     <div className="w-full px-4 lg:w-6/12 xl:w-3/12">
-                    <CardStats
-                        statSubtitle="Receitas mês atual"
-                        statTitle={currencyOptions.format(incomeMonthTotal)}
-                        statArrow="down"
-                        statPercent="1.10"
-                        statPercentColor="text-orange-500"
-                        statDescripiron="Since yesterday"
-                        statIconName="fas fa-users"
-                        statIconColor="bg-pink-500"
-                    />
-                    </div>
-                    <div className="w-full px-4 lg:w-6/12 xl:w-3/12">
-                    <CardStats
-                        statSubtitle="Despesas mês atual"
-                        statTitle={currencyOptions.format(expenseMonthTotal)}
-                        statArrow="up"
-                        statPercent="12"
-                        statPercentColor="text-emerald-500"
-                        statDescripiron="Since last month"
-                        statIconName="fas fa-percent"
-                        statIconColor="bg-lightBlue-500"
-                    />
-                    </div> */}
                 </div>
             </div>
 
@@ -228,7 +203,7 @@ export const Dashboard: LayoutComponent = () => {
                             </div>
                         </div>
                         <Chart
-                            options={chartService.periodTotalToLineBarOptions(financialRecordsChartTotal, "line", "MONTHLY", ['rgb(21, 128, 61)', 'rgb(220, 38, 38)'])}
+                            options={chartService.periodTotalToChartOptions(financialRecordsChartTotal, "line", "MONTHLY", ['rgb(21, 128, 61)', 'rgb(220, 38, 38)'])}
                             series={chartService.periodTotalToLineBarSeries(financialRecordsChartTotal)}
                             type="line"
                             width="100%"
@@ -249,6 +224,7 @@ export const Dashboard: LayoutComponent = () => {
                                             const separator = index + 2 < chart.tags.length ? ", " : index + 1 < chart.tags.length ? " e " : ""
                                             return `${tag.name}${separator}`
                                         })}
+                                        {(chart.type == "donut" || chart.type == "pie") && ` (${chart.totalPeriods} ${periodService.periodTypeToLabel(chart.periodType, chart.totalPeriods)})`}
                                     </h3>
                                 </div>
                                 <div className="relative flex-1 flex-grow w-full max-w-[25px] px-1 text-right">
@@ -261,8 +237,8 @@ export const Dashboard: LayoutComponent = () => {
                         </div>
                         <div className="bg-white rounded shadow-lg">
                             <Chart
-                                options={chartService.periodTotalToLineBarOptions(chart.data, chart.type, chart.periodType)}
-                                series={chartService.periodTagTotalToLineBarSeries(chart.tags.map(tag => tag.name), chart.data)}
+                                options={chartService.periodTotalToChartOptions(chart.data, chart.type, chart.periodType)}
+                                series={chartService.periodTagTotalToChartSeries(chart.tags.map(tag => tag.name), chart.data, chart.type)}
                                 type={chart.type}
                                 width={"100%"}
                                 height={chart.height}
@@ -288,23 +264,6 @@ export const Dashboard: LayoutComponent = () => {
             {showModal ? (
                 <ModalAddChart setShowModalState={setShowModal} setChartsOnDemandState={setChartsOnDemand} chartsOnDemand={chartsOnDemand} ></ModalAddChart>
             ) : null}
-{/*
-            <div className="flex flex-wrap">
-                <div className="w-full px-4 mb-12 xl:w-8/12 xl:mb-0">
-                    <CardLineChart />
-                </div>
-                <div className="w-full px-4 xl:w-4/12">
-                    <CardBarChart />
-                </div>
-            </div>
-            <div className="flex flex-wrap mt-4">
-                <div className="w-full px-4 mb-12 xl:w-8/12 xl:mb-0">
-                    <CardPageVisits />
-                </div>
-                <div className="w-full px-4 xl:w-4/12">
-                    <CardSocialTraffic />
-                </div>
-            </div> */}
         </>
     );
 }

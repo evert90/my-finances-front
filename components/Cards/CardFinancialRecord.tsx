@@ -31,7 +31,7 @@ export const CardFinancialRecord: React.FC<CardFinancialRecordProps> = (props) =
                     <div className="flex flex-wrap items-center">
                         <div className="relative flex-1 flex-grow w-full max-w-full px-4">
                             <h3 className="text-base font-semibold capitalize text-blueGray-700">
-                                <Moment format="MMMM/YYYY" locale="pt-BR">{props.period.start}</Moment>
+                                <Moment format="MMM/YYYY" locale="pt-BR">{props.period.start}</Moment>
                             </h3>
                         </div>
                         <div className="relative flex-1 flex-grow w-full max-w-[25px] px-1 text-right">
