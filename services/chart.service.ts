@@ -51,7 +51,7 @@ function getPeriodTotalToLineArea(data: Array<PeriodTotal> | Array<PeriodTagTota
         },
         dataLabels: {
             enabled: true,
-            formatter: (val) => `R$ ${val.toString().replace(".", ",")}`,
+            formatter: (val) => {const valNumber: number = val as number; return `R$ ${valNumber?.toFixed(2).toString().replace(".", ",")}`},
         },
         colors,
         stroke: {
@@ -61,6 +61,9 @@ function getPeriodTotalToLineArea(data: Array<PeriodTotal> | Array<PeriodTagTota
             enabled: true,
             x: {
                 show: false
+            },
+            y: {
+                formatter: (val) => `R$ ${val?.toFixed(2).toString().replace(".", ",")}`,
             }
         }
     }
@@ -87,7 +90,7 @@ function getPeriodTotalToBar(data: Array<PeriodTotal> | Array<PeriodTagTotal>, p
         },
         dataLabels: {
             enabled: true,
-            formatter: (val) => val.toString().replace(".", ","),
+            formatter: (val) => {const valNumber: number = val as number; return `${valNumber?.toFixed(2).toString().replace(".", ",")}`},
             offsetY: -20,
             style: {
               fontSize: '10px',
@@ -114,6 +117,9 @@ function getPeriodTotalToBar(data: Array<PeriodTotal> | Array<PeriodTagTotal>, p
             enabled: true,
             x: {
                 show: false
+            },
+            y: {
+                formatter: (val) => `R$ ${val?.toFixed(2).toString().replace(".", ",")}`,
             }
         }
     }
@@ -140,7 +146,7 @@ function getPeriodTotalToDonutPie(data: Array<PeriodTagTotal>, periodType: any, 
                 show: false
             },
             y: {
-                formatter: (val) => `R$ ${val.toString().replace(".", ",")}`,
+                formatter: (val) => `R$ ${val?.toFixed(2).toString().replace(".", ",")}`,
             }
 
         }
