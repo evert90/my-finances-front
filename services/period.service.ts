@@ -13,7 +13,8 @@ export const periodService = {
     getPeriodTagTotalYears,
     getPeriodIncomeTotal,
     getPeriodExpenseTotal,
-    periodTypeToDateFormat
+    periodTypeToDateFormat,
+    periodTypeToLabel
 }
 
 function getPeriodMonths(meses: number): Array<Period> {
@@ -56,62 +57,104 @@ function getPeriodTotalMonths(meses: number): Array<PeriodTotal> {
     return periodos
 }
 
-function getPeriodTagTotalDays(days: number): Array<PeriodTagTotal> {
+function getPeriodTagTotalDays(days: number, type: string): Array<PeriodTagTotal> {
     let periodos: Array<PeriodTagTotal> = [];
 
-    for(let i = 0; i < days; i++) {
+    if(type == 'donut' || type == 'pie') {
         let dataInicial = moment()
-            .startOf('day')
-            .subtract(i, 'days')
-            .format('YYYY-MM-DD');
+        .subtract(days, 'days')
+        .format('YYYY-MM-DD');
 
         let dataFinal = moment()
-            .startOf('day')
-            .subtract(i, 'days')
             .format('YYYY-MM-DD');
 
         periodos.push(new PeriodTagTotal(dataInicial, dataFinal, null))
+    } else {
+
+        for(let i = 0; i < days; i++) {
+            let dataInicial = moment()
+                .startOf('day')
+                .subtract(i, 'days')
+                .format('YYYY-MM-DD');
+
+            let dataFinal = moment()
+                .startOf('day')
+                .subtract(i, 'days')
+                .format('YYYY-MM-DD');
+
+            periodos.push(new PeriodTagTotal(dataInicial, dataFinal, null))
+        }
+
     }
 
     return periodos
 }
 
 
-function getPeriodTagTotalMonths(months: number): Array<PeriodTagTotal> {
+function getPeriodTagTotalMonths(months: number, type: string): Array<PeriodTagTotal> {
     let periodos: Array<PeriodTagTotal> = [];
 
-    for(let i = 0; i < months; i++) {
+    if(type == 'donut' || type == 'pie') {
         let dataInicial = moment()
-            .startOf('month')
-            .subtract(i, 'months')
-            .format('YYYY-MM-DD');
+        .endOf('month')
+        .subtract(months, 'months')
+        .format('YYYY-MM-DD');
 
         let dataFinal = moment()
             .endOf('month')
-            .subtract(i, 'months')
             .format('YYYY-MM-DD');
 
         periodos.push(new PeriodTagTotal(dataInicial, dataFinal, null))
+    } else {
+
+        for(let i = 0; i < months; i++) {
+            let dataInicial = moment()
+                .startOf('month')
+                .subtract(i, 'months')
+                .format('YYYY-MM-DD');
+
+            let dataFinal = moment()
+                .endOf('month')
+                .subtract(i, 'months')
+                .format('YYYY-MM-DD');
+
+            periodos.push(new PeriodTagTotal(dataInicial, dataFinal, null))
+        }
+
     }
 
     return periodos
 }
 
-function getPeriodTagTotalYears(years: number): Array<PeriodTagTotal> {
+function getPeriodTagTotalYears(years: number, type: string): Array<PeriodTagTotal> {
     let periodos: Array<PeriodTagTotal> = [];
 
-    for(let i = 0; i < years; i++) {
+    if(type == 'donut' || type == 'pie') {
         let dataInicial = moment()
-            .startOf('year')
-            .subtract(i, 'years')
-            .format('YYYY-MM-DD');
+        .startOf('year')
+        .subtract(years - 1, 'years')
+        .format('YYYY-MM-DD');
 
         let dataFinal = moment()
             .endOf('year')
-            .subtract(i, 'years')
             .format('YYYY-MM-DD');
 
         periodos.push(new PeriodTagTotal(dataInicial, dataFinal, null))
+    } else {
+
+        for(let i = 0; i < years; i++) {
+            let dataInicial = moment()
+                .startOf('year')
+                .subtract(i, 'years')
+                .format('YYYY-MM-DD');
+
+            let dataFinal = moment()
+                .endOf('year')
+                .subtract(i, 'years')
+                .format('YYYY-MM-DD');
+
+            periodos.push(new PeriodTagTotal(dataInicial, dataFinal, null))
+        }
     }
 
     return periodos
@@ -133,12 +176,21 @@ function getPeriodExpenseTotal(period: Period) {
 }
 
 function periodTypeToDateFormat(periodType: PeriodType) {
-    console.log("periodTypeee", periodType)
     if(PeriodType[periodType] == PeriodType.DAILY) {
         return "DD/MM"
     } else if(PeriodType[periodType] == PeriodType.MONTHLY) {
-        return "MMMM/YYYY"
+        return "MMM/YYYY"
     } else if(PeriodType[periodType] == PeriodType.YEARLY) {
         return "YYYY"
+    }
+}
+
+function periodTypeToLabel(periodType: PeriodType, totalPeriods: number) {
+    if(PeriodType[periodType] == PeriodType.DAILY) {
+        return totalPeriods > 1 ? "dias" : "dia"
+    } else if(PeriodType[periodType] == PeriodType.MONTHLY) {
+        return  totalPeriods > 1 ? "meses" : "mês"
+    } else if(PeriodType[periodType] == PeriodType.YEARLY) {
+        return  totalPeriods > 1 ? "anos" : "ano"
     }
 }

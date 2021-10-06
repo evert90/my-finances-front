@@ -12,15 +12,22 @@ import { periodService } from "./period.service";
 import { userService } from "./user.service";
 
 export const chartService = {
-    periodTotalToLineBarOptions,
+    periodTotalToChartOptions,
     periodTotalToLineBarSeries,
-    periodTagTotalToLineBarSeries,
+    periodTagTotalToChartSeries,
     setChartValues,
     getChartsOnDemandStorageName
 }
 
-function periodTotalToLineBarOptions(data: Array<PeriodTotal> | Array<PeriodTagTotal>, chartType: string, periodType: any, colors?: Array<string>): ApexCharts.ApexOptions {
-    return chartType == "bar" ? getPeriodTotalToBar(data, periodType, colors) : getPeriodTotalToLineArea(data, periodType, colors)
+function periodTotalToChartOptions(data: Array<PeriodTotal> | Array<PeriodTagTotal>, chartType: string, periodType: any, colors?: Array<string>): ApexCharts.ApexOptions {
+    if(chartType == "bar") {
+        return getPeriodTotalToBar(data, periodType, colors)
+    } else if(chartType == "line") {
+        return getPeriodTotalToLineArea(data, periodType, colors)
+    }
+
+    const dataDonutPie = data as Array<PeriodTagTotal>
+    return getPeriodTotalToDonutPie(dataDonutPie, periodType, colors)
 }
 
 function getPeriodTotalToLineArea(data: Array<PeriodTotal> | Array<PeriodTagTotal>, periodType: any, colors?: Array<string>): ApexCharts.ApexOptions {
@@ -112,6 +119,34 @@ function getPeriodTotalToBar(data: Array<PeriodTotal> | Array<PeriodTagTotal>, p
     }
 }
 
+function getPeriodTotalToDonutPie(data: Array<PeriodTagTotal>, periodType: any, colors?: Array<string>): ApexCharts.ApexOptions {
+    return {
+        chart: {
+            toolbar: {
+                offsetY: 3
+            }
+        },
+        labels: data?.[0]?.totals?.map(it => it.tag.name)?.reverse(),
+        dataLabels: {
+            enabled: true
+        },
+        colors,
+        stroke: {
+            curve: 'smooth',
+        },
+        tooltip: {
+            enabled: true,
+            x: {
+                show: false
+            },
+            y: {
+                formatter: (val) => `R$ ${val.toString().replace(".", ",")}`,
+            }
+
+        }
+    }
+}
+
 function periodTotalToLineBarSeries(data: Array<PeriodTotal>): Array<any> {
     return [
         {
@@ -125,27 +160,29 @@ function periodTotalToLineBarSeries(data: Array<PeriodTotal>): Array<any> {
     ]
 }
 
-function periodTagTotalToLineBarSeries(tags: Array<string>, data: Array<PeriodTagTotal>): Array<any> {
-    return tags.map( tag => (
-        {
-            name: tag,
-            data: data.map(period => period?.totals?.find(it => it?.tag?.name == tag)?.total || 0).reverse()
-        }
-    ))
+function periodTagTotalToChartSeries(tags: Array<string>, data: Array<PeriodTagTotal>, chartType: string): Array<any> {
+    if(chartType == "donut" || chartType == "pie") console.log("retornando series", data?.[0]?.totals?.map(it => it.total || 0)?.reverse())
+
+    return chartType == "donut" || chartType == "pie" ?
+        data?.[0]?.totals?.map(it => it.total || 0)?.reverse() :
+        tags.map( tag => (
+            {
+                name: tag,
+                data: data.map(period => period?.totals?.find(it => it?.tag?.name == tag)?.total || 0).reverse()
+            }
+        ))
 }
 
 async function setChartValues(chartOnDemand: ChartOnDemand, toast?: ToastContextType) {
     const promises: Array<Promise<any>> = []
 
-    console.log("periodType", PeriodType[chartOnDemand.periodType])
     if(PeriodType[chartOnDemand.periodType] == PeriodType.DAILY) {
-        chartOnDemand.data = periodService.getPeriodTagTotalDays(chartOnDemand.totalPeriods)
+        chartOnDemand.data = periodService.getPeriodTagTotalDays(chartOnDemand.totalPeriods, chartOnDemand.type)
     } else if(PeriodType[chartOnDemand.periodType] == PeriodType.MONTHLY) {
-        chartOnDemand.data = periodService.getPeriodTagTotalMonths(chartOnDemand.totalPeriods)
+        chartOnDemand.data = periodService.getPeriodTagTotalMonths(chartOnDemand.totalPeriods, chartOnDemand.type)
     } else if(PeriodType[chartOnDemand.periodType] == PeriodType.YEARLY) {
-        chartOnDemand.data = periodService.getPeriodTagTotalYears(chartOnDemand.totalPeriods)
+        chartOnDemand.data = periodService.getPeriodTagTotalYears(chartOnDemand.totalPeriods, chartOnDemand.type)
     }
-
 
     chartOnDemand.data.forEach(period => {
         promises.push(
