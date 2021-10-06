@@ -22,7 +22,7 @@ export const chartService = {
 function periodTotalToChartOptions(data: Array<PeriodTotal> | Array<PeriodTagTotal>, chartType: string, periodType: any, colors?: Array<string>): ApexCharts.ApexOptions {
     if(chartType == "bar") {
         return getPeriodTotalToBar(data, periodType, colors)
-    } else if(chartType == "line") {
+    } else if(chartType == "line" || chartType == "area") {
         return getPeriodTotalToLineArea(data, periodType, colors)
     }
 
@@ -161,10 +161,8 @@ function periodTotalToLineBarSeries(data: Array<PeriodTotal>): Array<any> {
 }
 
 function periodTagTotalToChartSeries(tags: Array<string>, data: Array<PeriodTagTotal>, chartType: string): Array<any> {
-    if(chartType == "donut" || chartType == "pie") console.log("retornando series", data?.[0]?.totals?.map(it => it.total || 0)?.reverse())
-
     return chartType == "donut" || chartType == "pie" ?
-        data?.[0]?.totals?.map(it => it.total || 0)?.reverse() :
+        data?.[0]?.totals?.map(it => it.total || 0)?.reverse() || [] :
         tags.map( tag => (
             {
                 name: tag,
