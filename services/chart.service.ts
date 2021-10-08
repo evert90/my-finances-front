@@ -1,5 +1,7 @@
 import moment from "moment";
 import { ChartOnDemand } from "../class/ChartOnDemand";
+import { ChartOnDemandFilterBy } from "../class/ChartOnDemandFilterBy";
+import { FinancialRecordTotal } from "../class/FinancialRecordTotal";
 import { FinancialRecordType } from "../class/FinancialRecordType";
 import { PeriodTagTotal } from "../class/PeriodTagTotal";
 import { PeriodTotal } from "../class/PeriodTotal"
@@ -7,19 +9,41 @@ import { PeriodType } from "../class/PeriodType";
 import { TagTotal } from "../class/TagTotal";
 import { ToastContextType } from "../components/Toast/ToastProvider";
 import { fetchWrapper } from "../helpers/fetch-wrapper";
+import { currencyService } from "./currency.service";
 import { financialRecordService } from "./financial-record.service";
 import { periodService } from "./period.service";
 import { userService } from "./user.service";
 
 export const chartService = {
     periodTotalToChartOptions,
-    periodTotalToLineBarSeries,
+    periodTotalToChartSeries,
     periodTagTotalToChartSeries,
     setChartValues,
-    getChartsOnDemandStorageName
+    getChartsOnDemandStorageName,
+    chartOnDemandToOptions,
+    chartOnDemandToSeries
 }
 
-function periodTotalToChartOptions(data: Array<PeriodTotal> | Array<PeriodTagTotal>, chartType: string, periodType: any, colors?: Array<string>): ApexCharts.ApexOptions {
+function chartOnDemandToOptions(chart: ChartOnDemand): ApexCharts.ApexOptions {
+    return periodTotalToChartOptions(
+        chart.data,
+        chart.type,
+        chart.periodType,
+        chart.filterBy,
+        ChartOnDemandFilterBy[chart.filterBy] == ChartOnDemandFilterBy.INCOME_EXPENSE ? ['rgb(21, 128, 61)', 'rgb(220, 38, 38)'] : undefined
+    )
+
+}
+
+
+function chartOnDemandToSeries(chart: ChartOnDemand) {
+    return ChartOnDemandFilterBy[chart.filterBy] == ChartOnDemandFilterBy.TAGS ?
+        periodTagTotalToChartSeries(chart.tags.map(tag => tag.name), chart.data as Array<PeriodTagTotal>, chart.type) :
+        periodTotalToChartSeries(chart.data as Array<PeriodTotal>, chart.type)
+}
+
+function periodTotalToChartOptions(data: Array<PeriodTotal> | Array<PeriodTagTotal>, chartType: string, periodType: any, filterBy: string, colors?: Array<string>): ApexCharts.ApexOptions {
+    console.log("filterby", filterBy)
     if(chartType == "bar") {
         return getPeriodTotalToBar(data, periodType, colors)
     } else if(chartType == "line" || chartType == "area") {
@@ -27,7 +51,7 @@ function periodTotalToChartOptions(data: Array<PeriodTotal> | Array<PeriodTagTot
     }
 
     const dataDonutPie = data as Array<PeriodTagTotal>
-    return getPeriodTotalToDonutPie(dataDonutPie, periodType, colors)
+    return getPeriodTotalToDonutPie(dataDonutPie, filterBy, colors)
 }
 
 function getPeriodTotalToLineArea(data: Array<PeriodTotal> | Array<PeriodTagTotal>, periodType: any, colors?: Array<string>): ApexCharts.ApexOptions {
@@ -51,7 +75,7 @@ function getPeriodTotalToLineArea(data: Array<PeriodTotal> | Array<PeriodTagTota
         },
         dataLabels: {
             enabled: true,
-            formatter: (val) => {const valNumber: number = val as number; return `R$ ${valNumber?.toFixed(2).toString().replace(".", ",")}`},
+            formatter: (val) => { const valNumber: number = val as number; return valNumber ? currencyService.format(valNumber) : undefined },
         },
         colors,
         stroke: {
@@ -63,7 +87,7 @@ function getPeriodTotalToLineArea(data: Array<PeriodTotal> | Array<PeriodTagTota
                 show: false
             },
             y: {
-                formatter: (val) => `R$ ${val?.toFixed(2).toString().replace(".", ",")}`,
+                formatter: (val) => val ? currencyService.format(val) : undefined,
             }
         }
     }
@@ -119,20 +143,22 @@ function getPeriodTotalToBar(data: Array<PeriodTotal> | Array<PeriodTagTotal>, p
                 show: false
             },
             y: {
-                formatter: (val) => `R$ ${val?.toFixed(2).toString().replace(".", ",")}`,
+                formatter: (val) => val ? currencyService.format(val) : undefined,
             }
         }
     }
 }
 
-function getPeriodTotalToDonutPie(data: Array<PeriodTagTotal>, periodType: any, colors?: Array<string>): ApexCharts.ApexOptions {
+function getPeriodTotalToDonutPie(data: Array<PeriodTagTotal>, filterBy: string, colors?: Array<string>): ApexCharts.ApexOptions {
     return {
         chart: {
             toolbar: {
                 offsetY: 3
             }
         },
-        labels: data?.[0]?.totals?.map(it => it.tag.name)?.reverse(),
+        labels: ChartOnDemandFilterBy[filterBy] == ChartOnDemandFilterBy.TAGS ?
+            data?.[0]?.totals?.map(it => it.tag.name)?.reverse() :
+            ["Receitas", "Despesas"],
         dataLabels: {
             enabled: true
         },
@@ -146,24 +172,26 @@ function getPeriodTotalToDonutPie(data: Array<PeriodTagTotal>, periodType: any, 
                 show: false
             },
             y: {
-                formatter: (val) => `R$ ${val?.toFixed(2).toString().replace(".", ",")}`,
+                formatter: (val) => val ? currencyService.format(val) : undefined,
             }
 
         }
     }
 }
 
-function periodTotalToLineBarSeries(data: Array<PeriodTotal>): Array<any> {
-    return [
-        {
-            name: "Receitas",
-            data: data.map(period => period?.totals?.find(it => FinancialRecordType[it.type] == FinancialRecordType.INCOME)?.total || 0).reverse()
-        },
-        {
-            name: "Despesas",
-            data: data.map(period => period?.totals?.find(it => FinancialRecordType[it.type] == FinancialRecordType.EXPENSE)?.total || 0).reverse()
-        }
-    ]
+function periodTotalToChartSeries(data: Array<PeriodTotal>, chartType: string): Array<any> {
+    return chartType == "donut" || chartType == "pie" ?
+        data?.[0]?.totals?.map(it => it.total || 0)?.reverse() || [] :
+        [
+            {
+                name: "Receitas",
+                data: data.map(period => period?.totals?.find(it => FinancialRecordType[it.type] == FinancialRecordType.INCOME)?.total || 0).reverse()
+            },
+            {
+                name: "Despesas",
+                data: data.map(period => period?.totals?.find(it => FinancialRecordType[it.type] == FinancialRecordType.EXPENSE)?.total || 0).reverse()
+            }
+        ]
 }
 
 function periodTagTotalToChartSeries(tags: Array<string>, data: Array<PeriodTagTotal>, chartType: string): Array<any> {
@@ -181,21 +209,31 @@ async function setChartValues(chartOnDemand: ChartOnDemand, toast?: ToastContext
     const promises: Array<Promise<any>> = []
 
     if(PeriodType[chartOnDemand.periodType] == PeriodType.DAILY) {
-        chartOnDemand.data = periodService.getPeriodTagTotalDays(chartOnDemand.totalPeriods, chartOnDemand.type)
+        chartOnDemand.data = ChartOnDemandFilterBy[chartOnDemand.filterBy] == ChartOnDemandFilterBy.TAGS ?
+            periodService.getPeriodTagTotalDays(chartOnDemand.totalPeriods, chartOnDemand.type) :
+            periodService.getPeriodTotalDays(chartOnDemand.totalPeriods, chartOnDemand.type)
     } else if(PeriodType[chartOnDemand.periodType] == PeriodType.MONTHLY) {
-        chartOnDemand.data = periodService.getPeriodTagTotalMonths(chartOnDemand.totalPeriods, chartOnDemand.type)
+        chartOnDemand.data = ChartOnDemandFilterBy[chartOnDemand.filterBy] == ChartOnDemandFilterBy.TAGS ?
+            periodService.getPeriodTagTotalMonths(chartOnDemand.totalPeriods, chartOnDemand.type) :
+            periodService.getPeriodTotalMonths(chartOnDemand.totalPeriods, chartOnDemand.type)
     } else if(PeriodType[chartOnDemand.periodType] == PeriodType.YEARLY) {
-        chartOnDemand.data = periodService.getPeriodTagTotalYears(chartOnDemand.totalPeriods, chartOnDemand.type)
+        chartOnDemand.data = ChartOnDemandFilterBy[chartOnDemand.filterBy] == ChartOnDemandFilterBy.TAGS ?
+            periodService.getPeriodTagTotalYears(chartOnDemand.totalPeriods, chartOnDemand.type) :
+            periodService.getPeriodTotalYears(chartOnDemand.totalPeriods, chartOnDemand.type)
     }
 
     chartOnDemand.data.forEach(period => {
+        let promise: Promise<any> = ChartOnDemandFilterBy[chartOnDemand.filterBy] == ChartOnDemandFilterBy.TAGS ?
+            financialRecordService.getTotalByPeriodAndTags(period.start, period.end, chartOnDemand.tags.map(tag => tag.id)) :
+            financialRecordService.getTotalByPeriod(period.start, period.end)
         promises.push(
-            financialRecordService.getTotalByPeriodAndTags(period.start, period.end, chartOnDemand.tags.map(tag => tag.id))
-            .then((totals: Array<TagTotal>) => {
+            promise
+            .then((totals: Array<TagTotal> | Array<FinancialRecordTotal>) => {
+                console.log("totals", totals)
                 period.totals = totals
             })
             .catch(error => {
-                toast?.pushError("Erro ao consultar totais de receitas/despesas: " + error, 7000, "truncate-2-lines")
+                toast?.pushError("Erro ao consultar dados para gerar gráfico: " + error, 7000, "truncate-2-lines")
             }).finally(() => {})
         )
     })

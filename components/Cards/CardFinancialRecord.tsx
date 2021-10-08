@@ -2,6 +2,7 @@ import { useState } from "react";
 import Moment from "react-moment";
 import { FinancialRecordType } from "../../class/FinancialRecordType";
 import { Period } from "../../class/Period";
+import { currencyService } from "../../services/currency.service";
 import { periodService } from "../../services/period.service";
 
 type CardFinancialRecordProps = {
@@ -12,7 +13,6 @@ export const CardFinancialRecord: React.FC<CardFinancialRecordProps> = (props) =
 
     props.period.records = props.period.records?.sort((a,b) => a.name.localeCompare(b.name))
 
-    const currencyOptions = Intl.NumberFormat('pt-BR', { style: "currency", currency: "BRL" });
     const [showInfo, setShowInfo] = useState(false)
 
     const incomeTotal: number = periodService.getPeriodIncomeTotal(props.period)
@@ -61,22 +61,22 @@ export const CardFinancialRecord: React.FC<CardFinancialRecordProps> = (props) =
                                 border-t-[1px]
                                 `}>
                                 <td className={`p-4 px-6 text-xs font-medium align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap`}>{record.name}</td>
-                                <td className="p-4 px-6 text-xs font-medium align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">{currencyOptions.format(record.value)}</td>
+                                <td className="p-4 px-6 text-xs font-medium align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">{currencyService.format(record.value)}</td>
                             </tr>
                         )}
                         </tbody>
                         <tfoot>
                             <tr className="border-t-[1px]">
                                 <td className="p-4 px-6 text-xs font-bold align-middle border-l-0 border-r-0 border-t-1 whitespace-nowrap">Total de receitas</td>
-                                <td className="p-4 px-6 text-xs font-bold align-middle border-l-0 border-r-0 border-t-1 whitespace-nowrap">{currencyOptions.format(incomeTotal)}</td>
+                                <td className="p-4 px-6 text-xs font-bold align-middle border-l-0 border-r-0 border-t-1 whitespace-nowrap">{currencyService.format(incomeTotal)}</td>
                             </tr>
                             <tr className="border-t-[1px]">
                                 <td className="p-4 px-6 text-xs font-bold align-middle border-l-0 border-r-0 border-t-1 whitespace-nowrap">Total de despesas</td>
-                                <td className="p-4 px-6 text-xs font-bold align-middle border-l-0 border-r-0 border-t-1 whitespace-nowrap">{currencyOptions.format(expenseTotal)}</td>
+                                <td className="p-4 px-6 text-xs font-bold align-middle border-l-0 border-r-0 border-t-1 whitespace-nowrap">{currencyService.format(expenseTotal)}</td>
                             </tr>
                             <tr className="border-t-[1px]">
                                 <td className="p-4 px-6 text-xs font-bold align-middle border-l-0 border-r-0 border-t-1 whitespace-nowrap">Total</td>
-                                <td className="p-4 px-6 text-xs font-bold align-middle border-l-0 border-r-0 border-t-1 whitespace-nowrap">{currencyOptions.format(incomeTotal - expenseTotal)}</td>
+                                <td className="p-4 px-6 text-xs font-bold align-middle border-l-0 border-r-0 border-t-1 whitespace-nowrap">{currencyService.format(incomeTotal - expenseTotal)}</td>
                             </tr>
                         </tfoot>
                     </table>
