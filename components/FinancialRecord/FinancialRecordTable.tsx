@@ -1,6 +1,7 @@
 import Moment from "react-moment";
 import { FinancialRecord } from "../../class/FinancialRecord";
 import { FinancialRecordType } from "../../class/FinancialRecordType";
+import { currencyService } from "../../services/currency.service";
 import TableDropdown from "../Dropdowns/TableDropdown";
 
 type FinancialRecordTableProps = {
@@ -10,7 +11,6 @@ type FinancialRecordTableProps = {
 }
 
 export const FinancialRecordTable: React.FC<FinancialRecordTableProps> = (props) => {
-  const currencyOptions = Intl.NumberFormat('pt-BR', { style: "currency", currency: "BRL" });
 
   const removeFromTable = (record: FinancialRecord) => {
     props.recordsState(props.records.filter(it => it.id != record.id))
@@ -113,7 +113,7 @@ export const FinancialRecordTable: React.FC<FinancialRecordTableProps> = (props)
                   </td>
                   <td className="p-4 px-6 text-base align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">{record.name}</td>
                   <td className="p-4 px-6 text-base align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"><Moment date={record.date} format="DD/MM/YYYY" /></td>
-                  <td className="p-4 px-6 text-base align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">{currencyOptions.format(record.value)}</td>
+                  <td className="p-4 px-6 text-base align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">{currencyService.format(record.value)}</td>
                   <td className="p-4 px-6 text-base align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">
                   {record.tags.map(tag =>
                     <span key={tag.id} className="text-xs px-2 py-0.5 rounded ml-1 font-bold bg-green-500 text-white">

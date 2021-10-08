@@ -13,6 +13,7 @@ import { ChartOnDemandWidthType } from '../../class/ChartOnDemandWidthType';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
+import { ChartOnDemandFilterBy } from '../../class/ChartOnDemandFilterBy';
 
 type ModalAddChartProps = {
     chartsOnDemand: Array<ChartOnDemand>,
@@ -25,6 +26,7 @@ export const ModalAddChart: React.FC<ModalAddChartProps> = (props) => {
     const [isLoading, setIsLoading] = useState(false)
     const [values, setValues] = useState<Array<any>>([])
     const [optionsTags, setOptionsTags] = useState([])
+    const [showTags, setShowTags] = useState<boolean>(false)
 
     const toast = useToast()
 
@@ -58,6 +60,7 @@ export const ModalAddChart: React.FC<ModalAddChartProps> = (props) => {
 
     // form validation rules
     const validationSchema = Yup.object().shape({
+        filterBy: Yup.string().required(),
         periodType: Yup.string().required(),
         totalPeriods: Yup.string().required(),
         type: Yup.string().required(),
@@ -71,8 +74,8 @@ export const ModalAddChart: React.FC<ModalAddChartProps> = (props) => {
     const { register, handleSubmit, setError, formState } = useForm(formOptions);
     const { errors } = formState;
 
-    async function onSubmit({ tags, periodType, totalPeriods, type, height, width }) {
-        if(values?.length > 0) {
+    async function onSubmit({ filterBy, periodType, totalPeriods, type, height, width }) {
+        if((showTags && values?.length > 0) || !showTags) {
             let typeLowerCase:string = type
             type = typeLowerCase?.toLowerCase()
 
@@ -84,7 +87,8 @@ export const ModalAddChart: React.FC<ModalAddChartProps> = (props) => {
                 values.map(value => new Tag(value.id, value.label)),
                 periodType,
                 totalPeriods,
-                []
+                [],
+                filterBy
             );
 
             await chartService.setChartValues(chartOnDemand, toast)
@@ -119,8 +123,29 @@ export const ModalAddChart: React.FC<ModalAddChartProps> = (props) => {
                         </div>
                         {/*body*/}
                         <form onSubmit={handleSubmit(onSubmit)}>
-                            <div className="relative flex-wrap p-6 pb-2">
-
+                        <div className="relative flex-wrap p-6 pb-2">
+                                <label
+                                    className="block mb-2 ml-4 text-xs font-bold uppercase text-blueGray-600"
+                                    htmlFor="grid-password"
+                                >
+                                    Filtrar por
+                                </label>
+                                <div className="w-full px-4">
+                                    <div className="relative w-full mb-3">
+                                        <select
+                                            {...register('filterBy')}
+                                            className={`${errors.filterBy && 'is-invalid'} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-1 border-coolGray-300 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
+                                            onBlur={(val) => {setShowTags(ChartOnDemandFilterBy[val.target.value] == ChartOnDemandFilterBy.TAGS)}}
+                                        >
+                                            <option value="" label="Selecione o filtro"/>
+                                            {keys(ChartOnDemandFilterBy).map(filterBy =>
+                                            <option key={ChartOnDemandFilterBy[filterBy]} value={filterBy} label={ChartOnDemandFilterBy[filterBy]}/>
+                                            )}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={`${!showTags && "hidden"} relative flex-wrap p-6 pt-0 pb-2`}>
                                 <label
                                     className="block mb-2 ml-4 text-xs font-bold uppercase text-blueGray-600"
                                     htmlFor="grid-password"
@@ -239,7 +264,7 @@ export const ModalAddChart: React.FC<ModalAddChartProps> = (props) => {
                                                     {...register('width')}
                                                     className={`${errors.width && 'is-invalid'} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-1 border-coolGray-300 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
                                                 >
-                                                    <option value="" label="Selecione o tipo"/>
+                                                    <option value="" label="Selecione a largura"/>
                                                     {keys(ChartOnDemandWidthType).map(type =>
                                                     <option key={ChartOnDemandWidthType[type]} value={type} label={ChartOnDemandWidthType[type]}/>
                                                     )}

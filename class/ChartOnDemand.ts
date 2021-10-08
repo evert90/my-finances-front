@@ -1,4 +1,6 @@
+import { ChartOnDemandFilterBy } from "./ChartOnDemandFilterBy";
 import { PeriodTagTotal } from "./PeriodTagTotal";
+import { PeriodTotal } from "./PeriodTotal";
 import { PeriodType } from "./PeriodType";
 import { Tag } from "./Tag";
 
@@ -26,6 +28,7 @@ export class ChartOnDemand {
         public tags: Array<Tag>,
         public periodType: PeriodType,
         public totalPeriods: number,
-        public data: Array<PeriodTagTotal>
+        public data: Array<PeriodTagTotal> | Array<PeriodTotal>,
+        public filterBy: ChartOnDemandFilterBy
     ) { }
 }
