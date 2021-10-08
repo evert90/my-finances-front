@@ -242,5 +242,5 @@ async function setChartValues(chartOnDemand: ChartOnDemand, toast?: ToastContext
 }
 
 function getChartsOnDemandStorageName() {
-    return `chartsOnDemandV2_${fetchWrapper.getApiUrl()}_${userService.getUserValue()?.user?.id}`
+    return `chartsOnDemandV3_${fetchWrapper.getApiUrl()}_${userService.getUserValue()?.user?.id}`
 }
