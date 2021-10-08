@@ -37,7 +37,9 @@ import 'swiper/swiper.min.css'
 
 // modules styles
 import 'swiper/components/navigation/navigation.min.css'
-import { ChartOnDemandType } from "../../class/ChartOnDemandType";
+
+import { ChartOnDemandFilterBy } from "../../class/ChartOnDemandFilterBy";
+import { currencyService } from "../../services/currency.service";
 
 export const Dashboard: LayoutComponent = () => {
 
@@ -48,8 +50,9 @@ export const Dashboard: LayoutComponent = () => {
     const [incomeTotal, setIncomeTotal] = useState<number>(undefined)
     const [expenseTotal, setExpenseTotal] = useState<number>(undefined)
     const [financialRecordsCards, setFinancialRecordsCards] = useState<Array<Period>>(periodService.getPeriodMonths(totalFinancialRecordsCards))
-    const [financialRecordsChartTotal, setFinancialRecordsChartTotal] = useState<Array<PeriodTotal>>(periodService.getPeriodTotalMonths(12))
+    const [financialRecordsChartTotal, setFinancialRecordsChartTotal] = useState<Array<PeriodTotal>>(periodService.getPeriodTotalMonths(12, "line"))
     const [chartsOnDemand, setChartsOnDemand] = useState<Array<ChartOnDemand>>((process.browser && JSON.parse(localStorage.getItem(chartService.getChartsOnDemandStorageName()))) || [])
+    const [showChartDefault, setShowChartDefault] = useState<boolean>(process.browser && !localStorage.getItem("removeChartDefault") || chartsOnDemand?.length == 0)
 
     const [showModal, setShowModal] =  useState<boolean>(false)
 
@@ -57,9 +60,16 @@ export const Dashboard: LayoutComponent = () => {
         const removed = chartsOnDemand.filter(chart => chart.id != chartToRemove.id)
         setChartsOnDemand(removed)
         localStorage.setItem(chartService.getChartsOnDemandStorageName(), JSON.stringify(removed))
+        if(removed?.length == 0) {
+            localStorage.removeItem("removeChartDefault")
+        }
+        setShowChartDefault(removed?.length == 0)
     }
 
-    const currencyOptions = Intl.NumberFormat('pt-BR', { style: "currency", currency: "BRL" })
+    const removeChartDefault = () => {
+        localStorage.setItem("removeChartDefault", "true")
+        setShowChartDefault(false);
+    }
 
     useEffect(() => {
         if(chartsOnDemand?.length > 0) {
@@ -79,6 +89,7 @@ export const Dashboard: LayoutComponent = () => {
             toast?.pushError("Erro ao consultar total de receitas/despesas. " + error, 7000, "truncate-2-lines")
         }).finally(() => {})
 
+
         financialRecordsChartTotal.map(period => {
             financialRecordService.getTotalByPeriod(period.start, period.end)
             .then((totals: Array<FinancialRecordTotal>) => {
@@ -89,6 +100,7 @@ export const Dashboard: LayoutComponent = () => {
                 toast?.pushError("Erro ao consultar totais de receitas/despesas " + error, 7000, "truncate-2-lines")
             }).finally(() => {})
         })
+
 
         financialRecordsCards.map(period => {
             financialRecordService.getByPeriod(period.start, period.end)
@@ -110,7 +122,7 @@ export const Dashboard: LayoutComponent = () => {
                     <div className={`w-full px-4 lg:w-6/12 xl:6-3/12`}>
                         <CardStats
                             statSubtitle="Receitas"
-                            statTitle={isNaN(incomeTotal) ? null : currencyOptions.format(incomeTotal)}
+                            statTitle={isNaN(incomeTotal) ? null : currencyService.format(incomeTotal)}
                             statArrow="up"
                             statPercent="3.48"
                             statPercentColor="text-emerald-500"
@@ -122,7 +134,7 @@ export const Dashboard: LayoutComponent = () => {
                     <div className={`w-full px-4 lg:w-6/12 xl:6-3/12`}>
                         <CardStats
                             statSubtitle="Despesas"
-                            statTitle={isNaN(incomeTotal) ? null : currencyOptions.format(expenseTotal)}
+                            statTitle={isNaN(incomeTotal) ? null : currencyService.format(expenseTotal)}
                             statArrow="down"
                             statPercent="3.48"
                             statPercentColor="text-red-500"
@@ -182,6 +194,7 @@ export const Dashboard: LayoutComponent = () => {
 
             </div>
 
+            {showChartDefault &&
             <div className="flex flex-wrap">
                 <div className="w-full px-4 mb-8 xl:w-12/12" id={"chart-receitas-despesas"}>
                     <div className={`${financialRecordsChartTotal.some(period => period.totals == null) && "opacity-50"} bg-white rounded shadow-lg`}>
@@ -190,7 +203,7 @@ export const Dashboard: LayoutComponent = () => {
                             <i className="mx-auto mr-1 text-3xl text-blueGray-700 fas fa-circle-notch animate-spin"></i>
                         </div>
                     }
-                        <div className="py-2 mb-1 border-0 border-b-[1px] rounded-t">
+                        <div className="pr-2 py-2 mb-0 border-0 border-b-[1px] rounded-t bg-white">
                             <div className="flex flex-wrap items-center">
                                 <div className="relative flex-1 flex-grow w-full max-w-full px-4">
                                     <h3 className="text-base font-semibold text-blueGray-700">
@@ -198,20 +211,26 @@ export const Dashboard: LayoutComponent = () => {
                                     </h3>
                                 </div>
                                 <div className="relative flex-1 flex-grow w-full max-w-[25px] px-1 text-right">
-
+                                    <i className={`${chartsOnDemand?.length == 0 && "hidden"} mr-[-0.125rem] cursor-pointer text-base fas fa-trash `}
+                                        title="Remover"
+                                        onClick={() => removeChartDefault()}
+                                    ></i>
                                 </div>
                             </div>
                         </div>
-                        <Chart
-                            options={chartService.periodTotalToChartOptions(financialRecordsChartTotal, "line", "MONTHLY", ['rgb(21, 128, 61)', 'rgb(220, 38, 38)'])}
-                            series={chartService.periodTotalToLineBarSeries(financialRecordsChartTotal)}
-                            type="line"
-                            width="100%"
-                            height="450"
-                        />
+                        <div className="bg-white rounded shadow-lg">
+                            <Chart
+                                options={chartService.periodTotalToChartOptions(financialRecordsChartTotal, "line", "MONTHLY", "INCOME_EXPENSE", ['rgb(21, 128, 61)', 'rgb(220, 38, 38)'])}
+                                series={chartService.periodTotalToChartSeries(financialRecordsChartTotal, "line")}
+                                type="line"
+                                width="100%"
+                                height="450"
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
+            }
 
             <div className="flex flex-wrap">
                 {chartsOnDemand?.map(chart =>
@@ -220,10 +239,11 @@ export const Dashboard: LayoutComponent = () => {
                             <div className="flex flex-wrap items-center">
                                 <div className="relative flex-1 flex-grow w-full max-w-full px-4">
                                     <h3 className="text-base font-semibold text-blueGray-700 text-overflow-ellipsis-1-line">
-                                        {chart.tags.map((tag, index) => {
+                                        {ChartOnDemandFilterBy[chart.filterBy] == ChartOnDemandFilterBy.TAGS ? chart.tags.map((tag, index) => {
                                             const separator = index + 2 < chart.tags.length ? ", " : index + 1 < chart.tags.length ? " e " : ""
                                             return `${tag.name}${separator}`
-                                        })}
+                                        }) : "Receitas e despesas"
+                                    }
                                         {(chart.type == "donut" || chart.type == "pie") && ` (${chart.totalPeriods} ${periodService.periodTypeToLabel(chart.periodType, chart.totalPeriods)})`}
                                     </h3>
                                 </div>
@@ -237,8 +257,8 @@ export const Dashboard: LayoutComponent = () => {
                         </div>
                         <div className="bg-white rounded shadow-lg">
                             <Chart
-                                options={chartService.periodTotalToChartOptions(chart.data, chart.type, chart.periodType)}
-                                series={chartService.periodTagTotalToChartSeries(chart.tags.map(tag => tag.name), chart.data, chart.type)}
+                                options={chartService.chartOnDemandToOptions(chart)}
+                                series={chartService.chartOnDemandToSeries(chart)}
                                 type={chart.type}
                                 width={"100%"}
                                 height={chart.height}
