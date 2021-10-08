@@ -35,9 +35,9 @@ const Sidebar = () => {
           </Link>
           {/* User */}
           <ul className="flex flex-wrap items-center list-none md:hidden">
-            <li className="relative inline-block">
+{/*             <li className="relative inline-block">
               <NotificationDropdown />
-            </li>
+            </li> */}
             <li className="relative inline-block">
               <UserDropdown />
             </li>
@@ -93,6 +93,7 @@ const Sidebar = () => {
                 <Link href="/admin/dashboard">
                   <a
                     href="#pablo"
+                    onClick={() => setCollapseShow("hidden")}
                     className={
                       "text-md py-3 font-bold block " +
                       (router.pathname.indexOf("/admin/dashboard") !== -1
@@ -117,6 +118,7 @@ const Sidebar = () => {
                 <Link href="/admin/financial-records">
                   <a
                     href="#pablo"
+                    onClick={() => setCollapseShow("hidden")}
                     className={
                       "text-md py-3 font-bold block " +
                       (router.pathname.indexOf("/admin/financial-records") !== -1
@@ -141,6 +143,7 @@ const Sidebar = () => {
                 <Link href="/admin/assets">
                   <a
                     href="#pablo"
+                    onClick={() => setCollapseShow("hidden")}
                     className={
                       "text-md py-3 font-bold block " +
                       (router.pathname.indexOf("/admin/assets") !== -1
@@ -165,6 +168,7 @@ const Sidebar = () => {
                 <Link href="/admin/debts">
                   <a
                     href="#pablo"
+                    onClick={() => setCollapseShow("hidden")}
                     className={
                       "text-md py-3 font-bold block " +
                       (router.pathname.indexOf("/admin/debts") !== -1
@@ -189,6 +193,7 @@ const Sidebar = () => {
                 <Link href="/admin/products">
                   <a
                     href="#pablo"
+                    onClick={() => setCollapseShow("hidden")}
                     className={
                       "text-md py-3 font-bold block " +
                       (router.pathname.indexOf("/admin/products") !== -1
