@@ -154,10 +154,10 @@ function getPeriodTotalToDonutPie(data: Array<PeriodTagTotal>, filterBy: string,
         chart: {
             toolbar: {
                 offsetY: 3
-            }
+            },
         },
         labels: ChartOnDemandFilterBy[filterBy] == ChartOnDemandFilterBy.TAGS ?
-            data?.[0]?.totals?.map(it => it.tag.name)?.reverse() :
+            data?.[0]?.totals?.map(it => it.tag.name)?.sort() :
             ["Receitas", "Despesas"],
         dataLabels: {
             enabled: true
@@ -196,7 +196,7 @@ function periodTotalToChartSeries(data: Array<PeriodTotal>, chartType: string): 
 
 function periodTagTotalToChartSeries(tags: Array<string>, data: Array<PeriodTagTotal>, chartType: string): Array<any> {
     return chartType == "donut" || chartType == "pie" ?
-        data?.[0]?.totals?.map(it => it.total || 0)?.reverse() || [] :
+        data?.[0]?.totals?.sort((a,b) => a.tag.name < b.tag.name ? -1 : 1).map(it => it.total || 0) || [] :
         tags.map( tag => (
             {
                 name: tag,
