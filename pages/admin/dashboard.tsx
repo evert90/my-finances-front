@@ -18,7 +18,7 @@ import dynamic from "next/dynamic";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 import { PeriodTotal } from "../../class/PeriodTotal";
 import { chartService } from "../../services/chart.service";
-import { ModalAddChart } from "../../components/Modal/ModalAddChart";
+import { ModalAddCard } from "../../components/Modal/ModalAddCard";
 import { CardOnDemand } from "../../class/CardOnDemand";
 import { CardOnDemandWidthType } from "../../class/CardOnDemandWidthType";
 
@@ -39,6 +39,7 @@ import 'swiper/components/navigation/navigation.min.css'
 
 import { CardOnDemandFilterBy } from "../../class/CardOnDemandFilterBy";
 import { currencyService } from "../../services/currency.service";
+import { CardTableOnDemand } from "../../components/Cards/CardTableOnDemand";
 
 export const Dashboard: LayoutComponent = () => {
 
@@ -50,7 +51,7 @@ export const Dashboard: LayoutComponent = () => {
     const [expenseTotal, setExpenseTotal] = useState<number>(undefined)
     const [financialRecordsCards, setFinancialRecordsCards] = useState<Array<Period>>(periodService.getPeriodMonths(totalFinancialRecordsCards))
     const [financialRecordsChartTotal, setFinancialRecordsChartTotal] = useState<Array<PeriodTotal>>(periodService.getPeriodTotalMonths(12, "line"))
-    const [cardsOnDemand, setCardsOnDemand] = useState<Array<CardOnDemand>>((process.browser && JSON.parse(localStorage.getItem(chartService.getChartsOnDemandStorageName()))) || [])
+    const [cardsOnDemand, setCardsOnDemand] = useState<Array<CardOnDemand>>((process.browser && JSON.parse(localStorage.getItem(chartService.getCardsOnDemandStorageName()))) || [])
     const [showChartDefault, setShowChartDefault] = useState<boolean>(process.browser && !localStorage.getItem("removeChartDefault") || cardsOnDemand?.length == 0)
 
     const [showModal, setShowModal] =  useState<boolean>(false)
@@ -58,7 +59,7 @@ export const Dashboard: LayoutComponent = () => {
     const removeCardOnDemand = (cardToRemove: CardOnDemand) => {
         const removed = cardsOnDemand.filter(chart => chart.id != cardToRemove.id)
         setCardsOnDemand(removed)
-        localStorage.setItem(chartService.getChartsOnDemandStorageName(), JSON.stringify(removed))
+        localStorage.setItem(chartService.getCardsOnDemandStorageName(), JSON.stringify(removed))
         if(removed?.length == 0) {
             localStorage.removeItem("removeChartDefault")
         }
@@ -74,7 +75,7 @@ export const Dashboard: LayoutComponent = () => {
         console.log("adding")
         var totalNewPeriods: number = 6
         var newPeriods: Array<Period> = periodService.getPeriodMonths(financialRecordsCards.length + totalNewPeriods)
-        financialRecordsCards.push(...newPeriods.slice(-totalNewPeriods))
+        financialRecordsCards.push(...newPeriods?.slice(-totalNewPeriods))
         financialRecordsCards?.slice(-totalNewPeriods).map(period => {
             financialRecordService.getByPeriod(period.start, period.end)
             .then((records: Array<FinancialRecord>) => {
@@ -245,36 +246,39 @@ export const Dashboard: LayoutComponent = () => {
             }
 
             <div className="flex flex-wrap">
-                {cardsOnDemand?.map(chart =>
-                    <div key={chart.id} className={`w-full px-4 mb-8 ${CardOnDemandWidthType[chart.width] == CardOnDemandWidthType.HALF && "xl:w-6/12"}`}>
-                       <div className="pr-2 py-2 mb-0 border-0 border-b-[1px] rounded-t bg-white">
+                {cardsOnDemand?.map(card =>
+                    <div key={card.id} className={`w-full px-4 mb-8 card-on-demand-width-${CardOnDemandWidthType[card.width].replace('%', '')}`}>
+                       <div className={`${card.type != "table" && "border-b-[1px]"} pr-2 py-2 mb-0 border-0 rounded-t bg-white`}>
                             <div className="flex flex-wrap items-center">
                                 <div className="relative flex-1 flex-grow w-full max-w-full px-4">
                                     <h3 className="text-base font-semibold text-blueGray-700 text-overflow-ellipsis-1-line">
-                                        {CardOnDemandFilterBy[chart.filterBy] == CardOnDemandFilterBy.TAGS ? chart.tags.map((tag, index) => {
-                                            const separator = index + 2 < chart.tags.length ? ", " : index + 1 < chart.tags.length ? " e " : ""
+                                        {CardOnDemandFilterBy[card.filterBy] == CardOnDemandFilterBy.TAGS ? card.tags.map((tag, index) => {
+                                            const separator = index + 2 < card.tags.length ? ", " : index + 1 < card.tags.length ? " e " : ""
                                             return `${tag.name}${separator}`
                                         }) : "Receitas e despesas"
                                     }
-                                        {(chart.type == "donut" || chart.type == "pie") && ` (${chart.totalPeriods} ${periodService.periodTypeToLabel(chart.periodType, chart.totalPeriods)})`}
+                                        {(card.type == "donut" || card.type == "pie") && ` (${card.totalPeriods} ${periodService.periodTypeToLabel(card.periodType, card.totalPeriods)})`}
                                     </h3>
                                 </div>
                                 <div className="relative flex-1 flex-grow w-full max-w-[25px] px-1 text-right">
                                     <i className={`mr-[-0.125rem] cursor-pointer text-base fas fa-trash `}
                                         title="Remover"
-                                        onClick={() => removeCardOnDemand(chart)}
+                                        onClick={() => removeCardOnDemand(card)}
                                     ></i>
                                 </div>
                             </div>
                         </div>
                         <div className="bg-white rounded shadow-lg">
+                            {card.type == "table" ?
+                            <CardTableOnDemand cardOnDemand={card}></CardTableOnDemand> :
                             <Chart
-                                options={chartService.chartOnDemandToOptions(chart)}
-                                series={chartService.chartOnDemandToSeries(chart)}
-                                type={chart.type}
+                                options={chartService.chartOnDemandToOptions(card)}
+                                series={chartService.chartOnDemandToSeries(card)}
+                                type={card.type}
                                 width={"100%"}
-                                height={chart.height}
+                                height={card.height}
                             />
+                            }
                         </div>
                     </div>
                 )}
@@ -288,13 +292,13 @@ export const Dashboard: LayoutComponent = () => {
                         type="button"
                         onClick={() => setShowModal(true)}
                         >
-                        <i className="mr-1 fas fa-chart-pie"></i> Adicionar novo gráfico
+                        <i className="mr-1 fas fa-sticky-note"></i> Adicionar novo card
                     </button>
                     </div>
                 </div>
             </div>
             {showModal ? (
-                <ModalAddChart setShowModalState={setShowModal} setChartsOnDemandState={setCardsOnDemand} chartsOnDemand={cardsOnDemand} ></ModalAddChart>
+                <ModalAddCard setShowModalState={setShowModal} setChartsOnDemandState={setCardsOnDemand} chartsOnDemand={cardsOnDemand} ></ModalAddCard>
             ) : null}
         </>
     );
