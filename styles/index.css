@@ -26,6 +26,14 @@
         left: 46%;
         top: 33%;
     }
+
+    .thead-column {
+        @apply px-6 align-middle border border-solid py-3 text-sm uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100
+    }
+
+    .tbody-column {
+        @apply p-4 px-6 text-base align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap
+    }
 }
 
 @tailwind utilities;

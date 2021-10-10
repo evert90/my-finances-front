@@ -88,7 +88,6 @@ function MyApp({ Component, pageProps }) {
     const publicPaths = ['/auth/login', '/auth/register'];
     const path = url.split('?')[0];
 
-    console.log("TEEEEEESTE", userService.getUserValue()?.token)
     if (!userService.getUserValue()?.token && !publicPaths.includes(path)) {
       console.log("unat")
       setAuthorized(false);
