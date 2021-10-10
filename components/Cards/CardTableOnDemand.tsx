@@ -19,7 +19,7 @@ export const CardTableOnDemand: React.FC<CardTableOnDemandProps> = (props) => {
             style={{minHeight: props.cardOnDemand.height + "px"}}
         >
             <div className="block w-full overflow-x-auto">
-                <table className="items-center table w-full text-sm bg-transparent border-collapse stripped">
+                <table className="items-center table w-full mt-1 text-sm bg-transparent border-collapse stripped">
                     <thead>
                         <tr>
                             <th className={"column-fit card-on-demand-thead-column"}>
@@ -76,10 +76,10 @@ export const CardTableOnDemand: React.FC<CardTableOnDemandProps> = (props) => {
                             <td className=" card-on-demand-tbody-column text-xs-edit">
                                 {currencyService.format(expenses)}
                             </td>
-                            <td className={`card-on-demand-tbody-column font-medium column-fit`}>
+                            <td className={`card-on-demand-tbody-column column-fit font-semibold text-xs-edit`}>
                                 {currencyService.format(total)}
                             </td>
-                            <td className="font-medium card-on-demand-tbody-column text-xs-edit column-fit">
+                            <td className="font-semibold card-on-demand-tbody-column text-xs-edit column-fit">
                                 {total != 0 && totalPreviousPeriod ? currencyService.format(total - totalPreviousPeriod) : "-"}
                             </td>
                         </tr>
@@ -102,10 +102,10 @@ export const CardTableOnDemand: React.FC<CardTableOnDemandProps> = (props) => {
                                     {tagTotal ? currencyService.format(tagTotal) : "-"}
                                 </td>
                             })}
-                            <td className={`card-on-demand-tbody-column text-xs-edit font-medium column-fit`}>
+                            <td className={`card-on-demand-tbody-column text-xs-edit column-fit font-semibold`}>
                                 {currencyService.format(total)}
                             </td>
-                            <td className="font-medium card-on-demand-tbody-column text-xs-edit column-fit">
+                            <td className="font-semibold card-on-demand-tbody-column text-xs-edit column-fit ">
                                 {total != 0  && totalPreviousPeriod != 0 ? currencyService.format(total - totalPreviousPeriod) : "-"}
                             </td>
                         </tr>
