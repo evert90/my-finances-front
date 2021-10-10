@@ -19,7 +19,7 @@ export const chartService = {
     periodTotalToChartSeries,
     periodTagTotalToChartSeries,
     setChartValues,
-    getChartsOnDemandStorageName,
+    getCardsOnDemandStorageName,
     chartOnDemandToOptions,
     chartOnDemandToSeries
 }
@@ -63,7 +63,7 @@ function getPeriodTotalToLineArea(data: Array<PeriodTotal> | Array<PeriodTagTota
         xaxis: {
             categories: data.map(period => {
                 const category = moment(period.start, 'YYYY-MM-DD').locale("pt-BR").format(periodService.periodTypeToDateFormat(periodType))
-                return category.charAt(0).toUpperCase() + category.slice(1)
+                return category.charAt(0).toUpperCase() + category?.slice(1)
             }).reverse(),
             tooltip: {
                 enabled: false
@@ -102,7 +102,7 @@ function getPeriodTotalToBar(data: Array<PeriodTotal> | Array<PeriodTagTotal>, p
         xaxis: {
             categories: data.map(period => {
                 const category = moment(period.start, 'YYYY-MM-DD').locale("pt-BR").format(periodService.periodTypeToDateFormat(periodType))
-                return category.charAt(0).toUpperCase() + category.slice(1)
+                return category.charAt(0).toUpperCase() + category?.slice(1)
             }).reverse(),
             tooltip: {
                 enabled: false
@@ -195,7 +195,7 @@ function periodTotalToChartSeries(data: Array<PeriodTotal>, chartType: string): 
 
 function periodTagTotalToChartSeries(tags: Array<string>, data: Array<PeriodTagTotal>, chartType: string): Array<any> {
     return chartType == "donut" || chartType == "pie" ?
-        data?.[0]?.totals?.sort((a,b) => a.tag.name < b.tag.name ? -1 : 1).map(it => it.total || 0) || [] :
+        data?.[0]?.totals?.sort((a,b) => a.tag.name?.toLowerCase() < b.tag.name?.toLowerCase() ? -1 : 1).map(it => it.total || 0) || [] :
         tags.map( tag => (
             {
                 name: tag,
@@ -239,6 +239,6 @@ async function setChartValues(cardOnDemand: CardOnDemand, toast?: ToastContextTy
     await Promise.all(promises)
 }
 
-function getChartsOnDemandStorageName() {
-    return `chartsOnDemandV3_${fetchWrapper.getApiUrl()}_${userService.getUserValue()?.user?.id}`
+function getCardsOnDemandStorageName() {
+    return `cardsOnDemand_${fetchWrapper.getApiUrl()}_${userService.getUserValue()?.user?.id}`
 }
