@@ -9,6 +9,7 @@ import { PeriodType } from "../class/PeriodType";
 import { TagTotal } from "../class/TagTotal";
 import { ToastContextType } from "../components/Toast/ToastProvider";
 import { fetchWrapper } from "../helpers/fetch-wrapper";
+import { colorService } from "./color.service";
 import { currencyService } from "./currency.service";
 import { financialRecordService } from "./financial-record.service";
 import { periodService } from "./period.service";
@@ -30,7 +31,7 @@ function chartOnDemandToOptions(chart: CardOnDemand): ApexCharts.ApexOptions {
         chart.type,
         chart.periodType,
         chart.filterBy,
-        CardOnDemandFilterBy[chart.filterBy] == CardOnDemandFilterBy.INCOME_EXPENSE ? ['rgb(21, 128, 61)', 'rgb(220, 38, 38)'] : undefined
+        CardOnDemandFilterBy[chart.filterBy] == CardOnDemandFilterBy.INCOME_EXPENSE ? colorService.getIncomesExpenses() : undefined
     )
 
 }
@@ -43,6 +44,8 @@ function chartOnDemandToSeries(chart: CardOnDemand) {
 }
 
 function periodTotalToChartOptions(data: Array<PeriodTotal> | Array<PeriodTagTotal>, chartType: string, periodType: any, filterBy: string, colors?: Array<string>): ApexCharts.ApexOptions {
+    if(!colors) colors = colorService.getDefaultPallete()
+
     if(chartType == "bar") {
         return getPeriodTotalToBar(data, periodType, colors)
     } else if(chartType == "line" || chartType == "area") {
@@ -156,7 +159,7 @@ function getPeriodTotalToDonutPie(data: Array<PeriodTagTotal>, filterBy: string,
             },
         },
         labels: CardOnDemandFilterBy[filterBy] == CardOnDemandFilterBy.TAGS ?
-            data?.[0]?.totals?.map(it => it.tag.name)?.sort() :
+            data?.[0]?.totals?.sort((a,b) => a.tag.name?.toLowerCase() < b.tag.name?.toLowerCase() ? -1 : 1).map(it => it.tag.name) :
             ["Receitas", "Despesas"],
         dataLabels: {
             enabled: true
