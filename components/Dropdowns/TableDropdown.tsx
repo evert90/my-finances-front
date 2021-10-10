@@ -21,10 +21,10 @@ const TableDropdown: React.FC<TableDropdownProps> = (props) => {
     createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
         placement: "left-start",
     });
-    setDropdownPopoverShow(true);
+      setDropdownPopoverShow(true);
     };
     const closeDropdownPopover = () => {
-    setDropdownPopoverShow(false);
+        setDropdownPopoverShow(false);
     };
 
     const deleteRecord = (event: React.MouseEvent) => {

@@ -868,7 +868,6 @@ select {
 }
 
 .card-on-demand-thead-column {
-	border-width: 1px;
 	--tw-bg-opacity: 1;
 	background-color: rgba(248, 250, 252, var(--tw-bg-opacity));
 	padding-left: 1rem;
@@ -876,13 +875,12 @@ select {
 	padding-top: 0.45rem;
 	padding-bottom: 0.45rem;
 	text-align: center;
-	font-weight: 500;
+	font-weight: 600;
 	--tw-text-opacity: 1;
-	color: rgba(30, 41, 59, var(--tw-text-opacity));
+	color: rgba(71, 85, 105, var(--tw-text-opacity));
 }
 
 .card-on-demand-tbody-column {
-	border-width: 1px;
 	padding-left: 1rem;
 	padding-right: 1rem;
 	padding-top: 0.45rem;
@@ -1297,6 +1295,14 @@ select {
 	margin-top: -1.75rem;
 }
 
+.ml-10 {
+	margin-left: 2.5rem;
+}
+
+.mr-10 {
+	margin-right: 2.5rem;
+}
+
 .block {
 	display: block;
 }
@@ -1539,6 +1545,18 @@ select {
 
 .max-w-sm {
 	max-width: 24rem;
+}
+
+.max-w-\[50px\] {
+	max-width: 50px;
+}
+
+.max-w-\[45px\] {
+	max-width: 45px;
+}
+
+.max-w-\[20px\] {
+	max-width: 20px;
 }
 
 .flex-auto {

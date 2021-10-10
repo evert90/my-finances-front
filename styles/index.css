@@ -28,11 +28,11 @@
     }
 
     .card-on-demand-thead-column {
-        @apply text-center font-medium border px-4 py-[0.45rem] bg-blueGray-50 text-blueGray-800
+        @apply text-center font-semibold px-4 py-[0.45rem] bg-blueGray-50 text-blueGray-600
     }
 
     .card-on-demand-tbody-column {
-        @apply text-center text-sm font-normal border px-4 py-[0.45rem] text-blueGray-700
+        @apply text-center text-sm font-normal px-4 py-[0.45rem] text-blueGray-700
     }
 
 }
