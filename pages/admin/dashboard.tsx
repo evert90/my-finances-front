@@ -40,6 +40,7 @@ import 'swiper/components/navigation/navigation.min.css'
 import { CardOnDemandFilterBy } from "../../class/CardOnDemandFilterBy";
 import { currencyService } from "../../services/currency.service";
 import { CardTableOnDemand } from "../../components/Cards/CardTableOnDemand";
+import { colorService } from "../../services/color.service";
 
 export const Dashboard: LayoutComponent = () => {
 
@@ -233,7 +234,7 @@ export const Dashboard: LayoutComponent = () => {
                         </div>
                         <div className="bg-white rounded shadow-lg">
                             <Chart
-                                options={chartService.periodTotalToChartOptions(financialRecordsChartTotal, "line", "MONTHLY", "INCOME_EXPENSE", ['rgb(21, 128, 61)', 'rgb(220, 38, 38)'])}
+                                options={chartService.periodTotalToChartOptions(financialRecordsChartTotal, "line", "MONTHLY", "INCOME_EXPENSE", colorService.getIncomesExpenses())}
                                 series={chartService.periodTotalToChartSeries(financialRecordsChartTotal, "line")}
                                 type="line"
                                 width="100%"
