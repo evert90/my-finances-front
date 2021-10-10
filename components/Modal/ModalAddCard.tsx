@@ -91,7 +91,7 @@ export const ModalAddCard: React.FC<ModalAddCardProps> = (props) => {
                 filterBy
             );
 
-            await chartService.setChartValues(cardOnDemand, toast)
+            await chartService.setCardValues(cardOnDemand, toast)
             const charts = [...props.chartsOnDemand, cardOnDemand]
             props.setChartsOnDemandState(charts)
             localStorage.setItem(chartService.getCardsOnDemandStorageName(), JSON.stringify(charts))
