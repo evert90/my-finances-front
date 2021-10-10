@@ -86,7 +86,6 @@ export const FinancialRecordForm: React.FC<FinancialRecordFormProps> = (props) =
 
     return financialRecordService.save(financialRecord)
         .then((response: FinancialRecord) => {
-            console.log(response)
             response.date = moment(response.date, 'YYYY-MM-DD')
             props.records.push(response)
             props.records.sort((a: FinancialRecord , b: FinancialRecord) => b.date.unix() - a.date.unix())

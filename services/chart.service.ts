@@ -1,6 +1,6 @@
 import moment from "moment";
-import { ChartOnDemand } from "../class/ChartOnDemand";
-import { ChartOnDemandFilterBy } from "../class/ChartOnDemandFilterBy";
+import { CardOnDemand } from "../class/CardOnDemand";
+import { CardOnDemandFilterBy } from "../class/CardOnDemandFilterBy";
 import { FinancialRecordTotal } from "../class/FinancialRecordTotal";
 import { FinancialRecordType } from "../class/FinancialRecordType";
 import { PeriodTagTotal } from "../class/PeriodTagTotal";
@@ -24,26 +24,25 @@ export const chartService = {
     chartOnDemandToSeries
 }
 
-function chartOnDemandToOptions(chart: ChartOnDemand): ApexCharts.ApexOptions {
+function chartOnDemandToOptions(chart: CardOnDemand): ApexCharts.ApexOptions {
     return periodTotalToChartOptions(
         chart.data,
         chart.type,
         chart.periodType,
         chart.filterBy,
-        ChartOnDemandFilterBy[chart.filterBy] == ChartOnDemandFilterBy.INCOME_EXPENSE ? ['rgb(21, 128, 61)', 'rgb(220, 38, 38)'] : undefined
+        CardOnDemandFilterBy[chart.filterBy] == CardOnDemandFilterBy.INCOME_EXPENSE ? ['rgb(21, 128, 61)', 'rgb(220, 38, 38)'] : undefined
     )
 
 }
 
 
-function chartOnDemandToSeries(chart: ChartOnDemand) {
-    return ChartOnDemandFilterBy[chart.filterBy] == ChartOnDemandFilterBy.TAGS ?
+function chartOnDemandToSeries(chart: CardOnDemand) {
+    return CardOnDemandFilterBy[chart.filterBy] == CardOnDemandFilterBy.TAGS ?
         periodTagTotalToChartSeries(chart.tags.map(tag => tag.name), chart.data as Array<PeriodTagTotal>, chart.type) :
         periodTotalToChartSeries(chart.data as Array<PeriodTotal>, chart.type)
 }
 
 function periodTotalToChartOptions(data: Array<PeriodTotal> | Array<PeriodTagTotal>, chartType: string, periodType: any, filterBy: string, colors?: Array<string>): ApexCharts.ApexOptions {
-    console.log("filterby", filterBy)
     if(chartType == "bar") {
         return getPeriodTotalToBar(data, periodType, colors)
     } else if(chartType == "line" || chartType == "area") {
@@ -156,7 +155,7 @@ function getPeriodTotalToDonutPie(data: Array<PeriodTagTotal>, filterBy: string,
                 offsetY: 3
             },
         },
-        labels: ChartOnDemandFilterBy[filterBy] == ChartOnDemandFilterBy.TAGS ?
+        labels: CardOnDemandFilterBy[filterBy] == CardOnDemandFilterBy.TAGS ?
             data?.[0]?.totals?.map(it => it.tag.name)?.sort() :
             ["Receitas", "Despesas"],
         dataLabels: {
@@ -205,31 +204,30 @@ function periodTagTotalToChartSeries(tags: Array<string>, data: Array<PeriodTagT
         ))
 }
 
-async function setChartValues(chartOnDemand: ChartOnDemand, toast?: ToastContextType) {
+async function setChartValues(cardOnDemand: CardOnDemand, toast?: ToastContextType) {
     const promises: Array<Promise<any>> = []
 
-    if(PeriodType[chartOnDemand.periodType] == PeriodType.DAILY) {
-        chartOnDemand.data = ChartOnDemandFilterBy[chartOnDemand.filterBy] == ChartOnDemandFilterBy.TAGS ?
-            periodService.getPeriodTagTotalDays(chartOnDemand.totalPeriods, chartOnDemand.type) :
-            periodService.getPeriodTotalDays(chartOnDemand.totalPeriods, chartOnDemand.type)
-    } else if(PeriodType[chartOnDemand.periodType] == PeriodType.MONTHLY) {
-        chartOnDemand.data = ChartOnDemandFilterBy[chartOnDemand.filterBy] == ChartOnDemandFilterBy.TAGS ?
-            periodService.getPeriodTagTotalMonths(chartOnDemand.totalPeriods, chartOnDemand.type) :
-            periodService.getPeriodTotalMonths(chartOnDemand.totalPeriods, chartOnDemand.type)
-    } else if(PeriodType[chartOnDemand.periodType] == PeriodType.YEARLY) {
-        chartOnDemand.data = ChartOnDemandFilterBy[chartOnDemand.filterBy] == ChartOnDemandFilterBy.TAGS ?
-            periodService.getPeriodTagTotalYears(chartOnDemand.totalPeriods, chartOnDemand.type) :
-            periodService.getPeriodTotalYears(chartOnDemand.totalPeriods, chartOnDemand.type)
+    if(PeriodType[cardOnDemand.periodType] == PeriodType.DAILY) {
+        cardOnDemand.data = CardOnDemandFilterBy[cardOnDemand.filterBy] == CardOnDemandFilterBy.TAGS ?
+            periodService.getPeriodTagTotalDays(cardOnDemand.totalPeriods, cardOnDemand.type) :
+            periodService.getPeriodTotalDays(cardOnDemand.totalPeriods, cardOnDemand.type)
+    } else if(PeriodType[cardOnDemand.periodType] == PeriodType.MONTHLY) {
+        cardOnDemand.data = CardOnDemandFilterBy[cardOnDemand.filterBy] == CardOnDemandFilterBy.TAGS ?
+            periodService.getPeriodTagTotalMonths(cardOnDemand.totalPeriods, cardOnDemand.type) :
+            periodService.getPeriodTotalMonths(cardOnDemand.totalPeriods, cardOnDemand.type)
+    } else if(PeriodType[cardOnDemand.periodType] == PeriodType.YEARLY) {
+        cardOnDemand.data = CardOnDemandFilterBy[cardOnDemand.filterBy] == CardOnDemandFilterBy.TAGS ?
+            periodService.getPeriodTagTotalYears(cardOnDemand.totalPeriods, cardOnDemand.type) :
+            periodService.getPeriodTotalYears(cardOnDemand.totalPeriods, cardOnDemand.type)
     }
 
-    chartOnDemand.data.forEach(period => {
-        let promise: Promise<any> = ChartOnDemandFilterBy[chartOnDemand.filterBy] == ChartOnDemandFilterBy.TAGS ?
-            financialRecordService.getTotalByPeriodAndTags(period.start, period.end, chartOnDemand.tags.map(tag => tag.id)) :
+    cardOnDemand.data.forEach(period => {
+        let promise: Promise<any> = CardOnDemandFilterBy[cardOnDemand.filterBy] == CardOnDemandFilterBy.TAGS ?
+            financialRecordService.getTotalByPeriodAndTags(period.start, period.end, cardOnDemand.tags.map(tag => tag.id)) :
             financialRecordService.getTotalByPeriod(period.start, period.end)
         promises.push(
             promise
             .then((totals: Array<TagTotal> | Array<FinancialRecordTotal>) => {
-                console.log("totals", totals)
                 period.totals = totals
             })
             .catch(error => {

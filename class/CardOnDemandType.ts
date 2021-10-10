@@ -1,7 +1,8 @@
-export enum ChartOnDemandType {
+export enum CardOnDemandType {
     AREA = "Area",
     BAR = "Bar",
     DONUT = "Donut",
     LINE = "Line",
-    PIE = "Pie"
+    PIE = "Pie",
+    TABLE = "Table"
 }
