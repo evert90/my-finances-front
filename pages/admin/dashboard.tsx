@@ -41,6 +41,7 @@ import { CardOnDemandFilterBy } from "../../class/CardOnDemandFilterBy";
 import { currencyService } from "../../services/currency.service";
 import { CardTableOnDemand } from "../../components/Cards/CardTableOnDemand";
 import { colorService } from "../../services/color.service";
+import { CardOnDemandDropdown } from "../../components/Dropdowns/CardOnDemandDropdown";
 
 export const Dashboard: LayoutComponent = () => {
 
@@ -65,6 +66,16 @@ export const Dashboard: LayoutComponent = () => {
             localStorage.removeItem("removeChartDefault")
         }
         setShowChartDefault(removed?.length == 0)
+    }
+
+    const editCardOnDemand = (cardToEdit: CardOnDemand) => {
+        const toEdit = cardsOnDemand.findIndex(chart => chart.id == cardToEdit.id)
+        let response = prompt("Digite a nova altura", cardToEdit.height)
+        if(response && response != "") {
+            cardsOnDemand[toEdit].height = response
+            setCardsOnDemand([...cardsOnDemand])
+            localStorage.setItem(chartService.getCardsOnDemandStorageName(), JSON.stringify(cardsOnDemand))
+        }
     }
 
     const removeChartDefault = () => {
@@ -249,7 +260,7 @@ export const Dashboard: LayoutComponent = () => {
             <div className="flex flex-wrap">
                 {cardsOnDemand?.map(card =>
                     <div key={card.id} className={`w-full px-4 mb-8 card-on-demand-width-${CardOnDemandWidthType[card.width].replace('%', '')}`}>
-                       <div className={`${card.type != "table" && "border-b-[1px]"} pr-2 py-2 mb-0 border-0 rounded-t bg-white`}>
+                       <div className={`border-b-[1px] pr-2 py-2 mb-0 border-0 rounded-t bg-white`}>
                             <div className="flex flex-wrap items-center">
                                 <div className="relative flex-1 flex-grow w-full max-w-full px-4">
                                     <h3 className="text-base font-semibold text-blueGray-700 text-overflow-ellipsis-1-line">
@@ -261,15 +272,12 @@ export const Dashboard: LayoutComponent = () => {
                                         {(card.type == "donut" || card.type == "pie") && ` (${card.totalPeriods} ${periodService.periodTypeToLabel(card.periodType, card.totalPeriods)})`}
                                     </h3>
                                 </div>
-                                <div className="relative flex-1 flex-grow w-full max-w-[25px] px-1 text-right">
-                                    <i className={`mr-[-0.125rem] cursor-pointer text-base fas fa-trash `}
-                                        title="Remover"
-                                        onClick={() => removeCardOnDemand(card)}
-                                    ></i>
+                                <div className="relative flex-1 flex-grow w-full max-w-[20px] px-1 text-right">
+                                    <CardOnDemandDropdown cardOnDemand={card} edit={editCardOnDemand} remove={removeCardOnDemand}></CardOnDemandDropdown>
                                 </div>
                             </div>
                         </div>
-                        <div className="bg-white rounded shadow-lg">
+                        <div className="bg-white rounded shadow-lg" style={{minHeight: card.height + "px"}}>
                             {card.type == "table" ?
                             <CardTableOnDemand cardOnDemand={card}></CardTableOnDemand> :
                             <Chart
