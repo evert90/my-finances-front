@@ -15,13 +15,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { CardOnDemandFilterBy } from '../../class/CardOnDemandFilterBy';
 
-type ModalAddChartProps = {
+type ModalAddCardProps = {
     chartsOnDemand: Array<CardOnDemand>,
     setChartsOnDemandState: React.Dispatch<React.SetStateAction<Array<CardOnDemand>>>,
     setShowModalState: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const ModalAddChart: React.FC<ModalAddChartProps> = (props) => {
+export const ModalAddCard: React.FC<ModalAddCardProps> = (props) => {
 
     const [isLoading, setIsLoading] = useState(false)
     const [values, setValues] = useState<Array<any>>([])
@@ -94,7 +94,7 @@ export const ModalAddChart: React.FC<ModalAddChartProps> = (props) => {
             await chartService.setChartValues(cardOnDemand, toast)
             const charts = [...props.chartsOnDemand, cardOnDemand]
             props.setChartsOnDemandState(charts)
-            localStorage.setItem(chartService.getChartsOnDemandStorageName(), JSON.stringify(charts))
+            localStorage.setItem(chartService.getCardsOnDemandStorageName(), JSON.stringify(charts))
             props.setShowModalState(false)
       }
     }
@@ -109,7 +109,7 @@ export const ModalAddChart: React.FC<ModalAddChartProps> = (props) => {
                         {/*header*/}
                         <div className="flex items-start justify-between p-5 border-b border-solid rounded-t border-blueGray-200">
                             <h3 className="text-3xl font-semibold">
-                                Novo gráfico
+                                Novo card
                             </h3>
                             <button
                                 className="float-right p-1 ml-auto text-3xl font-semibold leading-none text-black bg-transparent border-0 outline-none opacity-70 focus:outline-none"
@@ -128,7 +128,7 @@ export const ModalAddChart: React.FC<ModalAddChartProps> = (props) => {
                                     className="block mb-2 ml-4 text-xs font-bold uppercase text-blueGray-600"
                                     htmlFor="grid-password"
                                 >
-                                    Filtrar por
+                                    Dados a partir de
                                 </label>
                                 <div className="w-full px-4">
                                     <div className="relative w-full mb-3">
@@ -137,7 +137,7 @@ export const ModalAddChart: React.FC<ModalAddChartProps> = (props) => {
                                             className={`${errors.filterBy && 'is-invalid'} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-1 border-coolGray-300 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
                                             onBlur={(val) => {setShowTags(CardOnDemandFilterBy[val.target.value] == CardOnDemandFilterBy.TAGS)}}
                                         >
-                                            <option value="" label="Selecione o filtro"/>
+                                            <option value="" label="Selecione"/>
                                             {keys(CardOnDemandFilterBy).map(filterBy =>
                                             <option key={CardOnDemandFilterBy[filterBy]} value={filterBy} label={CardOnDemandFilterBy[filterBy]}/>
                                             )}
