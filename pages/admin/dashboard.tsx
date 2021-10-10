@@ -90,8 +90,8 @@ export const Dashboard: LayoutComponent = () => {
 
     useEffect(() => {
         if(cardsOnDemand?.length > 0) {
-            console.log("atualizando charts on demand")
-            cardsOnDemand.map(chartOnDemand => chartService.setChartValues(chartOnDemand, toast))
+            console.log("atualizando cards on demand")
+            cardsOnDemand.map(cardOnDemand => chartService.setCardValues(cardOnDemand, toast))
         }
      }, [])
 
