@@ -1,23 +1,23 @@
 import { useEffect, useState } from 'react';
 import Select from 'react-select'
-import { ChartOnDemand } from '../../class/ChartOnDemand';
+import { CardOnDemand } from '../../class/CardOnDemand';
 import { Tag } from '../../class/Tag';
 import { tagService } from '../../services/tag.service';
 import { useToast } from '../Toast/ToastProvider';
 import { v4 as uuidv4 } from 'uuid';
 import { chartService } from '../../services/chart.service';
 
-import { ChartOnDemandType } from '../../class/ChartOnDemandType';
+import { CardOnDemandType } from '../../class/CardOnDemandType';
 import { PeriodType } from '../../class/PeriodType';
-import { ChartOnDemandWidthType } from '../../class/ChartOnDemandWidthType';
+import { CardOnDemandWidthType } from '../../class/CardOnDemandWidthType';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
-import { ChartOnDemandFilterBy } from '../../class/ChartOnDemandFilterBy';
+import { CardOnDemandFilterBy } from '../../class/CardOnDemandFilterBy';
 
 type ModalAddChartProps = {
-    chartsOnDemand: Array<ChartOnDemand>,
-    setChartsOnDemandState: React.Dispatch<React.SetStateAction<Array<ChartOnDemand>>>,
+    chartsOnDemand: Array<CardOnDemand>,
+    setChartsOnDemandState: React.Dispatch<React.SetStateAction<Array<CardOnDemand>>>,
     setShowModalState: React.Dispatch<React.SetStateAction<boolean>>
 }
 
@@ -79,7 +79,7 @@ export const ModalAddChart: React.FC<ModalAddChartProps> = (props) => {
             let typeLowerCase:string = type
             type = typeLowerCase?.toLowerCase()
 
-            let chartOnDemand = new ChartOnDemand(
+            let cardOnDemand = new CardOnDemand(
                 uuidv4(),
                 type,
                 width,
@@ -91,8 +91,8 @@ export const ModalAddChart: React.FC<ModalAddChartProps> = (props) => {
                 filterBy
             );
 
-            await chartService.setChartValues(chartOnDemand, toast)
-            const charts = [...props.chartsOnDemand, chartOnDemand]
+            await chartService.setChartValues(cardOnDemand, toast)
+            const charts = [...props.chartsOnDemand, cardOnDemand]
             props.setChartsOnDemandState(charts)
             localStorage.setItem(chartService.getChartsOnDemandStorageName(), JSON.stringify(charts))
             props.setShowModalState(false)
@@ -135,11 +135,11 @@ export const ModalAddChart: React.FC<ModalAddChartProps> = (props) => {
                                         <select
                                             {...register('filterBy')}
                                             className={`${errors.filterBy && 'is-invalid'} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-1 border-coolGray-300 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
-                                            onBlur={(val) => {setShowTags(ChartOnDemandFilterBy[val.target.value] == ChartOnDemandFilterBy.TAGS)}}
+                                            onBlur={(val) => {setShowTags(CardOnDemandFilterBy[val.target.value] == CardOnDemandFilterBy.TAGS)}}
                                         >
                                             <option value="" label="Selecione o filtro"/>
-                                            {keys(ChartOnDemandFilterBy).map(filterBy =>
-                                            <option key={ChartOnDemandFilterBy[filterBy]} value={filterBy} label={ChartOnDemandFilterBy[filterBy]}/>
+                                            {keys(CardOnDemandFilterBy).map(filterBy =>
+                                            <option key={CardOnDemandFilterBy[filterBy]} value={filterBy} label={CardOnDemandFilterBy[filterBy]}/>
                                             )}
                                         </select>
                                     </div>
@@ -229,8 +229,8 @@ export const ModalAddChart: React.FC<ModalAddChartProps> = (props) => {
                                                     className={`${errors.type && 'is-invalid'} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-1 border-coolGray-300 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
                                                 >
                                                     <option value="" label="Selecione o tipo"/>
-                                                    {keys(ChartOnDemandType).map(type =>
-                                                    <option key={ChartOnDemandType[type]} value={type} label={ChartOnDemandType[type]}/>
+                                                    {keys(CardOnDemandType).map(type =>
+                                                    <option key={CardOnDemandType[type]} value={type} label={CardOnDemandType[type]}/>
                                                     )}
                                                 </select>
                                             </div>
@@ -248,7 +248,7 @@ export const ModalAddChart: React.FC<ModalAddChartProps> = (props) => {
                                                     type="number"
                                                     min={0}
                                                     className={`${errors.height && 'is-invalid'} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-1 border-coolGray-300 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
-                                                    defaultValue={450}
+                                                    defaultValue={window.innerHeight > 700 ? 430 : 235}
                                                 />
                                             </div>
                                         </div>
@@ -265,8 +265,8 @@ export const ModalAddChart: React.FC<ModalAddChartProps> = (props) => {
                                                     className={`${errors.width && 'is-invalid'} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-1 border-coolGray-300 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
                                                 >
                                                     <option value="" label="Selecione a largura"/>
-                                                    {keys(ChartOnDemandWidthType).map(type =>
-                                                    <option key={ChartOnDemandWidthType[type]} value={type} label={ChartOnDemandWidthType[type]}/>
+                                                    {keys(CardOnDemandWidthType).map(type =>
+                                                    <option key={CardOnDemandWidthType[type]} value={type} label={CardOnDemandWidthType[type]}/>
                                                     )}
                                                 </select>
                                             </div>
