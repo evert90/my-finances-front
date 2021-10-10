@@ -18,7 +18,7 @@ export const chartService = {
     periodTotalToChartOptions,
     periodTotalToChartSeries,
     periodTagTotalToChartSeries,
-    setChartValues,
+    setCardValues: setCardValues,
     getCardsOnDemandStorageName,
     chartOnDemandToOptions,
     chartOnDemandToSeries
@@ -204,7 +204,7 @@ function periodTagTotalToChartSeries(tags: Array<string>, data: Array<PeriodTagT
         ))
 }
 
-async function setChartValues(cardOnDemand: CardOnDemand, toast?: ToastContextType) {
+async function setCardValues(cardOnDemand: CardOnDemand, toast?: ToastContextType) {
     const promises: Array<Promise<any>> = []
 
     if(PeriodType[cardOnDemand.periodType] == PeriodType.DAILY) {
