@@ -78,6 +78,21 @@ export const Dashboard: LayoutComponent = () => {
         }
     }
 
+    const orderCardOnDemand = (cardToEdit: CardOnDemand, direction: string) => {
+        const toEdit = cardsOnDemand.findIndex(chart => chart.id == cardToEdit.id)
+        if(direction == "UP" && toEdit > 0 && toEdit - 1 < cardsOnDemand.length) {
+            const temp = cardsOnDemand[toEdit];
+            cardsOnDemand[toEdit] = cardsOnDemand[toEdit - 1];
+            cardsOnDemand[toEdit - 1] = temp;
+        } else if(direction == "DOWN" && toEdit >= 0 && toEdit + 1 < cardsOnDemand.length) {
+            const temp = cardsOnDemand[toEdit];
+            cardsOnDemand[toEdit] = cardsOnDemand[toEdit + 1];
+            cardsOnDemand[toEdit + 1] = temp;
+        }
+        setCardsOnDemand([...cardsOnDemand])
+        localStorage.setItem(chartService.getCardsOnDemandStorageName(), JSON.stringify(cardsOnDemand))
+    }
+
     const removeChartDefault = () => {
         localStorage.setItem("removeChartDefault", "true")
         setShowChartDefault(false);
@@ -273,7 +288,7 @@ export const Dashboard: LayoutComponent = () => {
                                     </h3>
                                 </div>
                                 <div className="relative flex-1 flex-grow w-full max-w-[20px] px-1 text-right">
-                                    <CardOnDemandDropdown cardOnDemand={card} edit={editCardOnDemand} remove={removeCardOnDemand}></CardOnDemandDropdown>
+                                    <CardOnDemandDropdown cardOnDemand={card} edit={editCardOnDemand} remove={removeCardOnDemand} order={orderCardOnDemand}></CardOnDemandDropdown>
                                 </div>
                             </div>
                         </div>
