@@ -22,20 +22,20 @@ export const CardTableOnDemand: React.FC<CardTableOnDemandProps> = (props) => {
                 <table className="items-center table w-full mt-1 text-sm bg-transparent border-collapse stripped">
                     <thead>
                         <tr>
-                            <th className={"column-fit card-on-demand-thead-column"}>
+                            <th className={"card-on-demand-thead-column"}>
                                 Período
                             </th>
                             {CardOnDemandFilterBy[props.cardOnDemand.filterBy] === CardOnDemandFilterBy.INCOME_EXPENSE && [
-                                <th key={0} className={"card-on-demand-thead-column "}>
+                                <th key={0} className={"card-on-demand-thead-column"}>
                                     Receitas
                                 </th>,
-                                <th key={1} className={"card-on-demand-thead-column "}>
+                                <th key={1} className={"card-on-demand-thead-column"}>
                                     Despesas
                                 </th>,
-                                <th key={2} className={"column-fit card-on-demand-thead-column "}>
+                                <th key={2} className={"card-on-demand-thead-column"}>
                                     Resultado
                                 </th>,
-                               <th key={3} className={"column-fit card-on-demand-thead-column "}>
+                               <th key={3} className={"card-on-demand-thead-column"}>
                                Diferença <i className="text-xs cursor-pointer fa fa-question-circle" title="Diferença para o resultado do período anterior"></i>
                            </th>,
                             ]}
@@ -45,10 +45,10 @@ export const CardTableOnDemand: React.FC<CardTableOnDemandProps> = (props) => {
                                         {tag.name}
                                     </th>
                                 ),
-                                <th key={props.cardOnDemand.tags.length + 1} className={"column-fit card-on-demand-thead-column "}>
+                                <th key={props.cardOnDemand.tags.length + 1} className={"card-on-demand-thead-column "}>
                                     Resultado
                                 </th>,
-                                <th key={props.cardOnDemand.tags.length + 2} className={"column-fit card-on-demand-thead-column"}>
+                                <th key={props.cardOnDemand.tags.length + 2} className={"card-on-demand-thead-column"}>
                                 Diferença <i className="text-xs cursor-pointer fa fa-question-circle" title="Diferença para o resultado do período anterior"></i>
                             </th>,
                             ]}
@@ -76,10 +76,10 @@ export const CardTableOnDemand: React.FC<CardTableOnDemandProps> = (props) => {
                             <td className=" card-on-demand-tbody-column text-xs-edit">
                                 {currencyService.format(expenses)}
                             </td>
-                            <td className={`card-on-demand-tbody-column column-fit font-semibold text-xs-edit`}>
+                            <td className={`card-on-demand-tbody-column font-semibold text-xs-edit`}>
                                 {currencyService.format(total)}
                             </td>
-                            <td className="font-semibold card-on-demand-tbody-column text-xs-edit column-fit">
+                            <td className="font-semibold card-on-demand-tbody-column text-xs-edit">
                                 {total != 0 && totalPreviousPeriod ? currencyService.format(total - totalPreviousPeriod) : "-"}
                             </td>
                         </tr>
@@ -102,10 +102,10 @@ export const CardTableOnDemand: React.FC<CardTableOnDemandProps> = (props) => {
                                     {tagTotal ? currencyService.format(tagTotal) : "-"}
                                 </td>
                             })}
-                            <td className={`card-on-demand-tbody-column text-xs-edit column-fit font-semibold`}>
+                            <td className={`card-on-demand-tbody-column text-xs-edit font-semibold`}>
                                 {currencyService.format(total)}
                             </td>
-                            <td className="font-semibold card-on-demand-tbody-column text-xs-edit column-fit ">
+                            <td className="font-semibold card-on-demand-tbody-column text-xs-edit">
                                 {total != 0  && totalPreviousPeriod != 0 ? currencyService.format(total - totalPreviousPeriod) : "-"}
                             </td>
                         </tr>
