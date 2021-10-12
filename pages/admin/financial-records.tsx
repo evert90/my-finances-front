@@ -36,7 +36,7 @@ const FinancialRecordsLayout: LayoutComponent = () => {
           <div className="relative pt-12 pb-9 md:pt-32">
             <div className="flex flex-wrap">
               <div className="w-full px-4">
-                <FinancialRecordForm records={records}/>
+                <FinancialRecordForm records={records} recordsState={setRecords}/>
               </div>
               <div className="w-full px-4">
                 <FinancialRecordTable records={records} recordsState={setRecords} color="light"/>
