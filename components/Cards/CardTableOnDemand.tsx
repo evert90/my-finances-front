@@ -18,7 +18,7 @@ export const CardTableOnDemand: React.FC<CardTableOnDemandProps> = (props) => {
             className={`relative flex flex-col min-w-0 break-words w-full shadow-lg rounded bg-white`}
             style={{minHeight: props.cardOnDemand.height + "px"}}
         >
-            <div className="block w-full overflow-x-auto">
+            <div className="block w-full p-[0.6rem] pt-2 overflow-x-auto">
                 <table className="items-center table w-full mt-1 text-sm bg-transparent border-collapse stripped">
                     <thead>
                         <tr>

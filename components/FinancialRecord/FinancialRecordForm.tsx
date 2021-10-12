@@ -14,6 +14,7 @@ import { Tag } from "../../class/Tag";
 
 type FinancialRecordFormProps = {
   records: Array<FinancialRecord>,
+  recordsState: React.Dispatch<React.SetStateAction<FinancialRecord[]>>,
 }
 
 export const FinancialRecordForm: React.FC<FinancialRecordFormProps> = (props) => {
@@ -89,6 +90,7 @@ export const FinancialRecordForm: React.FC<FinancialRecordFormProps> = (props) =
             response.date = moment(response.date, 'YYYY-MM-DD')
             props.records.push(response)
             props.records.sort((a: FinancialRecord , b: FinancialRecord) => b.date.unix() - a.date.unix())
+            props.recordsState(props.records)
             toast.pushSuccess("Registro salvo com sucesso", 5000);
         })
         .catch(error => {
