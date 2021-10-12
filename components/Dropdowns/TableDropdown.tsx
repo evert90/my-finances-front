@@ -74,7 +74,7 @@ const TableDropdown: React.FC<TableDropdownProps> = (props) => {
                     className={
                     "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700 hover:bg-gray-100"
                     }
-                    onClick={(e) => deleteRecord(e)}
+                    onClick={(e) => {closeDropdownPopover(); deleteRecord(e)}}
                 >
                     <i className="mr-2.5 fas fa-trash"></i> Remover
                 </a>
