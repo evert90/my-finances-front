@@ -3,9 +3,11 @@ import { FinancialRecord } from "../../class/FinancialRecord";
 import { FinancialRecordType } from "../../class/FinancialRecordType";
 import { currencyService } from "../../services/currency.service";
 import TableDropdown from "../Dropdowns/TableDropdown";
-import { useTable, usePagination } from 'react-table';
-import { useEffect, useMemo, useState } from "react";
+import { useTable, usePagination, useGlobalFilter, useAsyncDebounce, useSortBy, useFilters, Row, IdType } from 'react-table';
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { scrollService } from "../../services/scroll.service";
+import GlobalFilter from "../Tables/GlobalFiter";
+
 
 type FinancialRecordTableProps = {
     records: Array<FinancialRecord>,
@@ -37,7 +39,7 @@ export const FinancialRecordTable: React.FC<FinancialRecordTableProps> = (props)
             },
             {
               Header: 'Data',
-              accessor: (row: FinancialRecord) => (row.date.toString()),
+              accessor: (row: FinancialRecord) => (row.date.toLocaleString()),
             },
             {
               Header: 'Valor',
@@ -45,13 +47,29 @@ export const FinancialRecordTable: React.FC<FinancialRecordTableProps> = (props)
             },
             {
               Header: 'Tags',
-              accessor: 'tags',
+              accessor: (row: FinancialRecord) => (row.tags.join(",")),
             },
           ],
           []
     )
 
-    // Use the state and functions returned from useTable to build your UI
+    const customGlobalFilterFunction = useCallback(
+        (rows: Row[], ids: any, query: string) => {
+            return rows.filter((row) => {
+                const record: FinancialRecord = row.original as FinancialRecord
+                const queryLower = query.toLowerCase()
+                const type = FinancialRecordType[record.type] as string
+
+                return type?.toLowerCase() == queryLower ||
+                    record.name.toLowerCase().includes(queryLower) ||
+                    record.date.format("DD/MM/YYYY").includes(queryLower) ||
+                    currencyService.format(record.value).includes(queryLower) ||
+                    record.tags?.filter(tag => tag.name?.toLowerCase().includes(queryLower))?.length
+            });
+        },
+        [],
+    );
+
     const {
         page,
         canPreviousPage,
@@ -62,13 +80,19 @@ export const FinancialRecordTable: React.FC<FinancialRecordTableProps> = (props)
         nextPage,
         previousPage,
         setPageSize,
-        state: { pageIndex, pageSize },
+        state: { pageIndex, pageSize, globalFilter },
+        visibleColumns,
+        preGlobalFilteredRows,
+        setGlobalFilter,
     } = useTable(
         {
             columns,
             data,
             initialState: { pageIndex: 0, pageSize: 10 },
+            globalFilter: customGlobalFilterFunction
         },
+        useFilters,
+        useGlobalFilter,
         usePagination
     )
 
@@ -79,8 +103,7 @@ export const FinancialRecordTable: React.FC<FinancialRecordTableProps> = (props)
                }
             >
                 <div className="px-4 py-3 mb-0 border-0 rounded-t">
-                    <div className="flex flex-wrap items-center">
-                    <div className="relative flex-1 flex-grow w-full max-w-full px-1" id="lancamentos">
+                    <div className="relative flex justify-between w-full max-w-full px-1 text-center" id="lancamentos">
                         <h3
                         className={
                             "text-xl font-bold " +
@@ -89,7 +112,11 @@ export const FinancialRecordTable: React.FC<FinancialRecordTableProps> = (props)
                         >
                         Lançamentos
                         </h3>
-                    </div>
+                        <GlobalFilter
+                            preGlobalFilteredRows={preGlobalFilteredRows}
+                            globalFilter={globalFilter}
+                            setGlobalFilter={setGlobalFilter}
+                        />
                     </div>
                 </div>
                 <div className="block w-full overflow-x-auto">

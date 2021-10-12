@@ -1,3 +1,4 @@
+import 'regenerator-runtime/runtime';
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import App, { AppContext } from "next/app";
 import Head from "next/head";
