@@ -40,7 +40,7 @@ const UserDropdown = () => {
           <span className="inline-flex items-center justify-center w-12 h-12 text-sm text-white rounded-full bg-blueGray-200">
             <img
               alt="..."
-              className="w-full align-middle border-none rounded-full shadow-lg"
+              className="w-full align-middle scale-95 border-none rounded-full shadow-lg scale-0097"
               src="/img/team-1-800x800.jpg"
             />
           </span>
@@ -60,7 +60,7 @@ const UserDropdown = () => {
           }
           onClick={(e) => e.preventDefault()}
         >
-          <i className="mr-1 fa fa-user"></i> Perfil
+          <i className="mr-1 fa fa-user-edit"></i> Perfil
         </a>
         <div className="h-0 my-2 border border-solid border-blueGray-100" />
         <a

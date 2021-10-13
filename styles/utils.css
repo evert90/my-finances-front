@@ -36,8 +36,12 @@ button:hover {
     transform: scale(1.005);
 }
 
-.scale-005:hover {
+.scale-003:hover {
     transform: scale(1.003);
+}
+
+.scale-0097:hover {
+    transform: scale(0.97);
 }
 
 html, body {
