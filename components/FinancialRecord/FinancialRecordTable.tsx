@@ -88,7 +88,7 @@ export const FinancialRecordTable: React.FC<FinancialRecordTableProps> = (props)
         {
             columns,
             data,
-            initialState: { pageIndex: 0, pageSize: 10 },
+            initialState: { pageIndex: 0, pageSize: 50 },
             globalFilter: customGlobalFilterFunction
         },
         useFilters,

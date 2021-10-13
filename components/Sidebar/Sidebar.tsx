@@ -50,7 +50,7 @@ const Sidebar = () => {
             }
           >
             {/* Collapse header */}
-            <div className="block pb-4 mb-4 border-b border-solid md:min-w-full md:hidden border-blueGray-200">
+            <div className="block pb-1 mb-2 border-b border-solid md:min-w-full md:hidden border-blueGray-200">
               <div className="flex flex-wrap">
                 <div className="w-6/12">
                   <Link href="/">
@@ -65,7 +65,7 @@ const Sidebar = () => {
                 <div className="flex justify-end w-6/12">
                   <button
                     type="button"
-                    className="px-3 py-1 text-xl leading-none text-black bg-transparent border border-transparent border-solid rounded opacity-50 cursor-pointer md:hidden"
+                    className="px-2 py-1 mt-[0.6rem] text-xl leading-none text-black bg-transparent border border-transparent border-solid rounded opacity-50 cursor-pointer h-9 md:hidden"
                     onClick={() => setCollapseShow("hidden")}
                   >
                     <i className="fas fa-times"></i>
@@ -74,7 +74,7 @@ const Sidebar = () => {
               </div>
             </div>
             {/* Form */}
-            <form className="mt-6 mb-4 md:hidden">
+            <form className="hidden mt-6 mb-4 md:hidden">
               <div className="pt-0 mb-3">
                 <input
                   type="text"
@@ -103,7 +103,7 @@ const Sidebar = () => {
                   >
                     <i
                       className={
-                        "fas fa-tachometer-alt mr-2 text-sm " +
+                        "fas fa-tachometer-alt mr-2 text-sm w-4 " +
                         (router.pathname.indexOf("/admin/dashboard") !== -1
                           ? "opacity-75"
                           : "text-blueGray-300")
@@ -128,7 +128,7 @@ const Sidebar = () => {
                   >
                     <i
                       className={
-                        "fas fa-money-bill-alt mr-2 text-sm " +
+                        "fas fa-money-bill-alt mr-2 text-sm w-4 " +
                         (router.pathname.indexOf("/admin/financial-records") !== -1
                           ? "opacity-75"
                           : "text-blueGray-300")
@@ -153,7 +153,7 @@ const Sidebar = () => {
                   >
                     <i
                       className={
-                        "fas fa-building mr-2 text-sm " +
+                        "fas fa-building mr-2 text-sm w-4 " +
                         (router.pathname.indexOf("/admin/assets") !== -1
                           ? "opacity-75"
                           : "text-blueGray-300")
@@ -178,7 +178,7 @@ const Sidebar = () => {
                   >
                     <i
                       className={
-                        "fas fa-money-check-alt mr-2 text-sm " +
+                        "fas fa-money-check-alt mr-2 text-sm w-4 " +
                         (router.pathname.indexOf("/admin/debts") !== -1
                           ? "opacity-75"
                           : "text-blueGray-300")
@@ -203,7 +203,7 @@ const Sidebar = () => {
                   >
                     <i
                       className={
-                        "fas fa-shopping-cart mr-2 text-sm " +
+                        "fas fa-shopping-cart mr-2 text-sm w-4 " +
                         (router.pathname.indexOf("/admin/products") !== -1
                           ? "opacity-75"
                           : "text-blueGray-300")

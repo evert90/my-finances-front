@@ -1326,6 +1326,50 @@ select {
 	margin-top: 0.6rem;
 }
 
+.-mt-10 {
+	margin-top: -2.5rem;
+}
+
+.-mt-9 {
+	margin-top: -2.25rem;
+}
+
+.-mt-6 {
+	margin-top: -1.5rem;
+}
+
+.mt-\[0\.1rem\] {
+	margin-top: 0.1rem;
+}
+
+.mt-\[0\.2rem\] {
+	margin-top: 0.2rem;
+}
+
+.mt-\[0\.8rem\] {
+	margin-top: 0.8rem;
+}
+
+.mt-\[0\.3rem\] {
+	margin-top: 0.3rem;
+}
+
+.mt-\[0\.55rem\] {
+	margin-top: 0.55rem;
+}
+
+.mt-\[0\.5rem\] {
+	margin-top: 0.5rem;
+}
+
+.mt-\[0\.45rem\] {
+	margin-top: 0.45rem;
+}
+
+.mt-\[0\.4rem\] {
+	margin-top: 0.4rem;
+}
+
 .block {
 	display: block;
 }
@@ -1428,6 +1472,10 @@ select {
 
 .h-6 {
 	height: 1.5rem;
+}
+
+.h-9 {
+	height: 2.25rem;
 }
 
 .max-h-860-px {
@@ -1538,6 +1586,14 @@ select {
 	width: 7rem;
 }
 
+.w-3 {
+	width: 0.75rem;
+}
+
+.w-4 {
+	width: 1rem;
+}
+
 .min-w-0 {
 	min-width: 0px;
 }
@@ -1624,6 +1680,24 @@ select {
 
 .-translate-x-1\/2 {
 	--tw-translate-x: -50%;
+	transform: var(--tw-transform);
+}
+
+.scale-125 {
+	--tw-scale-x: 1.25;
+	--tw-scale-y: 1.25;
+	transform: var(--tw-transform);
+}
+
+.scale-90 {
+	--tw-scale-x: .9;
+	--tw-scale-y: .9;
+	transform: var(--tw-transform);
+}
+
+.scale-95 {
+	--tw-scale-x: .95;
+	--tw-scale-y: .95;
 	transform: var(--tw-transform);
 }
 
@@ -2208,6 +2282,11 @@ select {
 	padding-bottom: 10rem;
 }
 
+.py-\[0\.8rem\] {
+	padding-top: 0.8rem;
+	padding-bottom: 0.8rem;
+}
+
 .pt-16 {
 	padding-top: 4rem;
 }
@@ -2330,6 +2409,10 @@ select {
 
 .pl-10 {
 	padding-left: 2.5rem;
+}
+
+.pb-1 {
+	padding-bottom: 0.25rem;
 }
 
 .text-left {
@@ -2724,6 +2807,12 @@ select {
 	transform: var(--tw-transform);
 }
 
+.hover\:scale-100:hover {
+	--tw-scale-x: 1;
+	--tw-scale-y: 1;
+	transform: var(--tw-transform);
+}
+
 .hover\:bg-gray-100:hover {
 	--tw-bg-opacity: 1;
 	background-color: rgba(244, 244, 245, var(--tw-bg-opacity));
@@ -2836,6 +2925,10 @@ select {
 
 @media (min-width: 640px) {
 
+	.sm\:fixed {
+		position: fixed;
+	}
+
 	.sm\:absolute {
 		position: absolute;
 	}
@@ -2850,6 +2943,30 @@ select {
 
 	.sm\:mr-2 {
 		margin-right: 0.5rem;
+	}
+
+	.sm\:-mt-9 {
+		margin-top: -2.25rem;
+	}
+
+	.sm\:-mt-10 {
+		margin-top: -2.5rem;
+	}
+
+	.sm\:mb-10 {
+		margin-bottom: 2.5rem;
+	}
+
+	.sm\:mb-6 {
+		margin-bottom: 1.5rem;
+	}
+
+	.sm\:mb-2 {
+		margin-bottom: 0.5rem;
+	}
+
+	.sm\:mt-\[-2\.35rem\] {
+		margin-top: -2.35rem;
 	}
 
 	.sm\:block {
@@ -3047,6 +3164,10 @@ select {
 
 	.lg\:static {
 		position: static;
+	}
+
+	.lg\:fixed {
+		position: fixed;
 	}
 
 	.lg\:order-2 {

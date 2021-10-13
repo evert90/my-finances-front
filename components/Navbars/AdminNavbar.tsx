@@ -45,7 +45,7 @@ export const AdminNavbar = () => {
   return (
     <>
       {/* Navbar */}
-      <nav className="fixed top-0 z-50 flex flex-wrap items-center justify-between hidden w-full px-2 py-2 bg-white shadow-md md:flex navbar-expand-lg background-navbar">
+      <nav className="fixed top-0 z-50 flex flex-wrap items-center justify-between hidden w-full px-2 py-1 bg-white shadow-md md:flex navbar-expand-lg background-navbar">
         <div className="flex flex-wrap items-center justify-between w-full px-4 mx-auto">
           {/* Brand
           <a
@@ -195,7 +195,7 @@ export const AdminNavbar = () => {
 
           {/* Form */}
           <form className="flex-row flex-wrap items-center hidden mr-3 md:flex lg:ml-auto">
-            <div className="relative flex flex-wrap items-stretch w-full">
+{/*             <div className="relative flex flex-wrap items-stretch w-full">
               <span className="absolute z-10 items-center justify-center w-8 h-full py-3 pl-3 text-base font-normal leading-snug text-center bg-transparent rounded text-blueGray-300">
                 <i className="fas fa-search"></i>
               </span>
@@ -204,7 +204,7 @@ export const AdminNavbar = () => {
                 placeholder="Search here..."
                 className="relative w-full px-3 py-3 pl-10 text-sm bg-white border-0 rounded shadow outline-none placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring"
               />
-            </div>
+            </div> */}
           </form>
           {/* User */}
           <ul className="flex-col items-center hidden list-none md:flex-row md:flex">
