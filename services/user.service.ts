@@ -1,23 +1,24 @@
 import { BehaviorSubject } from 'rxjs';
 import Router from 'next/router'
 import { fetchWrapper } from '../helpers/fetch-wrapper';
+import { AuthenticatedUser } from '../class/AuthenticatedUser';
+import { User } from '../class/User';
 
 const baseUrl = `${fetchWrapper.getApiUrl()}/users`;
-const userSubject = new BehaviorSubject(process.browser && JSON.parse(localStorage.getItem('user')));
+const userSubject = new BehaviorSubject<AuthenticatedUser>(process.browser && JSON.parse(localStorage.getItem('user')));
 
 export const userService = {
     user: userSubject.asObservable(),
-    getUserValue: () => { return userSubject.value },
+    getUserValue: (): AuthenticatedUser => { return userSubject.value },
     login,
     logout,
     getAll,
     save
 };
 
-function save(user) {
-    console.log("user", user)
+function save(user: User): Promise<AuthenticatedUser> {
     return fetchWrapper.post(`${baseUrl}/`, user)
-        .then((user) => {
+        .then((user: AuthenticatedUser) => {
             // publish user to subscribers and store in local storage to stay logged in between page refreshes
             userSubject.next(user);
             localStorage.setItem('user', JSON.stringify(user));
@@ -26,7 +27,7 @@ function save(user) {
         });
 }
 
-function login(user) {
+function login(user: User): Promise<AuthenticatedUser> {
     return fetchWrapper.post(`${baseUrl}/auth`, user)
         .then((user) => {
             // publish user to subscribers and store in local storage to stay logged in between page refreshes

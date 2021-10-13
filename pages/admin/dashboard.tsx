@@ -14,8 +14,6 @@ import { FinancialRecord } from "../../class/FinancialRecord";
 import { Period } from "../../class/Period";
 import { periodService } from "../../services/period.service";
 
-import dynamic from "next/dynamic";
-const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 import { PeriodTotal } from "../../class/PeriodTotal";
 import { chartService } from "../../services/chart.service";
 import { ModalAddCard } from "../../components/Modal/ModalAddCard";
@@ -25,7 +23,6 @@ import { CardOnDemandWidthType } from "../../class/CardOnDemandWidthType";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation} from 'swiper'
-SwiperCore.use([Navigation])
 
 // Import Swiper styles
 // swiper bundle styles
@@ -42,6 +39,11 @@ import { currencyService } from "../../services/currency.service";
 import { CardTableOnDemand } from "../../components/Cards/CardTableOnDemand";
 import { colorService } from "../../services/color.service";
 import { CardOnDemandDropdown } from "../../components/Dropdowns/CardOnDemandDropdown";
+import { cardService } from "../../services/card.service";
+import dynamic from "next/dynamic";
+
+const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
+SwiperCore.use([Navigation])
 
 export const Dashboard: LayoutComponent = () => {
 
@@ -118,7 +120,7 @@ export const Dashboard: LayoutComponent = () => {
     useEffect(() => {
         if(cardsOnDemand?.length > 0) {
             console.log("atualizando cards on demand")
-            cardsOnDemand.map(cardOnDemand => chartService.setCardValues(cardOnDemand, toast))
+            cardsOnDemand.map(cardOnDemand => cardService.setValues(cardOnDemand, toast))
         }
      }, [])
 
