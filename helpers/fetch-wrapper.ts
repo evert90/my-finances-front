@@ -1,4 +1,5 @@
 import getConfig from 'next/config';
+import { AuthenticatedUser } from '../class/AuthenticatedUser';
 import { userService } from '../services/user.service';
 
 const { publicRuntimeConfig } = getConfig();
@@ -51,8 +52,8 @@ function _delete(url) {
 
 function authHeader(url) {
     // return auth header with jwt if user is logged in and request is to the api url
-    const user: any = userService.getUserValue();
-    const isLoggedIn = user && user.token;
+    const user: AuthenticatedUser = userService.getUserValue();
+    const isLoggedIn = user?.token;
     const isApiUrl = url.startsWith(getApiUrl());
     if (isLoggedIn && isApiUrl) {
         return { Authorization: `Bearer ${user.token}` };
