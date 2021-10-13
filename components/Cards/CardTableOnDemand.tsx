@@ -59,12 +59,15 @@ export const CardTableOnDemand: React.FC<CardTableOnDemandProps> = (props) => {
                         const incomes: number = period?.totals?.find(it => FinancialRecordType[it.type] == FinancialRecordType.INCOME)?.total || 0
                         const expenses: number = period?.totals?.find(it => FinancialRecordType[it.type] == FinancialRecordType.EXPENSE)?.total || 0
                         const total = incomes - expenses
+
                         let totalPreviousPeriod = undefined
                         if(index + 1 <= props.cardOnDemand?.data.length) {
                             const incomesPreviousMonth: number = (props.cardOnDemand?.data[index+1] as PeriodTotal)?.totals?.find(it => FinancialRecordType[it.type] == FinancialRecordType.INCOME)?.total || 0
                             const expensesPreviousMonth: number = (props.cardOnDemand?.data[index+1] as PeriodTotal)?.totals?.find(it => FinancialRecordType[it.type] == FinancialRecordType.EXPENSE)?.total || 0
                             totalPreviousPeriod = incomesPreviousMonth - expensesPreviousMonth
                         }
+
+                        const difference = total != 0 && totalPreviousPeriod ? total - totalPreviousPeriod : undefined
 
                         return <tr key={period.start} className="border-t-[1px]">
                             <td className="capitalize card-on-demand-tbody-column text-xs-edit">
@@ -76,11 +79,11 @@ export const CardTableOnDemand: React.FC<CardTableOnDemandProps> = (props) => {
                             <td className=" card-on-demand-tbody-column text-xs-edit">
                                 {currencyService.format(expenses)}
                             </td>
-                            <td className={`card-on-demand-tbody-column font-semibold text-xs-edit`}>
+                            <td className={`${total > 0 && ""} ${total < 0 && "text-red-500"} card-on-demand-tbody-column font-semibold text-xs-edit`}>
                                 {currencyService.format(total)}
                             </td>
-                            <td className="font-semibold card-on-demand-tbody-column text-xs-edit">
-                                {total != 0 && totalPreviousPeriod ? currencyService.format(total - totalPreviousPeriod) : "-"}
+                            <td className={`${difference > 0 && ""} ${difference < 0 && ""} font-semibold card-on-demand-tbody-column text-xs-edit`}>
+                                {difference ? currencyService.format(difference) : "-"}
                             </td>
                         </tr>
                     }))}
@@ -102,10 +105,10 @@ export const CardTableOnDemand: React.FC<CardTableOnDemandProps> = (props) => {
                                     {tagTotal ? currencyService.format(tagTotal) : "-"}
                                 </td>
                             })}
-                            <td className={`card-on-demand-tbody-column text-xs-edit font-semibold`}>
+                            <td className={`${total > 0 && ""} ${total < 0 && "text-red-500"} card-on-demand-tbody-column text-xs-edit font-semibold`}>
                                 {currencyService.format(total)}
                             </td>
-                            <td className="font-semibold card-on-demand-tbody-column text-xs-edit">
+                            <td className={`${total != 0  && totalPreviousPeriod != 0 && total - totalPreviousPeriod > 0 && ""} ${total != 0  && totalPreviousPeriod != 0 && total - totalPreviousPeriod < 0 && "text-red-500"} font-semibold card-on-demand-tbody-column text-xs-edit`}>
                                 {total != 0  && totalPreviousPeriod != 0 ? currencyService.format(total - totalPreviousPeriod) : "-"}
                             </td>
                         </tr>

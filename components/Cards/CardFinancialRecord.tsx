@@ -19,6 +19,8 @@ export const CardFinancialRecord: React.FC<CardFinancialRecordProps> = (props) =
 
     const expenseTotal: number = periodService.getPeriodExpenseTotal(props.period)
 
+    const total = incomeTotal - expenseTotal
+
     return (
         <>
             <div className={`${!props.period.records && "opacity-50"} relative flex flex-col w-full min-w-0 break-words bg-white rounded shadow-lg cursor-pointer lg:mb-7 scale-003`}>
@@ -76,7 +78,7 @@ export const CardFinancialRecord: React.FC<CardFinancialRecordProps> = (props) =
                             </tr>
                             <tr className="border-t-[1px]">
                                 <td className="p-4 px-6 text-xs font-bold align-middle border-l-0 border-r-0 border-t-1 whitespace-nowrap">Total</td>
-                                <td className="p-4 px-6 text-xs font-bold align-middle border-l-0 border-r-0 border-t-1 whitespace-nowrap">{currencyService.format(incomeTotal - expenseTotal)}</td>
+                                <td className={`${total > 0 && ""} ${total < 0 && "text-red-500"} p-4 px-6 text-xs font-bold align-middle border-l-0 border-r-0 border-t-1 whitespace-nowrap`}>{currencyService.format(total)}</td>
                             </tr>
                         </tfoot>
                     </table>

@@ -309,7 +309,7 @@ export const Dashboard: LayoutComponent = () => {
             </div>
 
             <div className="flex flex-wrap">
-                <div className="w-full px-4 mb-5 xl:w-12/12">
+                <div className="w-full px-4 mb-5 xl:w-12/12 mt[-2px]">
                     <div className="bg-white">
                     <button
                         className="w-full px-0 py-2 text-base font-bold text-center text-white transition-all duration-150 ease-linear rounded shadow outline-none disabled:opacity-50 bg-lightBlue-600 active:bg-blueGray-600 hover:shadow-lg focus:outline-none"
