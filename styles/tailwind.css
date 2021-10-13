@@ -1014,20 +1014,12 @@ select {
 	top: auto;
 }
 
-.left-1\/2 {
-	left: 50%;
-}
-
-.right-1 {
-	right: 0.25rem;
-}
-
-.right-2 {
-	right: 0.5rem;
-}
-
 .right-3 {
 	right: 0.75rem;
+}
+
+.left-1\/2 {
+	left: 50%;
 }
 
 .z-10 {
@@ -1306,6 +1298,14 @@ select {
 	margin-right: 0px;
 }
 
+.mt-\[0\.6rem\] {
+	margin-top: 0.6rem;
+}
+
+.mt-\[0\.5rem\] {
+	margin-top: 0.5rem;
+}
+
 .mr-8 {
 	margin-right: 2rem;
 }
@@ -1318,56 +1318,20 @@ select {
 	margin-top: 0px;
 }
 
-.-mt-7 {
-	margin-top: -1.75rem;
-}
-
-.mt-\[0\.6rem\] {
-	margin-top: 0.6rem;
-}
-
-.-mt-10 {
-	margin-top: -2.5rem;
-}
-
-.-mt-9 {
-	margin-top: -2.25rem;
-}
-
 .-mt-6 {
 	margin-top: -1.5rem;
 }
 
-.mt-\[0\.1rem\] {
-	margin-top: 0.1rem;
+.mt-\[2px\] {
+	margin-top: 2px;
 }
 
-.mt-\[0\.2rem\] {
-	margin-top: 0.2rem;
+.mt-\[-2px\] {
+	margin-top: -2px;
 }
 
-.mt-\[0\.8rem\] {
-	margin-top: 0.8rem;
-}
-
-.mt-\[0\.3rem\] {
-	margin-top: 0.3rem;
-}
-
-.mt-\[0\.55rem\] {
-	margin-top: 0.55rem;
-}
-
-.mt-\[0\.5rem\] {
-	margin-top: 0.5rem;
-}
-
-.mt-\[0\.45rem\] {
-	margin-top: 0.45rem;
-}
-
-.mt-\[0\.4rem\] {
-	margin-top: 0.4rem;
+.mt-\[-1\.5px\] {
+	margin-top: -1.5px;
 }
 
 .block {
@@ -1566,32 +1530,12 @@ select {
 	width: 50%;
 }
 
-.w-24 {
-	width: 6rem;
-}
-
-.w-28 {
-	width: 7rem;
-}
-
-.w-32 {
-	width: 8rem;
-}
-
-.w-\[7\.5rem\] {
-	width: 7.5rem;
+.w-4 {
+	width: 1rem;
 }
 
 .w-\[7rem\] {
 	width: 7rem;
-}
-
-.w-3 {
-	width: 0.75rem;
-}
-
-.w-4 {
-	width: 1rem;
 }
 
 .min-w-0 {
@@ -1680,18 +1624,6 @@ select {
 
 .-translate-x-1\/2 {
 	--tw-translate-x: -50%;
-	transform: var(--tw-transform);
-}
-
-.scale-125 {
-	--tw-scale-x: 1.25;
-	--tw-scale-y: 1.25;
-	transform: var(--tw-transform);
-}
-
-.scale-90 {
-	--tw-scale-x: .9;
-	--tw-scale-y: .9;
 	transform: var(--tw-transform);
 }
 
@@ -1823,16 +1755,12 @@ select {
 	border-radius: 9999px;
 }
 
-.rounded-md {
-	border-radius: 0.375rem;
-}
-
-.rounded-xl {
-	border-radius: 0.75rem;
-}
-
 .rounded-2xl {
 	border-radius: 1rem;
+}
+
+.rounded-md {
+	border-radius: 0.375rem;
 }
 
 .rounded-t-lg {
@@ -2280,11 +2208,6 @@ select {
 .py-40 {
 	padding-top: 10rem;
 	padding-bottom: 10rem;
-}
-
-.py-\[0\.8rem\] {
-	padding-top: 0.8rem;
-	padding-bottom: 0.8rem;
 }
 
 .pt-16 {
@@ -2807,12 +2730,6 @@ select {
 	transform: var(--tw-transform);
 }
 
-.hover\:scale-100:hover {
-	--tw-scale-x: 1;
-	--tw-scale-y: 1;
-	transform: var(--tw-transform);
-}
-
 .hover\:bg-gray-100:hover {
 	--tw-bg-opacity: 1;
 	background-color: rgba(244, 244, 245, var(--tw-bg-opacity));
@@ -2925,14 +2842,6 @@ select {
 
 @media (min-width: 640px) {
 
-	.sm\:fixed {
-		position: fixed;
-	}
-
-	.sm\:absolute {
-		position: absolute;
-	}
-
 	.sm\:mt-0 {
 		margin-top: 0px;
 	}
@@ -2943,26 +2852,6 @@ select {
 
 	.sm\:mr-2 {
 		margin-right: 0.5rem;
-	}
-
-	.sm\:-mt-9 {
-		margin-top: -2.25rem;
-	}
-
-	.sm\:-mt-10 {
-		margin-top: -2.5rem;
-	}
-
-	.sm\:mb-10 {
-		margin-bottom: 2.5rem;
-	}
-
-	.sm\:mb-6 {
-		margin-bottom: 1.5rem;
-	}
-
-	.sm\:mb-2 {
-		margin-bottom: 0.5rem;
 	}
 
 	.sm\:mt-\[-2\.35rem\] {
@@ -3164,10 +3053,6 @@ select {
 
 	.lg\:static {
 		position: static;
-	}
-
-	.lg\:fixed {
-		position: fixed;
 	}
 
 	.lg\:order-2 {
