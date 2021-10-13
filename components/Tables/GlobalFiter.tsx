@@ -24,7 +24,7 @@ function GlobalFilter({
 
     return (
         <div>
-            <i className={`${showInput ? "right-3 text-blueGray-300" : "right-0" } absolute mt-[0.6rem] cursor-pointer fa fa-search`}
+            <i className={`${showInput ? "right-3 text-blueGray-300 mt-[0.6rem]" : "right-0 mt-[0.5rem]" } absolute  cursor-pointer fa fa-search`}
                 onClick={toggleShowInput}></i>
             <input id="input-filter"
                 className={`${!showInput && "hidden"} w-[7rem] sm:w-44 rounded-2xl px-2 py-2 text-sm transition-all duration-150 ease-linear bg-white border-0 shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
@@ -34,7 +34,7 @@ function GlobalFilter({
                     setValue(e.target.value);
                     onChange(e.target.value);
                 }}
-                placeholder={`Digite um filtro`}
+                placeholder={`${window.innerWidth > 600 ? "Digite um filtro" : ""}`}
             />
         </div>
     )
