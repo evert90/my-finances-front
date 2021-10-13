@@ -23,6 +23,7 @@ const UserDropdown = () => {
   const logout = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     event.preventDefault()
     userService.logout()
+    closeDropdownPopover()
   }
 
   return (
