@@ -1,6 +1,5 @@
 import 'regenerator-runtime/runtime';
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import App, { AppContext } from "next/app";
 import Head from "next/head";
 import Router, { useRouter } from "next/router";
 import React, { useEffect } from "react";
@@ -49,15 +48,13 @@ function MyApp({ Component, pageProps }) {
 
     Router.events.on("routeChangeComplete", routeChangeComplete);
 
-    Router.events.on("routeChangeError", () => {
-      ReactDOM.unmountComponentAtNode(document.getElementById("page-transition"));
-      document.body.classList.remove("body-page-transition");
-    });
+    Router.events.on("routeChangeError", routeChangeError);
 
     // unsubscribe from events in useEffect return function
     return () => {
       router.events.off('routeChangeStart', routeChangeStart);
       router.events.off('routeChangeComplete', routeChangeComplete);
+      Router.events.off("routeChangeError", routeChangeError);
     }
 
   }, []);
@@ -82,6 +79,11 @@ function MyApp({ Component, pageProps }) {
       <PageChange path={url} />,
       document.getElementById("page-transition")
     );
+  }
+
+  const routeChangeError = () => {
+    ReactDOM.unmountComponentAtNode(document.getElementById("page-transition"));
+    document.body.classList.remove("body-page-transition");
   }
 
   const authCheck = (url: string) => {

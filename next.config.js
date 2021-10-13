@@ -3,7 +3,7 @@ const withPWA = require('next-pwa')
 
 module.exports = withPWA({
   pwa: {
-    disable: process.env.NODE_ENV === 'development',
+    disable: process.env.NODE_ENV === 'developmente',
     dest: 'public',
     mode: 'production',
     runtimeCaching: [
@@ -192,7 +192,8 @@ module.exports = withPWA({
       apiUrl: process.env.NODE_ENV === 'development'
           ? 'http://localhost:21200/api' // development api
           : 'http://localhost:21200/api' // production api
-  }
+  },
+  excludeDefaultMomentLocales: false
 })
 
 /*  module.exports = withPWA({

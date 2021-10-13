@@ -14,6 +14,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { CardOnDemandFilterBy } from '../../class/CardOnDemandFilterBy';
+import { cardService } from '../../services/card.service';
 
 type ModalAddCardProps = {
     chartsOnDemand: Array<CardOnDemand>,
@@ -91,7 +92,7 @@ export const ModalAddCard: React.FC<ModalAddCardProps> = (props) => {
                 filterBy
             );
 
-            await chartService.setCardValues(cardOnDemand, toast)
+            await cardService.setValues(cardOnDemand, toast)
             const charts = [...props.chartsOnDemand, cardOnDemand]
             props.setChartsOnDemandState(charts)
             localStorage.setItem(chartService.getCardsOnDemandStorageName(), JSON.stringify(charts))
