@@ -118,14 +118,13 @@ export const Dashboard: LayoutComponent = () => {
     }
 
     useEffect(() => {
+        console.log("dashboard useeffect")
+
         if(cardsOnDemand?.length > 0) {
             console.log("atualizando cards on demand")
             cardsOnDemand.map(cardOnDemand => cardService.setValues(cardOnDemand, toast))
         }
-     }, [])
 
-    useEffect(() => {
-        console.log("dashboard useeffect")
         financialRecordService.getTotal()
         .then((totals: Array<FinancialRecordTotal>) => {
             setIncomeTotal(totals?.find(it => FinancialRecordType[it.type] == FinancialRecordType.INCOME)?.total || 0)
@@ -158,6 +157,8 @@ export const Dashboard: LayoutComponent = () => {
                 toast?.pushError("Erro ao consultar de receitas/despesas de um período. " + error, 7000, "truncate-2-lines")
             }).finally(() => {})
         })
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (

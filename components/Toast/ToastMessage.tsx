@@ -90,7 +90,7 @@ export default function ToastMessage({
         type && "max-h-40"
       )}
     >
-      <div className="flex flex-row p-2 flex-no-wrap w-full">
+      <div className="flex flex-row flex-no-wrap w-full p-2">
         {Var.icon && (
           <div
             className={clsx(
@@ -105,7 +105,7 @@ export default function ToastMessage({
           </div>
         )}
 
-        <div className="flex flex-col flex-no-wrap px-1 w-full">
+        <div className="flex flex-col flex-no-wrap w-full px-1">
           <div className="flex my-auto font-bold select-none">{Var.name}</div>
           <p
             className={clsx(
