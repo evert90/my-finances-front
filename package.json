@@ -46,10 +46,8 @@
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm run build:tailwind && npm run dev",
     "build:tailwind": "tailwind build styles/index.css -o styles/tailwind.css",
     "css:dev": "cross-env TAILWIND_MODE=watch postcss ./styles/index.css -o ./styles/tailwind.css --watch",
-    "css:build": "postcss ./styles/index.css -o ./styles/tailwind.css"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
+    "css:build": "postcss ./styles/index.css -o ./styles/tailwind.css",
+    "lint": "next lint"
   },
   "browserslist": {
     "production": [
@@ -70,6 +68,7 @@
     "autoprefixer": "10.3.4",
     "clsx": "^1.1.1",
     "cross-env": "^7.0.3",
+    "eslint-config-next": "11.1.2",
     "postcss": "8.3.6",
     "postcss-cli": "^8.3.1",
     "sass": "^1.39.2",

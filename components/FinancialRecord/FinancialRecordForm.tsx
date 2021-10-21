@@ -39,6 +39,7 @@ export const FinancialRecordForm: React.FC<FinancialRecordFormProps> = (props) =
           toast?.pushError("Erro ao consultar tags. " + error, 7000, "truncate-2-lines");
         }).finally(() => setIsLoading(false))
 
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const customStyles = {

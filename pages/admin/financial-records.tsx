@@ -13,38 +13,39 @@ import moment from "moment";
 
 const FinancialRecordsLayout: LayoutComponent = () => {
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [records, setRecords] = useState<Array<FinancialRecord>>([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [records, setRecords] = useState<Array<FinancialRecord>>([]);
 
   const toast = useToast();
 
-  useEffect(() => {
-    setIsLoading(true)
+    useEffect(() => {
+        setIsLoading(true)
 
-    financialRecordService.getAll()
-      .then((records: Array<FinancialRecord>) => {
-        setRecords(records.map(record => {record.date = moment(record.date, 'YYYY-MM-DD'); return record}))
-      })
-      .catch(error => {
-        toast?.pushError("Erro ao consultar receitas/despesas. " + error, 7000, "truncate-2-lines");
-      }).finally(() => setIsLoading(false))
+        financialRecordService.getAll()
+            .then((records: Array<FinancialRecord>) => {
+                setRecords(records.map(record => { record.date = moment(record.date, 'YYYY-MM-DD'); return record }))
+            })
+            .catch(error => {
+                toast?.pushError("Erro ao consultar receitas/despesas. " + error, 7000, "truncate-2-lines");
+            }).finally(() => setIsLoading(false))
 
-  }, [])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     return (
         <>
-          <div className="relative pt-12 pb-9 md:pt-32">
-            <div className="flex flex-wrap">
-              <div className="w-full px-4">
-                <FinancialRecordForm records={records} recordsState={setRecords}/>
-              </div>
-              <div className="w-full px-4">
-                <FinancialRecordTable records={records} recordsState={setRecords} color="light"/>
-              </div>
+            <div className="relative pt-12 pb-9 md:pt-32">
+                <div className="flex flex-wrap">
+                    <div className="w-full px-4">
+                        <FinancialRecordForm records={records} recordsState={setRecords} />
+                    </div>
+                    <div className="w-full px-4">
+                        <FinancialRecordTable records={records} recordsState={setRecords} color="light" />
+                    </div>
+                </div>
             </div>
-          </div>
         </>
-      );
+    );
 }
 
 FinancialRecordsLayout.layout = Admin;

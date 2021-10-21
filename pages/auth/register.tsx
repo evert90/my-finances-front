@@ -22,6 +22,7 @@ export const Register: LayoutComponent = () => {
     if (userService.getUserValue()?.token) {
       router.push('/');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
    // form validation rules
@@ -68,14 +69,14 @@ export const Register: LayoutComponent = () => {
                 </div>
                 <div className="text-center btn-wrapper">
                   <button
-                    className="inline-flex items-center px-4 py-2 mb-1 mr-2 text-xs font-normal font-bold uppercase transition-all duration-150 ease-linear bg-white rounded shadow outline-none active:bg-blueGray-50 text-blueGray-700 focus:outline-none hover:shadow-md"
+                    className="inline-flex items-center px-4 py-2 mb-1 mr-2 text-xs font-bold uppercase transition-all duration-150 ease-linear bg-white rounded shadow outline-none active:bg-blueGray-50 text-blueGray-700 focus:outline-none hover:shadow-md"
                     type="button"
                   >
                     <img alt="..." className="w-5 mr-1" src="/img/github.svg" />
                     Github
                   </button>
                   <button
-                    className="inline-flex items-center px-4 py-2 mb-1 mr-1 text-xs font-normal font-bold uppercase transition-all duration-150 ease-linear bg-white rounded shadow outline-none active:bg-blueGray-50 text-blueGray-700 focus:outline-none hover:shadow-md"
+                    className="inline-flex items-center px-4 py-2 mb-1 mr-1 text-xs font-bold uppercase transition-all duration-150 ease-linear bg-white rounded shadow outline-none active:bg-blueGray-50 text-blueGray-700 focus:outline-none hover:shadow-md"
                     type="button"
                   >
                     <img alt="..." className="w-5 mr-1" src="/img/google.svg" />
