@@ -94,7 +94,7 @@ export default function ToastProvider({
         setData((prevState) => [...prevState, new_item]);
       }
     },
-    [setData, data]
+    [setData]
   );
 
   const PushCustom = useCallback(
@@ -117,7 +117,7 @@ export default function ToastProvider({
         setData((prevState) => [...prevState, new_item]);
       }
     },
-    [setData, data]
+    [setData]
   );
 
   const PushError = useCallback(

@@ -57,6 +57,7 @@ function MyApp({ Component, pageProps }) {
       Router.events.off("routeChangeError", routeChangeError);
     }
 
+
   }, []);
 
   const unregisterServiceWorkers = () => {
