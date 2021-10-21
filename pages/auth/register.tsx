@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as Yup from 'yup';
 import { LayoutComponent } from "../../class/LayoutComponent";
@@ -9,6 +9,7 @@ import { useToast } from '../../components/Toast/ToastProvider';
 import { Auth } from "../../layouts/Auth";
 import { userService } from "../../services/user.service";
 import Link from "next/link";
+import { ModalServiceTerms } from '../../components/Modal/ModalServiceTerms';
 
 // layout for page
 
@@ -16,6 +17,7 @@ export const Register: LayoutComponent = () => {
 
   const router = useRouter();
   const toast = useToast();
+  const [showModal, setShowModal] =  useState<boolean>(false)
 
   useEffect(() => {
     // redirect to home if already logged in
@@ -29,7 +31,8 @@ export const Register: LayoutComponent = () => {
    const validationSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
     email: Yup.string().required('Email is required'),
-    password: Yup.string().required('Password is required')
+    password: Yup.string().required('Password is required'),
+    serviceTerms: Yup.boolean().oneOf([true], 'Service terms is required')
   });
 
   const formOptions = { resolver: yupResolver(validationSchema) };
@@ -138,21 +141,22 @@ export const Register: LayoutComponent = () => {
                     <div className="invalid-feedback" style={{display: "none"}}>{errors.password?.message}</div>
                   </div>
 
-                  <div style={{display: "none"}}>
+                  <div>
                     <label className="inline-flex items-center cursor-pointer">
                       <input
                         id="customCheckLogin"
+                        {...register('serviceTerms')}
                         type="checkbox"
-                        className="w-5 h-5 ml-1 transition-all duration-150 ease-linear border-0 rounded form-checkbox text-blueGray-700"
+                        className={`${errors.serviceTerms ? 'border-2 border-red-800' : ''} w-5 h-5 ml-1 transition-all duration-150 ease-linear border-0 rounded form-checkbox text-blueGray-700`}
                       />
                       <span className="ml-2 text-sm font-semibold text-blueGray-600">
-                        Eu concordo com os termos das{" "}
+                        Eu concordo com os{" "}
                         <a
                           href="#pablo"
                           className="text-lightBlue-500"
-                          onClick={(e) => e.preventDefault()}
+                          onClick={(e) => setShowModal(true)}
                         >
-                          políticas de privacidade
+                          termos de serviço
                         </a>
                       </span>
                     </label>
@@ -188,6 +192,9 @@ export const Register: LayoutComponent = () => {
           </div>
         </div>
       </div>
+      {showModal ? (
+          <ModalServiceTerms setShowModalState={setShowModal}></ModalServiceTerms>
+      ) : null}
     </>
   );
 }
