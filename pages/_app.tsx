@@ -12,6 +12,8 @@ import '../styles/tailwind.css';
 import '../styles/tooltip.css';
 import '../styles/utils.css';
 import Providers from "./Providers";
+import Script from 'next/script';
+import * as gtag from "../helpers/gtag";
 
 function MyApp({ Component, pageProps }) {
 
@@ -57,7 +59,6 @@ function MyApp({ Component, pageProps }) {
       Router.events.off("routeChangeError", routeChangeError);
     }
 
-
   }, []);
 
   const unregisterServiceWorkers = () => {
@@ -72,6 +73,7 @@ function MyApp({ Component, pageProps }) {
     authCheck(url)
     ReactDOM.unmountComponentAtNode(document.getElementById("page-transition"));
     document.body.classList.remove("body-page-transition");
+    gtag.pageview(url)
   }
 
   const routeChangeStart = (url) => {
@@ -121,6 +123,26 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <Providers>
         <Layout>
+        {/* Global Site Tag (gtag.js) - Google Analytics */}
+        <Script
+          strategy="afterInteractive"
+          src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
+        />
+        <Script
+          id="gtag-init"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${gtag.GA_TRACKING_ID}', {
+                page_path: window.location.pathname,
+                anonymize_ip: true
+              });
+            `,
+          }}
+        />
           {authorized &&
             <Component {...pageProps} />
           }
