@@ -7,6 +7,8 @@ import { useTable, usePagination, useGlobalFilter, useAsyncDebounce, useSortBy, 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { scrollService } from "../../services/scroll.service";
 import GlobalFilter from "../Tables/GlobalFiter";
+import { financialRecordService } from "../../services/financial-record.service";
+import { useToast } from "../Toast/ToastProvider";
 
 
 type FinancialRecordTableProps = {
@@ -18,6 +20,8 @@ type FinancialRecordTableProps = {
 export const FinancialRecordTable: React.FC<FinancialRecordTableProps> = (props) => {
 
     const [data, setData] = useState<Array<FinancialRecord>>(props.records)
+
+    const toast = useToast()
 
     useEffect(() => {
       setData([...props.records])
@@ -194,7 +198,19 @@ export const FinancialRecordTable: React.FC<FinancialRecordTableProps> = (props)
                                 <div className="w-2.5 h-2.5 mt-2 bg-red-600 rounded-full cursor-pointer" title="Despesas"></div>
                             }
                             </td>
-                            <td className="p-4 px-6 text-base align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">{record.name}</td>
+                            <td className="p-4 px-6 text-base align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">
+                                <div className="flex flex-row">
+                                    {record.name}
+                                    {FinancialRecordType[record.type] == FinancialRecordType.EXPENSE && !record.paid &&
+                                        <div>
+                                            <i className="mt-[3.5px] ml-2 text-sm cursor-pointer far fa-clock"
+                                                title="Pagamento pendente"
+                                                onClick={() => financialRecordService.pay(record, toast)}
+                                            ></i>
+                                        </div>
+                                    }
+                                </div>
+                            </td>
                             <td className="p-4 px-6 text-base align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap"><Moment date={record.date} format="DD/MM/YYYY" /></td>
                             <td className="p-4 px-6 text-base align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">{currencyService.format(record.value)}</td>
                             <td className="p-4 px-6 pl-[1.36rem] text-base align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">

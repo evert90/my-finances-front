@@ -1,5 +1,6 @@
 
 import { FinancialRecord } from '../class/FinancialRecord';
+import { ToastContextType } from '../components/Toast/ToastProvider';
 import { fetchWrapper } from '../helpers/fetch-wrapper';
 
 const baseUrl = `${fetchWrapper.getApiUrl()}/financial-records`;
@@ -11,7 +12,8 @@ export const financialRecordService = {
     getTotalByPeriod,
     getTotalByPeriodAndTags,
     save,
-    deleteById
+    deleteById,
+    pay
 }
 
 function getAll() {
@@ -39,6 +41,21 @@ function save(financialRecord: FinancialRecord) {
     return fetchWrapper.post(`${baseUrl}/`, financialRecord)
         .then((response: FinancialRecord) => {
             return response;
+        });
+}
+
+function pay(financialRecord: FinancialRecord, toast: ToastContextType) {
+    let financialRecordCopy: FinancialRecord = {...financialRecord}
+
+    financialRecordCopy.paid = true
+
+    return save(financialRecordCopy)
+        .then((response: FinancialRecord) => {
+            financialRecord.paid = response.paid
+            toast.pushSuccess("Pagamento salvo com sucesso", 5000)
+        })
+        .catch(error => {
+            toast?.pushError("Erro ao salvar pagamento. " + error, 7000, "truncate-2-lines")
         });
 }
 

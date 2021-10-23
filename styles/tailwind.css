@@ -1265,6 +1265,10 @@ select {
 	margin-left: 0.5rem;
 }
 
+.mt-\[-0\.7px\] {
+	margin-top: -0.7px;
+}
+
 .mt-20 {
 	margin-top: 5rem;
 }
@@ -1279,6 +1283,10 @@ select {
 
 .mr-2\.5 {
 	margin-right: 0.625rem;
+}
+
+.mt-\[3\.5px\] {
+	margin-top: 3.5px;
 }
 
 .-ml-px {
@@ -1777,12 +1785,12 @@ select {
 	border-width: 0px;
 }
 
-.border {
-	border-width: 1px;
-}
-
 .border-2 {
 	border-width: 2px;
+}
+
+.border {
+	border-width: 1px;
 }
 
 .border-t {
@@ -1835,6 +1843,11 @@ select {
 	border-color: rgba(203, 213, 225, var(--tw-border-opacity));
 }
 
+.border-red-800 {
+	--tw-border-opacity: 1;
+	border-color: rgba(153, 27, 27, var(--tw-border-opacity));
+}
+
 .border-blueGray-100 {
 	--tw-border-opacity: 1;
 	border-color: rgba(241, 245, 249, var(--tw-border-opacity));
@@ -1883,26 +1896,6 @@ select {
 .border-gray-600 {
 	--tw-border-opacity: 1;
 	border-color: rgba(82, 82, 91, var(--tw-border-opacity));
-}
-
-.border-red-600 {
-	--tw-border-opacity: 1;
-	border-color: rgba(220, 38, 38, var(--tw-border-opacity));
-}
-
-.border-red-900 {
-	--tw-border-opacity: 1;
-	border-color: rgba(127, 29, 29, var(--tw-border-opacity));
-}
-
-.border-red-800 {
-	--tw-border-opacity: 1;
-	border-color: rgba(153, 27, 27, var(--tw-border-opacity));
-}
-
-.border-red-700 {
-	--tw-border-opacity: 1;
-	border-color: rgba(185, 28, 28, var(--tw-border-opacity));
 }
 
 .bg-blueGray-400 {
@@ -2223,11 +2216,6 @@ select {
 .py-40 {
 	padding-top: 10rem;
 	padding-bottom: 10rem;
-}
-
-.px-5 {
-	padding-left: 1.25rem;
-	padding-right: 1.25rem;
 }
 
 .pt-16 {
