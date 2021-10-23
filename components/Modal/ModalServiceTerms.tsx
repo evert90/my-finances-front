@@ -46,7 +46,7 @@ export const ModalServiceTerms: React.FC<ModalServiceTermsProps> = (props) => {
                         {/*body*/}
                         <div className="relative flex-wrap px-6 py-2">
                             <p className="my-4 leading-relaxed text-blueGray-500">
-                                Este site é um projeto pessoal de testes utilizando NextJs e Tailwind. Os dados desse formulário não são armazenados. Cada usuário deve prover o seu servidor de armazenamento e configurar o endereço  no link <b>&quot;Alterar api?&quot;</b>, presente na área de login.
+                                Este site é um projeto pessoal de testes utilizando NextJs e Tailwind. Os dados desse e dos demais formulários não são armazenados. Cada usuário deve prover o seu servidor de armazenamento e configurar o endereço  no link <b>&quot;Alterar api?&quot;</b>, presente na área de login.
 
                             </p>
                         </div>
