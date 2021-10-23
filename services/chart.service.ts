@@ -43,11 +43,11 @@ function chartOnDemandToSeries(chart: CardOnDemand) {
 }
 
 function periodTotalToChartOptions(data: Array<PeriodTotal> | Array<PeriodTagTotal>, chartType: string, periodType: any, filterBy: string, colors?: Array<string>): ApexCharts.ApexOptions {
-    if(!colors) colors = colorService.getDefaultPallete()
+    if (!colors) colors = colorService.getDefaultPallete()
 
-    if(chartType == "bar") {
+    if (chartType == "bar") {
         return getPeriodTotalToBar(data, periodType, colors)
-    } else if(chartType == "line" || chartType == "area") {
+    } else if (chartType == "line" || chartType == "area") {
         return getPeriodTotalToLineArea(data, periodType, colors)
     }
 
@@ -115,18 +115,18 @@ function getPeriodTotalToBar(data: Array<PeriodTotal> | Array<PeriodTagTotal>, p
         },
         dataLabels: {
             enabled: true,
-            formatter: (val) => {const valNumber: number = val as number; return `${valNumber?.toFixed(2).toString().replace(".", ",")}`},
+            formatter: (val) => { const valNumber: number = val as number; return `${valNumber?.toFixed(2).toString().replace(".", ",")}` },
             offsetY: -20,
             style: {
-              fontSize: '10px',
-              colors: ["#304758"]
+                fontSize: '10px',
+                colors: ["#304758"]
             }
         },
         plotOptions: {
             bar: {
                 borderRadius: 10,
                 dataLabels: {
-                  position: 'top', // top, center, bottom
+                    position: 'top', // top, center, bottom
                 },
                 columnWidth: "70%",
             }
@@ -158,7 +158,7 @@ function getPeriodTotalToDonutPie(data: Array<PeriodTagTotal>, filterBy: string,
             },
         },
         labels: CardOnDemandFilterBy[filterBy] == CardOnDemandFilterBy.TAGS ?
-            data?.[0]?.totals?.sort((a,b) => a.tag.name?.toLowerCase() < b.tag.name?.toLowerCase() ? -1 : 1).map(it => it.tag.name) :
+            data?.[0]?.totals?.sort((a, b) => a.tag.name?.toLowerCase() < b.tag.name?.toLowerCase() ? -1 : 1).map(it => it.tag.name) :
             ["Receitas", "Despesas"],
         dataLabels: {
             enabled: true
@@ -166,6 +166,13 @@ function getPeriodTotalToDonutPie(data: Array<PeriodTagTotal>, filterBy: string,
         colors,
         stroke: {
             curve: 'smooth',
+        },
+        plotOptions: {
+            pie: {
+                dataLabels: {
+                    minAngleToShowLabel: 1
+                }
+            }
         },
         tooltip: {
             enabled: true,
@@ -197,8 +204,8 @@ function periodTotalToChartSeries(data: Array<PeriodTotal>, chartType: string): 
 
 function periodTagTotalToChartSeries(tags: Array<string>, data: Array<PeriodTagTotal>, chartType: string): Array<any> {
     return chartType == "donut" || chartType == "pie" ?
-        data?.[0]?.totals?.sort((a,b) => a.tag.name?.toLowerCase() < b.tag.name?.toLowerCase() ? -1 : 1).map(it => it.total || 0) || [] :
-        tags.map( tag => (
+        data?.[0]?.totals?.sort((a, b) => a.tag.name?.toLowerCase() < b.tag.name?.toLowerCase() ? -1 : 1).map(it => it.total || 0) || [] :
+        tags.map(tag => (
             {
                 name: tag,
                 data: data.map(period => period?.totals?.find(it => it?.tag?.name == tag)?.total || 0).reverse()
