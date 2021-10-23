@@ -3,7 +3,9 @@ import Moment from "react-moment";
 import { FinancialRecordType } from "../../class/FinancialRecordType";
 import { Period } from "../../class/Period";
 import { currencyService } from "../../services/currency.service";
+import { financialRecordService } from "../../services/financial-record.service";
 import { periodService } from "../../services/period.service";
+import { useToast } from "../Toast/ToastProvider";
 
 type CardFinancialRecordProps = {
     period: Period,
@@ -14,6 +16,8 @@ export const CardFinancialRecord: React.FC<CardFinancialRecordProps> = (props) =
     props.period.records = props.period.records?.sort((a,b) => a.name.localeCompare(b.name))
 
     const [showInfo, setShowInfo] = useState(false)
+
+    const toast = useToast()
 
     const incomeTotal: number = periodService.getPeriodIncomeTotal(props.period)
 
@@ -62,7 +66,20 @@ export const CardFinancialRecord: React.FC<CardFinancialRecordProps> = (props) =
                                 ${showInfo ? "" : "hidden"}
                                 border-t-[1px]
                                 `}>
-                                <td className={`p-4 px-6 text-xs font-medium align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap`}>{record.name}</td>
+                                <td className={`p-4 px-6 text-xs font-medium align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap`}>
+                                    <div className="flex flex-row">
+                                        {record.name}
+                                        {FinancialRecordType[record.type] == FinancialRecordType.EXPENSE && !record.paid &&
+                                            <div>
+                                                <i className="mt-[-0.7px] ml-2 text-sm cursor-pointer far fa-clock"
+                                                 title="Pagamento pendente"
+                                                 onClick={() => financialRecordService.pay(record, toast)}>
+
+                                                </i>
+                                            </div>
+                                        }
+                                    </div>
+                                </td>
                                 <td className="p-4 px-6 text-xs font-medium align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">{currencyService.format(record.value)}</td>
                             </tr>
                         )}

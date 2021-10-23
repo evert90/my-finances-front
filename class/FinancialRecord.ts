@@ -9,6 +9,9 @@ export class FinancialRecord {
         public value: number,
         public date: Moment,
         public type: string,
-        public tags: Array<Tag>
+        public tags: Array<Tag>,
+        public paid: boolean,
+        public createdAt?: Moment,
+        public updatedAt?: Moment,
     ) {}
 }
