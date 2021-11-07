@@ -36,7 +36,11 @@
     }
 
     .table-thead {
-        @apply px-6 align-middle border border-solid py-3 text-sm uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100
+        @apply px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100
+    }
+
+    .table-tbody-sm {
+        @apply p-4 px-6 text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap
     }
 
 }

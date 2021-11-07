@@ -95,7 +95,7 @@ function MyApp({ Component, pageProps }) {
     const path = url.split('?')[0];
 
     if (!userService.getUserValue()?.token && !publicPaths.includes(path)) {
-      console.log("unat")
+      console.log("Unathorized")
       setAuthorized(false);
       Router.push({
         pathname: '/auth/login',

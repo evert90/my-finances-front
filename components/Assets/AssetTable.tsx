@@ -5,6 +5,7 @@ import { Asset } from "../../class/Asset";
 import { AssetRendaFixaRateType } from "../../class/AssetRendaFixaRateType";
 import { AssetRendaFixaType } from "../../class/AssetRendaFixaType";
 import { AssetType } from "../../class/AssetType";
+import { assetService } from "../../services/asset.service";
 import { currencyService } from "../../services/currency.service";
 import { scrollService } from "../../services/scroll.service";
 import TableDropdown from "../Dropdowns/TableDropdown";
@@ -98,6 +99,9 @@ export const AssetTable: React.FC<AssetTableProps> = (props) => {
                     rendaFixaType?.toLowerCase() == queryLower ||
                     rendaFixaRateType?.toLowerCase() == queryLower ||
                     record.bank?.toLowerCase().includes(queryLower) ||
+                    record.rate?.toString().includes(queryLower) ||
+                    record.initialValue.toString().includes(queryLower) ||
+                    record.endValue?.toString().includes(queryLower) ||
                     record.initialDate.format("DD/MM/YYYY").includes(queryLower) ||
                     record.endDate?.format("DD/MM/YYYY").includes(queryLower) ||
                     currencyService.format(record.initialValue).includes(queryLower) ||
@@ -150,101 +154,111 @@ export const AssetTable: React.FC<AssetTableProps> = (props) => {
                 </div>
                 <div className="block w-full overflow-x-auto">
                     <table className="items-center table w-full bg-transparent border-collapse stripped">
-                    <thead>
-                        <tr>
-                            <th className={"table-thead"}>
-                                Nome
-                            </th>
-                            <th className={"table-thead"}>
-                                Tipo
-                            </th>
-                            <th className={"table-thead"}>
-                                Banco
-                            </th>
-                            <th className={"table-thead"}>
-                                Título
-                            </th>
-                            <th className={"table-thead"}>
-                                Tipo de taxa
-                            </th>
-                            <th className={"table-thead"}>
-                                Taxa
-                            </th>
-                            <th className={"table-thead"}>
-                                Data inicial
-                            </th>
-                            <th className={"table-thead"}>
-                                Data final
-                            </th>
-                            <th className={"table-thead"}>
-                                Valor inicial
-                            </th>
-                            <th className={"table-thead"}>
-                                Valor final
-                            </th>
-                            <th className={"table-thead"}>
-                                Liquidez
-                            </th>
+                        <thead>
+                            <tr>
+                                <th className={"table-thead"}>
+                                    Nome
+                                </th>
+                                <th className={"table-thead"}>
+                                    Tipo
+                                </th>
+                                <th className={"table-thead"}>
+                                    Banco
+                                </th>
+                                <th className={"table-thead"}>
+                                    Título
+                                </th>
+                                <th className={"table-thead"}>
+                                    Tipo de taxa
+                                </th>
+                                <th className={"table-thead"}>
+                                    Taxa
+                                </th>
+                                <th className={"table-thead"}>
+                                    Data inicial
+                                </th>
+                                <th className={"table-thead"}>
+                                    Data final
+                                </th>
+                                <th className={"table-thead"}>
+                                    Valor inicial
+                                </th>
+                                <th className={"table-thead"}>
+                                    Valor final
+                                </th>
+                                <th className={"table-thead"}>
+                                    Liquidez
+                                </th>
 
-                            <th className={"table-thead"}>
-                                Tags
-                            </th>
-                            <th className={"table-thead"}>
+                                <th className={"table-thead"}>
+                                    Tags
+                                </th>
+                                <th className={"table-thead"}>
 
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {page.map((row: any, i) => {
-                        const record: Asset = row.original as Asset
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {page.map((row: any, i) => {
+                            const record: Asset = row.original as Asset
 
-                        return <tr key={i} v-for="row in rows" className="odd:bg-blueGray-50 even:bg-white hover:bg-blueGray-100">
-                            <td className="p-4 px-6 text-base align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">
-                                {record.name}
-                            </td>
-                            <td className="p-4 px-6 text-base align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">
-                                {AssetType[record.type]}
-                            </td>
-                            <td className="p-4 px-6 text-base align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">
-                                {record.bank}
-                            </td>
-                            <td className="p-4 px-6 text-base align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">
-                                {AssetRendaFixaType[record.rendaFixaType]}
-                            </td>
-                            <td className="p-4 px-6 text-base align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">
-                                {AssetRendaFixaRateType[record.rendaFixaRateType]}
-                            </td>
-                            <td className="p-4 px-6 text-base align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">
-                                {record.rate?.toFixed(2)}%
-                            </td>
-                            <td className="p-4 px-6 text-base align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">
-                                <Moment date={record.initialDate} format="DD/MM/YYYY" />
-                            </td>
-                            <td className="p-4 px-6 text-base align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">
-                                <Moment date={record.endDate} format="DD/MM/YYYY" />
-                            </td>
-                            <td className="p-4 px-6 text-base align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">
-                                {currencyService.format(record.initialValue)}
-                            </td>
-                            <td className="p-4 px-6 text-base align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">
-                                {record.endValue && currencyService.format(record.endValue)}
-                            </td>
-                            <td className="p-4 px-6 text-base align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">
-                                {record.liquidez ? "Sim" : "Não"}
-                            </td>
-                            <td className="p-4 px-6 pl-[1.36rem] text-base align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">
-                            {record.tags?.map(tag =>
-                                <span key={tag.id} className="text-xs px-2 py-0.5 rounded ml-1 font-bold bg-green-500 text-white">
-                                {tag.name}
-                                </span>
-                            )}
-                            </td>
-                            <td className="p-4 px-6 text-sm text-right align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">
-                                <TableDropdown record={record} stateChanger={removeFromTable} />
-                            </td>
-                        </tr>
-                    })}
-                    </tbody>
+                            return <tr key={i} className={`${record.endValue ? "bg-orange-200" : "bg-white"} hover:bg-blueGray-100`}>
+                                <td className="table-tbody-sm">
+                                    {record.name}
+                                </td>
+                                <td className="table-tbody-sm">
+                                    {AssetType[record.type]}
+                                </td>
+                                <td className="table-tbody-sm">
+                                    {record.bank}
+                                </td>
+                                <td className="table-tbody-sm">
+                                    {AssetRendaFixaType[record.rendaFixaType]}
+                                </td>
+                                <td className="table-tbody-sm">
+                                    {AssetRendaFixaRateType[record.rendaFixaRateType]}
+                                </td>
+                                <td className="table-tbody-sm">
+                                    {record.rate?.toFixed(2)}%
+                                </td>
+                                <td className="table-tbody-sm">
+                                    <Moment date={record.initialDate} format="DD/MM/YYYY" />
+                                </td>
+                                <td className="table-tbody-sm">
+                                    <Moment date={record.endDate} format="DD/MM/YYYY" />
+                                </td>
+                                <td className="table-tbody-sm">
+                                    {currencyService.format(record.initialValue)}
+                                </td>
+                                <td className="table-tbody-sm">
+                                    {record.endValue && currencyService.format(record.endValue)}
+                                </td>
+                                <td className="table-tbody-sm">
+                                    {record.liquidez ? "Sim" : "Não"}
+                                </td>
+                                <td className="p-4 px-6 pl-[1.36rem] text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">
+                                {record.tags?.map(tag =>
+                                    <span key={tag.id} className="text-xs px-[0.35rem] py-[0.13rem] rounded ml-1 font-bold bg-green-500 text-white">
+                                    {tag.name}
+                                    </span>
+                                )}
+                                </td>
+                                <td className="p-4 px-6 text-sm text-right align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">
+                                    <TableDropdown record={record} stateChanger={removeFromTable} />
+                                </td>
+                            </tr>
+                        })}
+                        </tbody>
+                    </table>
+                    <table className="items-center table w-full bg-transparent border-collapse stripped">
+                        <tbody>
+                           <tr>
+                                <td className={"table-thead"}></td>
+                                <td className={"table-thead"}>Sem liquidez: {currencyService.format(assetService.getTotalSemLiquidez(props.records))}</td>
+                                <td className={"table-thead"}>Com liquidez: {currencyService.format(assetService.getTotalComLiquidez(props.records))}</td>
+                                <td className={"table-thead"}>Total: {currencyService.format(assetService.getTotal(props.records))}</td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
                 <div className={`${data?.length == 0 && "hidden"} flex flex-row justify-center py-2 my-2 border-t-[1px]`}>
