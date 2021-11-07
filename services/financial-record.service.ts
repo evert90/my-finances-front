@@ -16,20 +16,20 @@ export const financialRecordService = {
     pay
 }
 
-function getAll() {
+function getAll(): Promise<any> {
     return fetchWrapper.get(`${baseUrl}/`)
 }
 
-function getByPeriod(start: string, end: string) {
+function getByPeriod(start: string, end: string): Promise<any> {
     return fetchWrapper.get(`${baseUrl}/search?` + new URLSearchParams({ start, end }))
 }
 
-function getTotal() {
+function getTotal(): Promise<any> {
     return fetchWrapper.get(`${baseUrl}/report/total`)
 }
 
 
-function getTotalByPeriod(start: string, end: string) {
+function getTotalByPeriod(start: string, end: string): Promise<any> {
     return fetchWrapper.get(`${baseUrl}/report/total/period?` + new URLSearchParams({ start, end }))
 }
 
@@ -37,7 +37,7 @@ function getTotalByPeriodAndTags(start: string, end: string, tagIds: Array<numbe
     return fetchWrapper.get(`${baseUrl}/report/total/period/tag?` + new URLSearchParams({ start, end, tagIds: tagIds.join(",") }))
 }
 
-function save(financialRecord: FinancialRecord) {
+function save(financialRecord: FinancialRecord): Promise<FinancialRecord> {
     return fetchWrapper.post(`${baseUrl}/`, financialRecord)
         .then((response: FinancialRecord) => {
             return response;
@@ -59,6 +59,6 @@ function pay(financialRecord: FinancialRecord, toast: ToastContextType) {
         });
 }
 
-function deleteById(id: number) {
+function deleteById(id: number): Promise<any> {
     return fetchWrapper.delete(`${baseUrl}/${id}`)
 }

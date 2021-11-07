@@ -48,7 +48,6 @@ export const Register: LayoutComponent = () => {
         .then(() => {
             // get return url from query parameters or default to '/'
             const returnUrl = router.query?.returnUrl?.toString() || '/admin/dashboard';
-            console.log("redirecionando para ", returnUrl);
             toast?.pushSuccess("Conta cadastrada com sucesso", 5000);
             router.push(returnUrl);
         })
