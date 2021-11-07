@@ -16,7 +16,7 @@ const FinancialRecordsLayout: LayoutComponent = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [records, setRecords] = useState<Array<FinancialRecord>>([]);
 
-  const toast = useToast();
+    const toast = useToast();
 
     useEffect(() => {
         setIsLoading(true)
