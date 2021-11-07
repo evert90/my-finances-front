@@ -30,6 +30,25 @@ const TableDropdown: React.FC<TableDropdownProps> = (props) => {
         setDropdownPopoverShow(false);
     };
 
+    const editRecord = (event: React.MouseEvent) => {
+        event.preventDefault();
+        if((props.record as Asset).initialDate) {
+            let response = prompt("Digite o valor final")
+            if(response && response != "") {
+                (props.record as Asset).endValue = response as any
+                assetService.save((props.record as Asset))
+                .then((response) => {
+                    toast.pushSuccess("Registro editado com sucesso", 5000)
+                })
+                .catch(error => {
+                    toast?.pushError("Erro ao editar registro. " + error, 7000, "truncate-2-lines");
+                }).finally(() => {})
+            }
+
+        }
+
+    }
+
     const deleteRecord = (event: React.MouseEvent) => {
         event.preventDefault();
         const service: any = (props.record as Asset).initialDate ? assetService : financialRecordService;
@@ -69,7 +88,7 @@ const TableDropdown: React.FC<TableDropdownProps> = (props) => {
                     className={
                     "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700 hover:bg-gray-100"
                     }
-                    onClick={(e) => e.preventDefault()}
+                    onClick={(e) => {closeDropdownPopover(); editRecord(e)}}
                 >
                     <i className="mr-2 fas fa-edit"></i> Editar
                 </a>

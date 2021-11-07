@@ -101,7 +101,6 @@ export const Dashboard: LayoutComponent = () => {
     }
 
     const addFinancialRecordsCards = () => {
-        console.log("adding")
         var totalNewPeriods: number = 6
         var newPeriods: Array<Period> = periodService.getPeriodMonths(financialRecordsCards.length + totalNewPeriods)
         financialRecordsCards.push(...newPeriods?.slice(-totalNewPeriods))
@@ -118,10 +117,8 @@ export const Dashboard: LayoutComponent = () => {
     }
 
     useEffect(() => {
-        console.log("dashboard useeffect")
 
         if(cardsOnDemand?.length > 0) {
-            console.log("atualizando cards on demand")
             cardsOnDemand.map(cardOnDemand => cardService.setValues(cardOnDemand, toast))
         }
 
