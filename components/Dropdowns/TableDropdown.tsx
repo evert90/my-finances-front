@@ -3,9 +3,12 @@ import { createPopper } from "@popperjs/core";
 import { FinancialRecord } from "../../class/FinancialRecord";
 import { financialRecordService } from "../../services/financial-record.service";
 import { useToast } from "../Toast/ToastProvider";
+import { Asset } from "../../class/Asset";
+import { AssetRendaFixaRateType } from "../../class/AssetRendaFixaRateType";
+import { assetService } from "../../services/asset.service";
 
 type TableDropdownProps = {
-  record: FinancialRecord
+  record: FinancialRecord | Asset
   stateChanger: Function
 }
 
@@ -29,7 +32,8 @@ const TableDropdown: React.FC<TableDropdownProps> = (props) => {
 
     const deleteRecord = (event: React.MouseEvent) => {
         event.preventDefault();
-        financialRecordService.deleteById(props.record.id)
+        const service: any = (props.record as Asset).initialDate ? assetService : financialRecordService;
+        service.deleteById(props.record.id)
             .then((response) => {
                 toast.pushSuccess("Registro removido com sucesso", 5000)
                 props.stateChanger(props.record)
