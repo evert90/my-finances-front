@@ -12,6 +12,7 @@ import CreatableSelect from 'react-select/creatable';
 import { AssetType } from "../../class/AssetType";
 import { AssetRendaFixaType } from "../../class/AssetRendaFixaType";
 import { AssetRendaFixaRateType } from "../../class/AssetRendaFixaRateType";
+import { utilsService } from "../../services/utils.service";
 
 type AssetFormProps = {
     records: Array<Asset>,
@@ -88,18 +89,18 @@ export const AssetForm: React.FC<AssetFormProps> = (props) => {
     function onSubmit(form: Asset) {
         const asset: Asset = new Asset(
             null,
-            form.name,
-            form.details,
+            utilsService.getNullable(form.name),
+            utilsService.getNullable(form.details),
             form.initialValue,
-            form.endValue,
+            utilsService.getNullable(form.endValue),
             form.initialDate,
-            form.endDate,
+            utilsService.getNullable(form.endDate),
             form.type,
             values,
-            form.rendaFixaType,
-            form.rendaFixaRateType,
-            form.bank,
-            form.rate,
+            AssetType[form.type] == AssetType.RENDA_FIXA ? utilsService.getNullable(form.rendaFixaType) : null,
+            AssetType[form.type] == AssetType.RENDA_FIXA ? utilsService.getNullable(form.rendaFixaRateType) : null,
+            AssetType[form.type] == AssetType.RENDA_FIXA ? utilsService.getNullable(form.bank) : null,
+            AssetType[form.type] == AssetType.RENDA_FIXA ? utilsService.getNullable(form.rate): null,
             getLiquidez(form.type, (form.liquidez as any))
         )
 
@@ -108,7 +109,7 @@ export const AssetForm: React.FC<AssetFormProps> = (props) => {
                 response.initialDate = moment(response.initialDate, 'YYYY-MM-DD')
                 response.endDate = response.endDate ? moment(response.endDate, 'YYYY-MM-DD') : undefined
                 props.records.push(response)
-                props.records.sort((a: Asset, b: Asset) => a.endDate.unix() - b.endDate.unix())
+                props.records.sort((a: Asset, b: Asset) => a.endDate?.unix() - b.endDate?.unix())
                 props.recordsState(props.records)
                 toast.pushSuccess("Registro salvo com sucesso", 5000);
             })
