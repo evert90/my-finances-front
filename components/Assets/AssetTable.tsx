@@ -47,7 +47,7 @@ export const AssetTable: React.FC<AssetTableProps> = (props) => {
             },
             {
                 Header: 'Data final',
-                accessor: (row: Asset) => (row.endDate.toLocaleString()),
+                accessor: (row: Asset) => (row.endDate?.toLocaleString()),
             },
             {
                 Header: 'Título',
@@ -219,13 +219,13 @@ export const AssetTable: React.FC<AssetTableProps> = (props) => {
                                     {AssetRendaFixaRateType[record.rendaFixaRateType]}
                                 </td>
                                 <td className="table-tbody-sm">
-                                    {record.rate?.toFixed(2)}%
+                                    {record.rate && record.rate.toFixed(2) + "%" }
                                 </td>
                                 <td className="table-tbody-sm">
                                     <Moment date={record.initialDate} format="DD/MM/YYYY" />
                                 </td>
                                 <td className="table-tbody-sm">
-                                    <Moment date={record.endDate} format="DD/MM/YYYY" />
+                                    {record.endDate && <Moment date={record.endDate} format="DD/MM/YYYY" />}
                                 </td>
                                 <td className="table-tbody-sm">
                                     {currencyService.format(record.initialValue)}
@@ -234,7 +234,7 @@ export const AssetTable: React.FC<AssetTableProps> = (props) => {
                                     {record.endValue && currencyService.format(record.endValue)}
                                 </td>
                                 <td className="table-tbody-sm">
-                                    {record.liquidez ? "Sim" : "Não"}
+                                    {record.liquidez === true ? "Sim" : record.liquidez === false ? "Não" : null}
                                 </td>
                                 <td className="p-4 px-6 pl-[1.36rem] text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">
                                 {record.tags?.map(tag =>
