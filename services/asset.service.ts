@@ -26,7 +26,7 @@ function save(asset: Asset): Promise<Asset> {
 }
 
 function getTotalSemLiquidez(assets: Array<Asset>): number {
-    return assets.filter(asset => !asset.endValue && !asset.liquidez)
+    return assets.filter(asset => !asset.endValue && asset.liquidez === false)
     ?.map(it => it.initialValue)
     ?.reduce((a, b) => a + b, 0) || 0
 }
