@@ -94,7 +94,7 @@ export const AssetTable: React.FC<AssetTableProps> = (props) => {
                 const rendaFixaType = AssetRendaFixaType[record.rendaFixaType] as string
                 const rendaFixaRateType = AssetRendaFixaRateType[record.rendaFixaRateType] as string
 
-                return record.name.toLowerCase().includes(queryLower) ||
+                return record.name?.toLowerCase().includes(queryLower) ||
                     type?.toLowerCase() == queryLower ||
                     rendaFixaType?.toLowerCase() == queryLower ||
                     rendaFixaRateType?.toLowerCase() == queryLower ||
