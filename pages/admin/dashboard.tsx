@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { LayoutComponent } from "../../class/LayoutComponent";
 import { Admin } from "../../layouts/Admin";
@@ -117,10 +117,23 @@ export const Dashboard: LayoutComponent = () => {
     }
 
     useEffect(() => {
-
-        if(cardsOnDemand?.length > 0) {
-            cardsOnDemand.map(cardOnDemand => cardService.setValues(cardOnDemand, toast))
+        async function fetchCardsOnDemand () {
+            if(cardsOnDemand?.length > 0) {
+                const updatedCards: Array<CardOnDemand> = await Promise.all(
+                    cardsOnDemand.map(async (cardOnDemand) => {
+                        await cardService.setValues(cardOnDemand, toast)
+                        return cardOnDemand
+                    })) || [];
+                setCardsOnDemand([...updatedCards]);
+            }
         }
+
+        fetchCardsOnDemand();
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    useEffect(() => {
 
         financialRecordService.getTotal()
         .then((totals: Array<FinancialRecordTotal>) => {
@@ -322,7 +335,7 @@ export const Dashboard: LayoutComponent = () => {
                 </div>
             </div>
             {showModal ? (
-                <ModalAddCard setShowModalState={setShowModal} setChartsOnDemandState={setCardsOnDemand} chartsOnDemand={cardsOnDemand} ></ModalAddCard>
+                <ModalAddCard setShowModalState={setShowModal} setCardsOnDemandState={setCardsOnDemand} cardsOnDemand={cardsOnDemand} ></ModalAddCard>
             ) : null}
         </>
     );

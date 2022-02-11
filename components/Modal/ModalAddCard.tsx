@@ -17,8 +17,8 @@ import { CardOnDemandFilterBy } from '../../class/CardOnDemandFilterBy';
 import { cardService } from '../../services/card.service';
 
 type ModalAddCardProps = {
-    chartsOnDemand: Array<CardOnDemand>,
-    setChartsOnDemandState: React.Dispatch<React.SetStateAction<Array<CardOnDemand>>>,
+    cardsOnDemand: Array<CardOnDemand>,
+    setCardsOnDemandState: React.Dispatch<React.SetStateAction<Array<CardOnDemand>>>,
     setShowModalState: React.Dispatch<React.SetStateAction<boolean>>
 }
 
@@ -94,8 +94,8 @@ export const ModalAddCard: React.FC<ModalAddCardProps> = (props) => {
             );
 
             await cardService.setValues(cardOnDemand, toast)
-            const charts = [...props.chartsOnDemand, cardOnDemand]
-            props.setChartsOnDemandState(charts)
+            const charts = [...props.cardsOnDemand, cardOnDemand]
+            props.setCardsOnDemandState(charts)
             localStorage.setItem(chartService.getCardsOnDemandStorageName(), JSON.stringify(charts))
             props.setShowModalState(false)
       }
