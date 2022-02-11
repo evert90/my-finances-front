@@ -2040,6 +2040,11 @@ select {
 	background-color: rgba(249, 115, 22, var(--tw-bg-opacity));
 }
 
+.bg-orange-200 {
+	--tw-bg-opacity: 1;
+	background-color: rgba(254, 215, 170, var(--tw-bg-opacity));
+}
+
 .bg-green-500 {
 	--tw-bg-opacity: 1;
 	background-color: rgba(34, 197, 94, var(--tw-bg-opacity));
@@ -2075,11 +2080,6 @@ select {
 	background-color: rgba(186, 230, 253, var(--tw-bg-opacity));
 }
 
-.bg-orange-200 {
-	--tw-bg-opacity: 1;
-	background-color: rgba(254, 215, 170, var(--tw-bg-opacity));
-}
-
 .bg-teal-200 {
 	--tw-bg-opacity: 1;
 	background-color: rgba(153, 246, 228, var(--tw-bg-opacity));
@@ -2093,31 +2093,6 @@ select {
 .bg-green-700 {
 	--tw-bg-opacity: 1;
 	background-color: rgba(21, 128, 61, var(--tw-bg-opacity));
-}
-
-.bg-yellow-600 {
-	--tw-bg-opacity: 1;
-	background-color: rgba(202, 138, 4, var(--tw-bg-opacity));
-}
-
-.bg-yellow-400 {
-	--tw-bg-opacity: 1;
-	background-color: rgba(250, 204, 21, var(--tw-bg-opacity));
-}
-
-.bg-yellow-300 {
-	--tw-bg-opacity: 1;
-	background-color: rgba(253, 224, 71, var(--tw-bg-opacity));
-}
-
-.bg-orange-400 {
-	--tw-bg-opacity: 1;
-	background-color: rgba(251, 146, 60, var(--tw-bg-opacity));
-}
-
-.bg-orange-300 {
-	--tw-bg-opacity: 1;
-	background-color: rgba(253, 186, 116, var(--tw-bg-opacity));
 }
 
 .bg-opacity-50 {
@@ -2265,6 +2240,16 @@ select {
 	padding-right: 0px;
 }
 
+.px-\[0\.35rem\] {
+	padding-left: 0.35rem;
+	padding-right: 0.35rem;
+}
+
+.py-\[0\.13rem\] {
+	padding-top: 0.13rem;
+	padding-bottom: 0.13rem;
+}
+
 .py-0\.5 {
 	padding-top: 0.125rem;
 	padding-bottom: 0.125rem;
@@ -2278,61 +2263,6 @@ select {
 .py-40 {
 	padding-top: 10rem;
 	padding-bottom: 10rem;
-}
-
-.px-\[0\.4rem\] {
-	padding-left: 0.4rem;
-	padding-right: 0.4rem;
-}
-
-.py-\[0\.1rem\] {
-	padding-top: 0.1rem;
-	padding-bottom: 0.1rem;
-}
-
-.px-\[0\.3rem\] {
-	padding-left: 0.3rem;
-	padding-right: 0.3rem;
-}
-
-.px-\[0\.35rem\] {
-	padding-left: 0.35rem;
-	padding-right: 0.35rem;
-}
-
-.py-\[0\.05rem\] {
-	padding-top: 0.05rem;
-	padding-bottom: 0.05rem;
-}
-
-.py-\[0\.2rem\] {
-	padding-top: 0.2rem;
-	padding-bottom: 0.2rem;
-}
-
-.py-\[0\.15rem\] {
-	padding-top: 0.15rem;
-	padding-bottom: 0.15rem;
-}
-
-.py-\[0\.12rem\] {
-	padding-top: 0.12rem;
-	padding-bottom: 0.12rem;
-}
-
-.py-\[0\.19rem\] {
-	padding-top: 0.19rem;
-	padding-bottom: 0.19rem;
-}
-
-.py-\[0\.17rem\] {
-	padding-top: 0.17rem;
-	padding-bottom: 0.17rem;
-}
-
-.py-\[0\.13rem\] {
-	padding-top: 0.13rem;
-	padding-bottom: 0.13rem;
 }
 
 .pt-16 {
@@ -3264,12 +3194,12 @@ select {
 		width: 75%;
 	}
 
-	.lg\:w-auto {
-		width: auto;
-	}
-
 	.lg\:w-2\/12 {
 		width: 16.666667%;
+	}
+
+	.lg\:w-auto {
+		width: auto;
 	}
 
 	.lg\:flex-row {

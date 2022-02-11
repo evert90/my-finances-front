@@ -1,21 +1,3 @@
-import { useEffect, useState } from 'react';
-import Select from 'react-select'
-import { CardOnDemand } from '../../class/CardOnDemand';
-import { Tag } from '../../class/Tag';
-import { tagService } from '../../services/tag.service';
-import { useToast } from '../Toast/ToastProvider';
-import { v4 as uuidv4 } from 'uuid';
-import { chartService } from '../../services/chart.service';
-
-import { CardOnDemandType } from '../../class/CardOnDemandType';
-import { PeriodType } from '../../class/PeriodType';
-import { CardOnDemandWidthType } from '../../class/CardOnDemandWidthType';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as Yup from 'yup';
-import { CardOnDemandFilterBy } from '../../class/CardOnDemandFilterBy';
-import { cardService } from '../../services/card.service';
-
 type ModalServiceTermsProps = {
     setShowModalState: React.Dispatch<React.SetStateAction<boolean>>
 }
