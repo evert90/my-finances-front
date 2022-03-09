@@ -136,10 +136,19 @@ function MyApp({ Component, pageProps }) {
             strategy="afterInteractive"
             dangerouslySetInnerHTML={{
               __html: `
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${gtag.GA_TRACKING_ID}', {'page_path': window.location.pathname});
+              let displayMode = 'browser';
+              const mqStandAlone = '(display-mode: standalone)';
+              if (navigator.standalone || window.matchMedia(mqStandAlone).matches) {
+                displayMode = 'standalone';
+              }
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${gtag.GA_TRACKING_ID}', {'page_path': window.location.pathname});
+              gtag('config', '${gtag.GA_TRACKING_ID}', {
+                'custom_map': {'dimension1': 'display_mode'},
+                'display_mode': displayMode
+              });
               `,
             }}
           />
