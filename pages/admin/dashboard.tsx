@@ -273,9 +273,9 @@ export const Dashboard: LayoutComponent = () => {
                         </div>
                         <div className="bg-white rounded shadow-lg">
                             <Chart
-                                options={chartService.periodTotalToChartOptions(financialRecordsChartTotal, "line", "MONTHLY", "INCOME_EXPENSE", colorService.getIncomesExpenses())}
-                                series={chartService.periodTotalToChartSeries(financialRecordsChartTotal, "line")}
-                                type="line"
+                                options={chartService.periodTotalToChartOptions(financialRecordsChartTotal, "area", "MONTHLY", "INCOME_EXPENSE", colorService.getIncomesExpenses())}
+                                series={chartService.periodTotalToChartSeries(financialRecordsChartTotal, "area")}
+                                type="area"
                                 width="100%"
                                 height="430"
                             />
