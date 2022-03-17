@@ -98,17 +98,29 @@ export const CardTableOnDemand: React.FC<CardTableOnDemandProps> = (props) => {
                             <td className="capitalize card-on-demand-tbody-column text-xs-edit">
                                 {moment(period.start, 'YYYY-MM-DD').locale("pt-BR").format(periodService.periodTypeToDateFormat(props.cardOnDemand.periodType))}
                             </td>
-                            {props.cardOnDemand.tags.map((tag, index) =>{
+                            {props.cardOnDemand.tags.map((tag, idx) => {
                                 const tagTotal = period?.totals?.find(it => it.tag.name == tag.name)?.total
                                 total+= tagTotal || 0
-                                return <td key={index} className={"card-on-demand-tbody-column text-xs-edit"}>
+
+                                let difference = undefined
+                                let differencePercentage = undefined
+                                if(index + 1 <= props.cardOnDemand?.data.length) {
+                                    const tagTotalPrevious = (props.cardOnDemand?.data[index+1] as PeriodTagTotal)?.totals?.find(it => it.tag.name == tag.name)?.total || undefined
+                                    difference = tagTotal && tagTotalPrevious && tagTotal - tagTotalPrevious
+                                    differencePercentage = tagTotal && tagTotalPrevious && ((tagTotal - tagTotalPrevious) / tagTotalPrevious * 100)?.toFixed(2) + "%"
+                                }
+
+                                return <td key={idx}
+                                    className={"card-on-demand-tbody-column text-xs-edit"}
+                                    title={difference && `${currencyService.format(difference)} (${differencePercentage})`}>
                                     {tagTotal ? currencyService.format(tagTotal) : "-"}
                                 </td>
                             })}
                             <td className={`${total > 0 && ""} ${total < 0 && "text-red-500"} card-on-demand-tbody-column text-xs-edit font-semibold`}>
                                 {currencyService.format(total)}
                             </td>
-                            <td className={`${total != 0  && totalPreviousPeriod != 0 && total - totalPreviousPeriod > 0 && ""} ${total != 0  && totalPreviousPeriod != 0 && total - totalPreviousPeriod < 0 && "text-red-500"} font-semibold card-on-demand-tbody-column text-xs-edit`}>
+                            <td className={`${total != 0  && totalPreviousPeriod != 0 && total - totalPreviousPeriod > 0 && ""} ${total != 0  && totalPreviousPeriod != 0 && total - totalPreviousPeriod < 0 && "text-red-500"} font-semibold card-on-demand-tbody-column text-xs-edit`}
+                                title={total != 0  && totalPreviousPeriod != 0 && ((total - totalPreviousPeriod) / totalPreviousPeriod * 100)?.toFixed(2) + "%"}>
                                 {total != 0  && totalPreviousPeriod != 0 ? currencyService.format(total - totalPreviousPeriod) : "-"}
                             </td>
                         </tr>
