@@ -115,7 +115,8 @@ function MyApp({ Component, pageProps }) {
         />
         { <link rel="manifest" href="/manifest.json" /> }
         <link rel="apple-touch-icon" href="/img/icons/icon-144x144.png"></link>
-        <meta name="theme-color" content="#fff" />
+        <meta name="theme-color" media="(prefers-color-scheme: light)" content="white"/>
+        <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black"/>
         <title>My Finances</title>
         {/*
         <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
