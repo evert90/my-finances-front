@@ -54,7 +54,7 @@ export const Dashboard: LayoutComponent = () => {
     const [incomeTotal, setIncomeTotal] = useState<number>(undefined)
     const [expenseTotal, setExpenseTotal] = useState<number>(undefined)
     const [financialRecordsCards, setFinancialRecordsCards] = useState<Array<Period>>(periodService.getPeriodMonths(totalFinancialRecordsCards))
-    const [financialRecordsChartTotal, setFinancialRecordsChartTotal] = useState<Array<PeriodTotal>>(periodService.getPeriodTotalMonths(12, "line"))
+    const [financialRecordsChartTotal, setFinancialRecordsChartTotal] = useState<Array<PeriodTotal>>(periodService.getPeriodTotalMonths(window?.innerWidth < 600 ? 4 : 12, "area"))
     const [cardsOnDemand, setCardsOnDemand] = useState<Array<CardOnDemand>>((process.browser && JSON.parse(localStorage.getItem(chartService.getCardsOnDemandStorageName()))) || [])
     const [showChartDefault, setShowChartDefault] = useState<boolean>(process.browser && !localStorage.getItem("removeChartDefault") || cardsOnDemand?.length == 0)
 
@@ -66,8 +66,8 @@ export const Dashboard: LayoutComponent = () => {
         localStorage.setItem(chartService.getCardsOnDemandStorageName(), JSON.stringify(removed))
         if(removed?.length == 0) {
             localStorage.removeItem("removeChartDefault")
+            setShowChartDefault(removed?.length == 0)
         }
-        setShowChartDefault(removed?.length == 0)
     }
 
     const editCardOnDemand = (cardToEdit: CardOnDemand) => {
@@ -277,7 +277,7 @@ export const Dashboard: LayoutComponent = () => {
                                 series={chartService.periodTotalToChartSeries(financialRecordsChartTotal, "area")}
                                 type="area"
                                 width="100%"
-                                height="430"
+                                height={window.innerHeight > 820 ? 430 : 235}
                             />
                         </div>
                     </div>
