@@ -250,7 +250,7 @@ export const ModalAddCard: React.FC<ModalAddCardProps> = (props) => {
                                                     type="number"
                                                     min={0}
                                                     className={`${errors.height && 'is-invalid'} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-1 border-coolGray-300 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
-                                                    defaultValue={window.innerHeight > 700 ? 430 : 235}
+                                                    defaultValue={window.innerHeight > 820 ? 430 : 235}
                                                 />
                                             </div>
                                         </div>
