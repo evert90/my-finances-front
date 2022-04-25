@@ -32,11 +32,25 @@ const TableDropdown: React.FC<TableDropdownProps> = (props) => {
 
     const editRecord = (event: React.MouseEvent) => {
         event.preventDefault();
-        if((props.record as Asset).initialDate) {
+        if((props.record as Asset)?.initialDate) {
             let response = prompt("Digite o valor final")
             if(response && response != "") {
                 (props.record as Asset).endValue = response as any
                 assetService.save((props.record as Asset))
+                .then((response) => {
+                    toast.pushSuccess("Registro editado com sucesso", 5000)
+                })
+                .catch(error => {
+                    toast?.pushError("Erro ao editar registro. " + error, 7000, "truncate-2-lines");
+                }).finally(() => {})
+            }
+
+        } else if((props.record as FinancialRecord)?.value || (props.record as FinancialRecord)?.value === 0) {
+
+            let response = prompt("Digite o novo valor")
+            if(response && response != "") {
+                (props.record as FinancialRecord).value = response as any
+                financialRecordService.save((props.record as FinancialRecord))
                 .then((response) => {
                     toast.pushSuccess("Registro editado com sucesso", 5000)
                 })
