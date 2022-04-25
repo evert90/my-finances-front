@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ChangeEventHandler, useEffect, useState } from "react";
 import { FinancialRecordType } from "../../class/FinancialRecordType";
 import CreatableSelect from 'react-select/creatable';
 import { useToast } from "../Toast/ToastProvider";
@@ -10,6 +10,8 @@ import { FinancialRecord } from "../../class/FinancialRecord";
 import { financialRecordService } from "../../services/financial-record.service";
 import moment from "moment";
 import { Tag } from "../../class/Tag";
+import { RecurrencePeriod } from "../../class/RecurrencePeriod";
+import { FinancialRecordRecurrence } from "../../class/FinancialRecordRecurrence";
 
 
 type FinancialRecordFormProps = {
@@ -21,6 +23,7 @@ export const FinancialRecordForm: React.FC<FinancialRecordFormProps> = (props) =
 
     const [showForm, setShowForm] = useState(false);
     const [showPaid, setShowPaid] = useState(false);
+    const [showRecurrenceOptions, setshowRecurrenceOptions] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [values, setValues] = useState([]);
     const [optionsTags, setOptionsTags] = useState([]);
@@ -84,8 +87,22 @@ export const FinancialRecordForm: React.FC<FinancialRecordFormProps> = (props) =
     const { register, handleSubmit, setError, formState } = useForm(formOptions);
     const { errors } = formState;
 
-    function onSubmit({ name, date, value, tags, type, details, paid }) {
-        let financialRecord = new FinancialRecord(null, name, details, value, date, type, values, getPaid(type, paid))
+    function onSubmit({ name, date, value, tags, type, details, recurrence, paid }) {
+        let financialRecord = new FinancialRecordRecurrence(
+            null,
+            name,
+            details,
+            value,
+            date,
+            type,
+            values,
+            getPaid(type, paid),
+            getRecurrence(recurrence),
+            getRecurrence(recurrence) ? RecurrencePeriod.MONTHLY : null,
+            getRecurrence(recurrence) ? 1 : null,
+            getRecurrence(recurrence) ? true : null)
+
+        console.log("fr", financialRecord)
 
         return financialRecordService.save(financialRecord)
             .then((response: FinancialRecord) => {
@@ -103,6 +120,10 @@ export const FinancialRecordForm: React.FC<FinancialRecordFormProps> = (props) =
 
     const getPaid = (type: string, paid: string): boolean => {
         return FinancialRecordType[type] == FinancialRecordType.EXPENSE ? paid == "Sim" : null
+    }
+
+    const getRecurrence = (recurrence: string): boolean => {
+        return recurrence == "Sim"
     }
 
     return (
@@ -159,14 +180,14 @@ export const FinancialRecordForm: React.FC<FinancialRecordFormProps> = (props) =
                                         Valor
                                     </label>
                                     <input
-                                        type="number" min="1" step="any"
+                                        type="number" min="0" step="any"
                                         {...register('value')}
                                         className={`${errors.value ? 'is-invalid' : ''} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
                                         defaultValue=""
                                     />
                                 </div>
                             </div>
-                            <div className={`w-full px-4  ${showPaid ? "lg:w-6/12" : "lg:w-8/12"}`}>
+                            <div className={`w-full px-4 lg:w-12/12`}>
                                 <div className="relative w-full mb-3">
                                     <label
                                         className="block mb-2 text-xs font-bold uppercase text-blueGray-600"
@@ -192,7 +213,7 @@ export const FinancialRecordForm: React.FC<FinancialRecordFormProps> = (props) =
                                     />
                                 </div>
                             </div>
-                            <div className={`w-full px-4 ${showPaid ? "lg:w-3/12" : "lg:w-4/12"}`}>
+                            <div className={`w-full px-4 lg:w-6/12`}>
                                 <div className="relative w-full mb-3">
                                     <label
                                         className="block mb-2 text-xs font-bold uppercase text-blueGray-600"
@@ -212,6 +233,24 @@ export const FinancialRecordForm: React.FC<FinancialRecordFormProps> = (props) =
                                     </select>
                                 </div>
                             </div>
+                            <div className={`w-full px-4 ${showPaid ? "lg:w-3/12" : "lg:w-6/12"}`}>
+                                <div className="relative w-full mb-3">
+                                    <label
+                                        className="block mb-2 text-xs font-bold uppercase text-blueGray-600"
+                                        htmlFor="grid-password"
+                                    >
+                                        Recorrência
+                                    </label>
+                                    <select
+                                        {...register('recurrence')}
+                                        onChange={(e: any) => setshowRecurrenceOptions(e?.target?.value == "Sim")}
+                                        className={`${errors.recurrence ? 'is-invalid' : ''} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
+                                    >
+                                        <option defaultChecked key="Não" value="Não" label="Não" />
+                                        <option key="Sim" value="Sim" label="Sim" />
+                                    </select>
+                                </div>
+                            </div>
                             <div className={`${!showPaid && "hidden"} w-full px-4 lg:w-3/12`}>
                                 <div className="relative w-full mb-3">
                                     <label
@@ -224,8 +263,8 @@ export const FinancialRecordForm: React.FC<FinancialRecordFormProps> = (props) =
                                         {...register('paid')}
                                         className={`${errors.paid ? 'is-invalid' : ''} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
                                     >
-                                        <option defaultChecked key="Sim" value="Sim" label="Sim" />
                                         <option key="Não" value="Não" label="Não" />
+                                        <option defaultChecked key="Sim" value="Sim" label="Sim" />
                                     </select>
                                 </div>
                             </div>

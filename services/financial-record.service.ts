@@ -1,5 +1,6 @@
 
 import { FinancialRecord } from '../class/FinancialRecord';
+import { FinancialRecordRecurrence } from '../class/FinancialRecordRecurrence';
 import { ToastContextType } from '../components/Toast/ToastProvider';
 import { fetchWrapper } from '../helpers/fetch-wrapper';
 
@@ -37,7 +38,7 @@ function getTotalByPeriodAndTags(start: string, end: string, tagIds: Array<numbe
     return fetchWrapper.get(`${baseUrl}/report/total/period/tag?` + new URLSearchParams({ start, end, tagIds: tagIds.join(",") }))
 }
 
-function save(financialRecord: FinancialRecord): Promise<FinancialRecord> {
+function save(financialRecord: FinancialRecord | FinancialRecordRecurrence): Promise<FinancialRecord> {
     return fetchWrapper.post(`${baseUrl}/`, financialRecord)
         .then((response: FinancialRecord) => {
             return response;
