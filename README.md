@@ -1,6 +1,6 @@
 # ERP FRONT
 
-Projetinho com NextJS + Tailwind
+Projeto para controle de finanças pessoais com NextJS + Tailwind
 
 Para rodar no ambiente de desenvolvimento, utilize 2 terminais:
 
