@@ -199,8 +199,8 @@ function getPeriodTagTotalMonths(months: number, type: string): Array<PeriodTagT
                 .format('YYYY-MM-DD');
 
             let dataFinal = moment()
-                .endOf('month')
                 .subtract(i, 'months')
+                .endOf('month')
                 .format('YYYY-MM-DD');
 
             periodos.push(new PeriodTagTotal(dataInicial, dataFinal, null))
