@@ -181,8 +181,8 @@ function getPeriodTagTotalMonths(months: number, type: string): Array<PeriodTagT
 
     if(type == 'donut' || type == 'pie') {
         let dataInicial = moment()
-        .endOf('month')
-        .subtract(months, 'months')
+        .subtract(months - 1, 'months')
+        .startOf('month')
         .format('YYYY-MM-DD');
 
         let dataFinal = moment()
