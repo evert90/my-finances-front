@@ -12,7 +12,7 @@ export const Index = () => {
                 <div className="container flex flex-wrap items-center mx-auto">
                     <div className="w-full px-4 md:w-8/12 lg:w-6/12 xl:w-6/12">
                         <div className="pt-32 sm:pt-0">
-                            <h2 className="text-4xl font-semibold text-blueGray-600">
+                            <h2 data-testid="test" className="text-4xl font-semibold text-blueGray-600">
                                 Notus NextJS - A beautiful extension for Tailwind CSS.
                             </h2>
                             <p className="mt-4 text-lg leading-relaxed text-blueGray-500">
