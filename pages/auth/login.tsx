@@ -56,7 +56,7 @@ export const Login: LayoutComponent = () => {
 
   return (
     <>
-      <div className="container h-full px-4 mx-auto">
+      <div data-testid="test" className="container h-full px-4 mx-auto">
         <div className="flex items-center content-center justify-center h-full">
           <div className="w-full px-4 lg:w-4/12">
             <div className="relative flex flex-col w-full min-w-0 mb-6 break-words border-0 rounded-lg shadow-lg bg-blueGray-200">
