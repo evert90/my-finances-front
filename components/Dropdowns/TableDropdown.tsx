@@ -20,11 +20,15 @@ const TableDropdown: React.FC<TableDropdownProps> = (props) => {
     const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
     const btnDropdownRef: any = React.createRef();
     const popoverDropdownRef: any = React.createRef();
+
     const openDropdownPopover = () => {
-    createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
-        placement: "left-start",
-    });
-      setDropdownPopoverShow(true);
+        const instance = createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
+            placement: "left-start",
+        });
+        setDropdownPopoverShow(true);
+        setTimeout(() => {
+            instance.update();
+        }, 50)
     };
     const closeDropdownPopover = () => {
         setDropdownPopoverShow(false);

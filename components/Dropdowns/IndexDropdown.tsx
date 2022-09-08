@@ -8,10 +8,13 @@ export const IndexDropdown = () => {
   const btnDropdownRef: any = React.createRef();
   const popoverDropdownRef: any = React.createRef();
   const openDropdownPopover = () => {
-    createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
+    const instance = createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
       placement: "bottom-start",
     });
     setDropdownPopoverShow(true);
+    setTimeout(() => {
+      instance.update();
+    }, 50)
   };
   const closeDropdownPopover = () => {
     setDropdownPopoverShow(false);
