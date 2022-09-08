@@ -1,9 +1,10 @@
+/** @type {import('tailwindcss').Config} */
+
 const plugin = require("tailwindcss/plugin");
 const colors = require("tailwindcss/colors");
 
 module.exports = {
-  mode: 'jit',
-  purge: [
+  content: [
       './pages/**/*.{js,jsx,ts,tsx}',
       './components/**/*.{js,jsx,ts,tsx}',
       './layouts/**/*.{js,jsx,ts,tsx}'

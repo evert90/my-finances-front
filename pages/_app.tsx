@@ -8,7 +8,7 @@ import { LayoutComponent } from "../class/LayoutComponent";
 import { PageChange } from "../components/PageChange/PageChange";
 import { userService } from "../services/user.service";
 import '../styles/scrollbar.css';
-import '../styles/tailwind.css';
+import '../styles/global.css';
 import '../styles/tooltip.css';
 import '../styles/utils.css';
 import Providers from "./Providers";
