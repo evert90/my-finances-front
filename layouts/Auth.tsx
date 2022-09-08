@@ -4,9 +4,9 @@ import { FooterSmall } from "../components/Footers/FooterSmall";
 export const Auth = ({ children }) => {
   return (
     <>
-      <style jsx>{`
+      <style jsx global>{`
       /* INPUT BORDER ON FOCUS */
-      :global([type='text']:focus, [type='email']:focus, [type='url']:focus, [type='password']:focus, [type='number']:focus, [type='month']:focus, [type='time']:focus, [type='week']:focus, [multiple]:focus, textarea:focus, select:focus) {
+      [type='text']:focus, [type='email']:focus, [type='url']:focus, [type='password']:focus, [type='number']:focus, [type='month']:focus, [type='time']:focus, [type='week']:focus, [multiple]:focus, textarea:focus, select:focus {
         --tw-ring-color: rgba(71, 85, 105, var(--tw-text-opacity));
         border-color: var(--tw-ring-color) !important;
         border-left: 5px solid var(--tw-ring-color) !important;
