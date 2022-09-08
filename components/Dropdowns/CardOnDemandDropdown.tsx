@@ -15,7 +15,7 @@ export const CardOnDemandDropdown: React.FC<CardOnDemandDropdownProps> = (props)
         const btnDropdownRef: any = React.createRef();
         const popoverDropdownRef: any = React.createRef();
         const openDropdownPopover = () => {
-        createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
+        const instance = createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
             placement: "left-start",
             modifiers: [
               {
@@ -27,6 +27,9 @@ export const CardOnDemandDropdown: React.FC<CardOnDemandDropdownProps> = (props)
             ],
         });
           setDropdownPopoverShow(true);
+          setTimeout(() => {
+            instance.update();
+          }, 50)
         };
         const closeDropdownPopover = () => {
             setDropdownPopoverShow(false);

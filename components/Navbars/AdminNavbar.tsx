@@ -25,7 +25,7 @@ export const AdminNavbar = () => {
   const productsPopoverRef: RefObject<HTMLInputElement> = React.createRef();
 
   const openTooltip = (iconRef: RefObject<HTMLInputElement>, popoverRef: RefObject<HTMLInputElement>, setPopover: any) => {
-    createPopper(iconRef.current, popoverRef.current, {
+    const instance = createPopper(iconRef.current, popoverRef.current, {
       placement: "bottom",
       modifiers: [
         {
@@ -36,6 +36,9 @@ export const AdminNavbar = () => {
         },
       ],
     });
+    setTimeout(() => {
+      instance.update();
+    }, 50)
     setPopover(true);
   };
   const closeTooltip = (setPopover: any) => {
