@@ -1,6 +1,4 @@
-import { isTargetLikeServerless } from "next/dist/server/config";
 import { Asset } from "../class/Asset";
-import { ToastContextType } from "../components/Toast/ToastProvider";
 import { fetchWrapper } from "../helpers/fetch-wrapper";
 
 const baseUrl = `${fetchWrapper.getApiUrl()}/assets`;

@@ -2,11 +2,7 @@
 
 Projeto para controle de finanças pessoais com NextJS + Tailwind
 
-Para rodar no ambiente de desenvolvimento, utilize 2 terminais:
-
-- npm run dev
-
-- npm run css:dev
+Para rodar no ambiente de desenvolvimento, utilize o comando "npm run dev"
 
 ---------------
 

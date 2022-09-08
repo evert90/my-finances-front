@@ -105,7 +105,6 @@ export const Register: LayoutComponent = () => {
                       className={`${errors.name ? 'is-invalid' : ''} border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150`}
                       placeholder="Nome completo"
                     />
-                    <div className="invalid-feedback" style={{display: "none"}}>{errors.name?.message}</div>
                   </div>
 
                   <div className="relative w-full mb-3">
@@ -121,7 +120,6 @@ export const Register: LayoutComponent = () => {
                       className={`${errors.email ? 'is-invalid' : ''} border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150`}
                       placeholder="Email"
                     />
-                    <div className="invalid-feedback" style={{display: "none"}}>{errors.email?.message}</div>
                   </div>
 
                   <div className="relative w-full mb-3">
@@ -137,7 +135,6 @@ export const Register: LayoutComponent = () => {
                       className={`${errors.password ? 'is-invalid' : ''} border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150`}
                       placeholder="Senha"
                     />
-                    <div className="invalid-feedback" style={{display: "none"}}>{errors.password?.message}</div>
                   </div>
 
                   <div>
