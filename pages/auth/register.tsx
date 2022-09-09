@@ -10,6 +10,9 @@ import { Auth } from "../../layouts/Auth";
 import { userService } from "../../services/user.service";
 import Link from "next/link";
 import { ModalServiceTerms } from '../../components/Modal/ModalServiceTerms';
+import getConfig from 'next/config';
+import { utilsService } from '../../services/utils.service';
+import { socialLoginService } from '../../services/social-login.service';
 
 // layout for page
 
@@ -18,6 +21,8 @@ export const Register: LayoutComponent = () => {
   const router = useRouter();
   const toast = useToast();
   const [showModal, setShowModal] =  useState<boolean>(false)
+
+  const { publicRuntimeConfig } = getConfig();
 
   useEffect(() => {
     // redirect to home if already logged in
@@ -73,6 +78,7 @@ export const Register: LayoutComponent = () => {
                   <button
                     className="inline-flex items-center px-4 py-2 mb-1 mr-2 text-xs font-bold uppercase transition-all duration-150 ease-linear bg-white rounded shadow outline-none active:bg-blueGray-50 text-blueGray-700 focus:outline-none hover:shadow-md"
                     type="button"
+                    onClick={() => utilsService.redirect(socialLoginService.getGithubUrl())}
                   >
                     <img alt="..." className="w-5 mr-1" src="/img/github.svg" />
                     Github
@@ -80,6 +86,7 @@ export const Register: LayoutComponent = () => {
                   <button
                     className="inline-flex items-center px-4 py-2 mb-1 mr-1 text-xs font-bold uppercase transition-all duration-150 ease-linear bg-white rounded shadow outline-none active:bg-blueGray-50 text-blueGray-700 focus:outline-none hover:shadow-md"
                     type="button"
+                    onClick={() => utilsService.redirect(socialLoginService.getGoogleUrl())}
                   >
                     <img alt="..." className="w-5 mr-1" src="/img/google.svg" />
                     Google

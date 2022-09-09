@@ -1,7 +1,12 @@
 export const utilsService = {
-    getNullable
+    getNullable,
+    redirect
 }
 
 function getNullable(value: any) {
     return value ? value : null
 }
+
+function redirect(url: string) {
+    window.location.assign(url)
+  }

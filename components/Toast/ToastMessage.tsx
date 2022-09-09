@@ -109,7 +109,7 @@ export default function ToastMessage({
           <div className="flex my-auto font-bold select-none">{Var.name}</div>
           <p
             className={clsx(
-              "-mt-0.5 my-auto break-all flex",
+              "-mt-0.5 my-auto break-words flex",
               "text-gray-600 text-sm",
               typeof message === "string" && truncate
             )}

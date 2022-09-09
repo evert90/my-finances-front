@@ -108,7 +108,7 @@ export const AdminNavbar = () => {
               }
             >
               <i
-                className={"fas fa-building mr-6 text-xl-edit"}
+                className={"fas fa-building-columns mr-6 text-xl-edit"}
                 onMouseEnter={() => openTooltip(assetsRef, assetsPopoverRef, setAssetsPopoverShow)}
                 onMouseLeave={() => closeTooltip(setAssetsPopoverShow)}
                 ref={assetsRef}

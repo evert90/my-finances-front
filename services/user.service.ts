@@ -8,6 +8,7 @@ const baseUrl = `${fetchWrapper.getApiUrl()}/users`;
 const userSubject = new BehaviorSubject<AuthenticatedUser>(process.browser && JSON.parse(localStorage.getItem('user')));
 
 export const userService = {
+    userSubject,
     user: userSubject.asObservable(),
     getUserValue: (): AuthenticatedUser => { return userSubject.value },
     login,

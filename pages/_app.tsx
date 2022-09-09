@@ -1,5 +1,4 @@
 import 'regenerator-runtime/runtime';
-import "@fortawesome/fontawesome-free/css/all.min.css";
 import Head from "next/head";
 import Router, { useRouter } from "next/router";
 import React, { useEffect } from "react";
@@ -14,6 +13,13 @@ import '../styles/utils.css';
 import Providers from "./Providers";
 import Script from 'next/script';
 import * as gtag from "../helpers/gtag";
+
+import "@fortawesome/fontawesome-free/css/all.min.css";
+// This ensures that the icon CSS is loaded immediately before attempting to render icons
+import "@fortawesome/fontawesome-svg-core/styles.css";
+import { config } from "@fortawesome/fontawesome-svg-core";
+// Prevent fontawesome from dynamically adding its css since we did it manually above
+config.autoAddCss = false;
 
 function MyApp({ Component, pageProps }) {
 
