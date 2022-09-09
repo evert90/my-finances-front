@@ -9,7 +9,8 @@ export const fetchWrapper = {
     post,
     put,
     delete: _delete,
-    getApiUrl
+    getApiUrl,
+    getBaseUrl
 };
 
 function get(url) {
@@ -81,5 +82,10 @@ function handleResponse(response) {
 }
 
 function getApiUrl() {
-    return process.browser && localStorage.getItem("apiUrl") || publicRuntimeConfig.apiUrl
+    return getBaseUrl() + "/api"
+}
+
+
+function getBaseUrl() {
+    return process.browser && localStorage.getItem("baseUrl") || publicRuntimeConfig.baseUrl
 }

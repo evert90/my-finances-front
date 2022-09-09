@@ -10,6 +10,8 @@ import { useForm } from "react-hook-form";
 import { useToast } from "../../components/Toast/ToastProvider";
 import { User } from "../../class/User";
 import { fetchWrapper } from "../../helpers/fetch-wrapper";
+import { socialLoginService } from "../../services/social-login.service";
+import { utilsService } from "../../services/utils.service";
 
 // layout for page
 
@@ -21,6 +23,11 @@ export const Login: LayoutComponent = () => {
   useEffect(() => {
     // redirect to home if already logged in
     if (userService.getUserValue()?.token) {
+      router.push('/admin/dashboard');
+    }
+
+    if(socialLoginService.hasParams()) {
+      socialLoginService.login();
       router.push('/admin/dashboard');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -70,6 +77,7 @@ export const Login: LayoutComponent = () => {
                   <button
                     className="inline-flex items-center px-4 py-2 mb-1 mr-2 text-xs font-bold uppercase transition-all duration-150 ease-linear bg-white rounded shadow outline-none inset-3 active:bg-blueGray-50 text-blueGray-700 focus:outline-none hover:shadow-md"
                     type="button"
+                    onClick={() => utilsService.redirect(socialLoginService.getGithubUrl())}
                   >
                     <img alt="..." className="w-5 mr-1" src="/img/github.svg" />
                     Github
@@ -77,6 +85,7 @@ export const Login: LayoutComponent = () => {
                   <button
                     className="inline-flex items-center px-4 py-2 mb-1 mr-1 text-xs font-bold uppercase transition-all duration-150 ease-linear bg-white rounded shadow outline-none active:bg-blueGray-50 text-blueGray-700 focus:outline-none hover:shadow-md"
                     type="button"
+                    onClick={() => utilsService.redirect(socialLoginService.getGoogleUrl())}
                   >
                     <img alt="..." className="w-5 mr-1" src="/img/google.svg" />
                     Google
@@ -150,9 +159,9 @@ export const Login: LayoutComponent = () => {
                   href="#pablo"
                   onClick={(e) => {
                     e.preventDefault()
-                    const response = prompt("API URL:", fetchWrapper.getApiUrl())
+                    const response = prompt("BASE URL:", fetchWrapper.getBaseUrl())
                     if(response != null && response != "") {
-                      localStorage.setItem("apiUrl", response)
+                      localStorage.setItem("baseUrl", response)
                       window.location.reload()
                     }
                   }
