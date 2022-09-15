@@ -2,7 +2,7 @@ import 'regenerator-runtime/runtime';
 import Head from "next/head";
 import Router, { useRouter } from "next/router";
 import React, { useEffect } from "react";
-import ReactDOM from "react-dom";
+import { createRoot, Root } from 'react-dom/client';
 import { LayoutComponent } from "../class/LayoutComponent";
 import { PageChange } from "../components/PageChange/PageChange";
 import { userService } from "../services/user.service";
@@ -31,9 +31,9 @@ function MyApp({ Component, pageProps }) {
 
   const router = useRouter();
 
-  useEffect(() => {
-    console.log("APP EFFECT")
+  let root: Root;
 
+  useEffect(() => {
     let comment = document.createComment(`
     =========================================================
     * Notus NextJS - v1.1.0 based on Tailwind Starter Kit by Creative Tim
@@ -77,21 +77,19 @@ function MyApp({ Component, pageProps }) {
 
   const routeChangeComplete = (url) => {
     authCheck(url)
-    ReactDOM.unmountComponentAtNode(document.getElementById("page-transition"));
+    root.unmount();
     document.body.classList.remove("body-page-transition");
     gtag.pageview(url)
   }
 
   const routeChangeStart = (url) => {
     document.body.classList.add("body-page-transition");
-    ReactDOM.render(
-      <PageChange path={url} />,
-      document.getElementById("page-transition")
-    );
+    root = createRoot(document.getElementById("page-transition"));
+    root.render(<PageChange path={url} />);
   }
 
   const routeChangeError = () => {
-    ReactDOM.unmountComponentAtNode(document.getElementById("page-transition"));
+    root.unmount();
     document.body.classList.remove("body-page-transition");
   }
 
