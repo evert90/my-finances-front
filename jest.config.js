@@ -18,8 +18,8 @@ const customJestConfig = {
     global: {
       branches: 10.77,
       functions: 14.71,
-      lines: 46.23,
-      statements: 48.92,
+      lines: 45.71,
+      statements: 48.47,
     },
   },
   moduleDirectories: ['node_modules', '<rootDir>/'],
