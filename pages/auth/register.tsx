@@ -10,7 +10,6 @@ import { Auth } from "../../layouts/Auth";
 import { userService } from "../../services/user.service";
 import Link from "next/link";
 import { ModalServiceTerms } from '../../components/Modal/ModalServiceTerms';
-import getConfig from 'next/config';
 import { utilsService } from '../../services/utils.service';
 import { socialLoginService } from '../../services/social-login.service';
 
@@ -21,8 +20,6 @@ export const Register: LayoutComponent = () => {
   const router = useRouter();
   const toast = useToast();
   const [showModal, setShowModal] =  useState<boolean>(false)
-
-  const { publicRuntimeConfig } = getConfig();
 
   useEffect(() => {
     // redirect to home if already logged in

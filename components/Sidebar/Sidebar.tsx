@@ -153,7 +153,7 @@ const Sidebar = () => {
                   >
                     <i
                       className={
-                        "fas fa-building-columns mr-2 text-sm w-4 " +
+                        "fas fa-building mr-2 text-sm w-4 " +
                         (router.pathname.indexOf("/admin/assets") !== -1
                           ? "opacity-75"
                           : "text-blueGray-300")
