@@ -3,6 +3,7 @@ import Router from 'next/router'
 import { fetchWrapper } from '../helpers/fetch-wrapper';
 import { AuthenticatedUser } from '../class/AuthenticatedUser';
 import { User } from '../class/User';
+import { utilsService } from './utils.service';
 
 const baseUrl = `${fetchWrapper.getApiUrl()}/users`;
 const userSubject = new BehaviorSubject<AuthenticatedUser>(process.browser && JSON.parse(localStorage.getItem('user')));
@@ -43,7 +44,7 @@ function logout() {
     // remove user from local storage, publish null to user subscribers and redirect to login page
     localStorage.removeItem('user');
     userSubject.next(null);
-    Router.push('/auth/login');
+    utilsService.redirect(`${baseUrl}/auth/logout`);
 }
 
 function getAll() {
