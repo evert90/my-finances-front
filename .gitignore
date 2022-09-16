@@ -28,3 +28,6 @@ out/
 commit.sh
 
 .idea/
+
+# Sentry
+.sentryclirc
