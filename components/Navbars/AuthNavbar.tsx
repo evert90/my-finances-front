@@ -18,7 +18,6 @@ export const AuthNavbar: React.FC<AuthNavbarProps> = ({transparent}) =>  {
             <Link href="/">
               <a
                 className="inline-block py-2 mr-4 text-sm font-bold leading-relaxed text-white uppercase whitespace-nowrap"
-                href="#pablo"
               >
                 Notus NextJS
               </a>

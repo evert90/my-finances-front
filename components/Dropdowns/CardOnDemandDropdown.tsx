@@ -37,7 +37,6 @@ export const CardOnDemandDropdown: React.FC<CardOnDemandDropdownProps> = (props)
     return (
         <>
             <a className="text-blueGray-500"
-               href="#pablo"
                ref={btnDropdownRef}
                onClick={(e) => {
                     e.preventDefault();

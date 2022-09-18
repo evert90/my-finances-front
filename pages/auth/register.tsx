@@ -152,7 +152,6 @@ export const Register: LayoutComponent = () => {
                       <span className="ml-2 text-sm font-semibold text-blueGray-600">
                         Eu concordo com os{" "}
                         <a
-                          href="#pablo"
                           className="text-lightBlue-500"
                           onClick={(e) => setShowModal(true)}
                         >
@@ -178,13 +177,13 @@ export const Register: LayoutComponent = () => {
             <div className="relative flex flex-wrap mt-6">
               <div className="w-1/2">
                 <Link href="/auth/login">
-                  <a href="#pablo" className="text-blueGray-200">
+                  <a  className="text-blueGray-200">
                     <small>Área de login</small>
                   </a>
                 </Link>
               </div>
               <div className="w-1/2 text-right">
-                  <a href="#pablo" className="text-blueGray-200">
+                  <a  className="text-blueGray-200">
                     <small>Precisa de ajuda?</small>
                   </a>
               </div>
