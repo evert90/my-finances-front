@@ -13,7 +13,6 @@ export const IndexNavbar = () => {
             <Link href="/">
               <a
                 className="inline-block py-2 mr-4 text-sm font-bold leading-relaxed uppercase text-blueGray-700 whitespace-nowrap"
-                href="#pablo"
               >
                 Notus NextJS
               </a>

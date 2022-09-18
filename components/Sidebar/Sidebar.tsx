@@ -27,7 +27,6 @@ const Sidebar = () => {
           {/* Brand */}
           <Link href="/">
             <a
-              href="#pablo"
               className="inline-block p-4 px-0 mr-0 text-sm font-bold text-left uppercase md:block md:pb-2 text-blueGray-600 whitespace-nowrap"
             >
               <img src="/img/logo/horizontal_blue3.png" style={logoStyle} alt="" />
@@ -55,7 +54,7 @@ const Sidebar = () => {
                 <div className="w-6/12">
                   <Link href="/">
                     <a
-                      href="#pablo"
+
                       className="inline-block p-4 px-0 mr-0 text-sm font-bold text-left uppercase md:block md:pb-2 text-blueGray-600 whitespace-nowrap"
                     >
                       <img src="/img/logo/horizontal_blue3.png" style={logoStyle} alt="" />
@@ -92,7 +91,7 @@ const Sidebar = () => {
               <li className="items-center">
                 <Link href="/admin/dashboard">
                   <a
-                    href="#pablo"
+
                     onClick={() => setCollapseShow("hidden")}
                     className={
                       "text-md py-3 font-bold block " +
@@ -117,7 +116,7 @@ const Sidebar = () => {
               <li className="items-center">
                 <Link href="/admin/financial-records">
                   <a
-                    href="#pablo"
+
                     onClick={() => setCollapseShow("hidden")}
                     className={
                       "text-md py-3 font-bold block " +
@@ -142,7 +141,7 @@ const Sidebar = () => {
               <li className="items-center">
                 <Link href="/admin/assets">
                   <a
-                    href="#pablo"
+
                     onClick={() => setCollapseShow("hidden")}
                     className={
                       "text-md py-3 font-bold block " +
@@ -167,7 +166,7 @@ const Sidebar = () => {
               <li className="items-center">
                 <Link href="/admin/debts">
                   <a
-                    href="#pablo"
+
                     onClick={() => setCollapseShow("hidden")}
                     className={
                       "text-md py-3 font-bold block " +
@@ -192,7 +191,7 @@ const Sidebar = () => {
               <li className="items-center">
                 <Link href="/admin/products">
                   <a
-                    href="#pablo"
+
                     onClick={() => setCollapseShow("hidden")}
                     className={
                       "text-md py-3 font-bold block " +
@@ -217,7 +216,7 @@ const Sidebar = () => {
               <li className="items-center">
                 <Link href="/admin/settings">
                   <a
-                    href="#pablo"
+
                     className={
                       "text-md py-3 font-bold block " +
                       (router.pathname.indexOf("/admin/settings") !== -1
@@ -241,7 +240,7 @@ const Sidebar = () => {
               <li className="items-center">
                 <Link href="/admin/tables">
                   <a
-                    href="#pablo"
+
                     className={
                       "text-md py-3 font-bold block " +
                       (router.pathname.indexOf("/admin/tables") !== -1
@@ -265,7 +264,7 @@ const Sidebar = () => {
               <li className="items-center">
                 <Link href="/admin/maps">
                   <a
-                    href="#pablo"
+
                     className={
                       "text-md py-3 font-bold block " +
                       (router.pathname.indexOf("/admin/maps") !== -1

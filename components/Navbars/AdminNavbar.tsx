@@ -53,7 +53,7 @@ export const AdminNavbar = () => {
           {/* Brand
           <a
             className="hidden text-sm font-semibold text-white uppercase lg:inline-block"
-            href="#pablo"
+
             onClick={(e) => e.preventDefault()}
           >
             Dashboard
@@ -61,7 +61,6 @@ export const AdminNavbar = () => {
             */}
           <Link href="/admin/dashboard" as="/admin/dashboard">
             <a
-              href="#pablo"
               className={
                 "text-md py-3 font-bold block " +
                 (router.pathname.indexOf("/admin/dashboard") !== -1
@@ -80,7 +79,7 @@ export const AdminNavbar = () => {
 
           <Link href="/admin/financial-records" as="/admin/financial-records">
             <a
-              href="#pablo"
+
               className={
                 "text-md py-3 font-bold block " +
                 (router.pathname.indexOf("/admin/financial-records") !== -1
@@ -99,7 +98,7 @@ export const AdminNavbar = () => {
 
           <Link href="/admin/assets">
             <a
-              href="#pablo"
+
               className={
                 "text-md py-3 font-bold block " +
                 (router.pathname.indexOf("/admin/assets") !== -1
@@ -118,7 +117,7 @@ export const AdminNavbar = () => {
 
           <Link href="/admin/debts">
             <a
-              href="#pablo"
+
               className={
                 "text-md py-3 font-bold block " +
                 (router.pathname.indexOf("/admin/debts") !== -1
@@ -137,7 +136,7 @@ export const AdminNavbar = () => {
 
           <Link href="/admin/products">
             <a
-              href="#pablo"
+
               className={
                 "text-md py-3 font-bold block " +
                 (router.pathname.indexOf("/admin/products") !== -1

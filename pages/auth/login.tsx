@@ -156,7 +156,6 @@ export const Login: LayoutComponent = () => {
             <div className="relative flex flex-wrap mt-6">
               <div className="w-1/2">
                 <a
-                  href="#pablo"
                   onClick={(e) => {
                     e.preventDefault()
                     const response = prompt("BASE URL:", fetchWrapper.getBaseUrl())
@@ -173,7 +172,7 @@ export const Login: LayoutComponent = () => {
               </div>
               <div className="w-1/2 text-right">
                 <Link href="/auth/register">
-                  <a href="#pablo" className="text-blueGray-200">
+                  <a className="text-blueGray-200">
                     <small>Criar nova conta</small>
                   </a>
                 </Link>

@@ -23,7 +23,6 @@ export const PagesDropdown = () => {
     <>
       <a
         className="flex items-center px-3 py-4 text-xs font-bold uppercase lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 lg:py-2"
-        href="#pablo"
         ref={btnDropdownRef}
         onClick={(e) => {
           e.preventDefault();
@@ -48,7 +47,6 @@ export const PagesDropdown = () => {
         </span>
         <Link href="/admin/dashboard">
           <a
-            href="#pablo"
             className={
               "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
             }
@@ -58,7 +56,6 @@ export const PagesDropdown = () => {
         </Link>
         <Link href="/admin/settings">
           <a
-            href="#pablo"
             className={
               "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
             }
@@ -68,7 +65,6 @@ export const PagesDropdown = () => {
         </Link>
         <Link href="/admin/tables">
           <a
-            href="#pablo"
             className={
               "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
             }
@@ -78,7 +74,6 @@ export const PagesDropdown = () => {
         </Link>
         <Link href="/admin/maps">
           <a
-            href="#pablo"
             className={
               "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
             }
@@ -96,7 +91,6 @@ export const PagesDropdown = () => {
         </span>
         <Link href="/auth/login">
           <a
-            href="#pablo"
             className={
               "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
             }
@@ -106,7 +100,6 @@ export const PagesDropdown = () => {
         </Link>
         <Link href="/auth/register">
           <a
-            href="#pablo"
             className={
               "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
             }
@@ -124,7 +117,6 @@ export const PagesDropdown = () => {
         </span>
         <Link href="/landing">
           <a
-            href="#pablo"
             className={
               "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
             }
@@ -134,7 +126,6 @@ export const PagesDropdown = () => {
         </Link>
         <Link href="/profile">
           <a
-            href="#pablo"
             className={
               "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
             }

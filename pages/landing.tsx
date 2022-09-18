@@ -129,7 +129,7 @@ const Landing = () => {
                   JavaScript.
                 </p>
                 <Link href="/">
-                  <a href="#pablo" className="mt-8 font-bold text-blueGray-700">
+                  <a className="mt-8 font-bold text-blueGray-700">
                     Check Notus NextJS!
                   </a>
                 </Link>
