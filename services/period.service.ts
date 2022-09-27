@@ -78,8 +78,8 @@ function getPeriodTotalMonths(months: number, type: string): Array<PeriodTotal> 
 
     if(type == 'donut' || type == 'pie') {
         let dataInicial = moment()
-        .endOf('month')
         .subtract(months, 'months')
+        .endOf('month')
         .format('YYYY-MM-DD');
 
         let dataFinal = moment()
@@ -96,8 +96,8 @@ function getPeriodTotalMonths(months: number, type: string): Array<PeriodTotal> 
                 .format('YYYY-MM-DD');
 
             let dataFinal = moment()
-                .endOf('month')
                 .subtract(i, 'months')
+                .endOf('month')
                 .format('YYYY-MM-DD');
 
             periodos.push(new PeriodTotal(dataInicial, dataFinal, null))
