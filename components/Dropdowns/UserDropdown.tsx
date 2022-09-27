@@ -40,7 +40,7 @@ const UserDropdown = () => {
         }}
       >
         <div className="flex items-center">
-          <span className="inline-flex items-center justify-center w-12 h-12 text-sm text-white rounded-full bg-blueGray-200">
+          <span className="inline-flex items-center justify-center w-12 h-12 text-sm text-white rounded-full cursor-pointer bg-blueGray-200">
             <img
               alt="..."
               className="w-full align-middle scale-95 border-none rounded-full shadow-lg scale-0097"
@@ -59,7 +59,7 @@ const UserDropdown = () => {
         <a
 
           className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700 hover:bg-gray-100"
+            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700 hover:bg-gray-100 cursor-pointer"
           }
           onClick={(e) => e.preventDefault()}
         >
@@ -69,7 +69,7 @@ const UserDropdown = () => {
         <a
 
           className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700 hover:bg-gray-100"
+            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700 hover:bg-gray-100 cursor-pointer"
           }
           onClick={(e) => logout(e)}
         >

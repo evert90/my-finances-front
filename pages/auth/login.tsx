@@ -165,7 +165,7 @@ export const Login: LayoutComponent = () => {
                     }
                   }
                   }
-                  className="text-blueGray-200"
+                  className="cursor-pointer text-blueGray-200"
                 >
                   <small>Alterar api?</small>
                 </a>
