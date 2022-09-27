@@ -83,7 +83,7 @@ const TableDropdown: React.FC<TableDropdownProps> = (props) => {
     return (
         <>
             <a
-                className="px-3 py-1 text-blueGray-500"
+                className="px-3 py-1 cursor-pointer text-blueGray-500"
                 ref={btnDropdownRef}
                 onClick={(e) => {
                     e.preventDefault();
@@ -102,7 +102,7 @@ const TableDropdown: React.FC<TableDropdownProps> = (props) => {
             >
                 <a
                     className={
-                    "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700 hover:bg-gray-100"
+                    "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700 hover:bg-gray-100 cursor-pointer"
                     }
                     onClick={(e) => {closeDropdownPopover(); editRecord(e)}}
                 >
@@ -110,7 +110,7 @@ const TableDropdown: React.FC<TableDropdownProps> = (props) => {
                 </a>
                 <a
                     className={
-                    "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700 hover:bg-gray-100"
+                    "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700 hover:bg-gray-100 cursor-pointer"
                     }
                     onClick={(e) => {closeDropdownPopover(); deleteRecord(e)}}
                 >
