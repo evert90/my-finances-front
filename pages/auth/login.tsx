@@ -57,7 +57,6 @@ export const Login: LayoutComponent = () => {
         })
         .catch(error => {
           toast?.pushError("Erro ao realizar login. " + error, 7000, "truncate-2-lines");
-          setError('apiError', { message: error?.message });
         });
   }
 

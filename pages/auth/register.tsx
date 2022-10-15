@@ -55,7 +55,6 @@ export const Register: LayoutComponent = () => {
         })
         .catch(error => {
           toast?.pushError("Erro ao criar conta. " + error, 7000, "truncate-2-lines");
-          setError('apiError', { message: error?.message });
         });
   }
 

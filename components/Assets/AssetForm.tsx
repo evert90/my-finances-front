@@ -7,20 +7,15 @@ import * as Yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { assetService } from "../../services/asset.service";
-import moment from "moment";
 import CreatableSelect from 'react-select/creatable';
 import { AssetType } from "../../class/AssetType";
 import { AssetRendaFixaType } from "../../class/AssetRendaFixaType";
 import { AssetRendaFixaRateType } from "../../class/AssetRendaFixaRateType";
 import { utilsService } from "../../services/utils.service";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { ErrorMessage } from "../../helpers/fetch-wrapper";
 
-type AssetFormProps = {
-    records: Array<Asset>,
-    recordsState: React.Dispatch<React.SetStateAction<Array<Asset>>>,
-}
-
-export const AssetForm: React.FC<AssetFormProps> = (props) => {
-
+export const AssetForm: React.FC = () => {
 
     const [showForm, setShowForm] = useState(false);
     const [showRendaFixa, setShowRendaFixa] = useState(false);
@@ -29,6 +24,21 @@ export const AssetForm: React.FC<AssetFormProps> = (props) => {
     const [optionsTags, setOptionsTags] = useState([]);
 
     const toast = useToast();
+
+    const queryClient = useQueryClient();
+
+    const mutation = useMutation(
+        (newAsset: Asset): Promise<Asset> => assetService.save(newAsset),
+        {
+            onSuccess: () => {
+                queryClient.refetchQueries(["assets"])
+                toast.pushSuccess("Registro salvo com sucesso", 5000);
+            },
+            onError: (error: ErrorMessage) => {
+                toast?.pushError("Erro ao salvar registro. " + error, 7000, "truncate-2-lines");
+            }
+        }
+    )
 
     const keys = Object.keys;
 
@@ -104,19 +114,7 @@ export const AssetForm: React.FC<AssetFormProps> = (props) => {
             getLiquidez(form.type, (form.liquidez as any))
         )
 
-        return assetService.save(asset)
-            .then((response: Asset) => {
-                response.initialDate = moment(response.initialDate, 'YYYY-MM-DD')
-                response.endDate = response.endDate ? moment(response.endDate, 'YYYY-MM-DD') : undefined
-                props.records.push(response)
-                props.records.sort((a: Asset, b: Asset) => a.endDate?.unix() - b.endDate?.unix())
-                props.recordsState(props.records)
-                toast.pushSuccess("Registro salvo com sucesso", 5000);
-            })
-            .catch(error => {
-                toast?.pushError("Erro ao salvar registro. " + error, 7000, "truncate-2-lines");
-                setError('apiError', { message: error?.message });
-            });
+        return mutation.mutate(asset)
     }
 
     const getLiquidez = (type: string, liquidez: string): boolean => {

@@ -8,7 +8,7 @@ import { financialRecordService } from "./financial-record.service";
 import { periodService } from "./period.service";
 
 export const cardService = {
-    setValues
+    setValues: setValues
 }
 
 async function setValues(cardOnDemand: CardOnDemand, toast?: ToastContextType) {

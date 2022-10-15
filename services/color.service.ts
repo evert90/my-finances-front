@@ -1,6 +1,6 @@
 export const colorService = {
-    getIncomesExpenses,
-    getDefaultPallete
+    getIncomesExpenses: getIncomesExpenses,
+    getDefaultPallete: getDefaultPallete
 }
 
 function getIncomesExpenses(): Array<string> {

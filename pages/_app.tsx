@@ -1,7 +1,7 @@
 import 'regenerator-runtime/runtime';
 import Head from "next/head";
 import Router, { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { createRoot, Root } from 'react-dom/client';
 import { LayoutComponent } from "../class/LayoutComponent";
 import { PageChange } from "../components/PageChange/PageChange";
@@ -18,6 +18,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 // This ensures that the icon CSS is loaded immediately before attempting to render icons
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 // Prevent fontawesome from dynamically adding its css since we did it manually above
 config.autoAddCss = false;
 
@@ -28,6 +29,8 @@ function MyApp({ Component, pageProps }) {
   const Layout = componentLayout.layout || (({ children }) => <>{children}</>);
 
   const [authorized, setAuthorized] = React.useState(false);
+
+  const [queryClient] = useState(() => new QueryClient())
 
   const router = useRouter();
 
@@ -111,58 +114,60 @@ function MyApp({ Component, pageProps }) {
   }
 
   return (
-    <React.Fragment>
-      <Head>
-        <meta
-          name="viewport"
-          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
-        />
-        { <link rel="manifest" href="/manifest.json" /> }
-        <link rel="apple-touch-icon" href="/img/icons/icon-144x144.png"></link>
-        <meta name="theme-color" content="#fff" />
-        <title>My Finances</title>
-        {/*
-        <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
-        */}
-      </Head>
-      <Providers>
-        <Layout>
-        {/* Global Site Tag (gtag.js) - Google Analytics */}
-        {gtag.GA_TRACKING_ID && [
-          <Script
-            key="scriptGtag"
-            strategy="afterInteractive"
-            src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
-          />,
-          <Script
-            key="initGtag"
-            id="gtag-init"
-            strategy="afterInteractive"
-            dangerouslySetInnerHTML={{
-              __html: `
-              let displayMode = 'browser';
-              const mqStandAlone = '(display-mode: standalone)';
-              if (navigator.standalone || window.matchMedia(mqStandAlone).matches) {
-                displayMode = 'standalone';
-              }
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', '${gtag.GA_TRACKING_ID}', {'page_path': window.location.pathname});
-              gtag('config', '${gtag.GA_TRACKING_ID}', {
-                'custom_map': {'dimension1': 'display_mode'},
-                'display_mode': displayMode
-              });
-              `,
-            }}
-          />
-        ]}
-          {authorized &&
-            <Component {...pageProps} />
-          }
-        </Layout>
-      </Providers>
-    </React.Fragment>
+        <React.Fragment>
+          <Head>
+            <meta
+              name="viewport"
+              content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
+            />
+            { <link rel="manifest" href="/manifest.json" /> }
+            <link rel="apple-touch-icon" href="/img/icons/icon-144x144.png"></link>
+            <meta name="theme-color" content="#fff" />
+            <title>My Finances</title>
+            {/*
+            <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+            */}
+          </Head>
+          <Providers>
+            <QueryClientProvider client={queryClient}>
+              <Layout>
+              {/* Global Site Tag (gtag.js) - Google Analytics */}
+              {gtag.GA_TRACKING_ID && [
+                <Script
+                  key="scriptGtag"
+                  strategy="afterInteractive"
+                  src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
+                />,
+                <Script
+                  key="initGtag"
+                  id="gtag-init"
+                  strategy="afterInteractive"
+                  dangerouslySetInnerHTML={{
+                    __html: `
+                    let displayMode = 'browser';
+                    const mqStandAlone = '(display-mode: standalone)';
+                    if (navigator.standalone || window.matchMedia(mqStandAlone).matches) {
+                      displayMode = 'standalone';
+                    }
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', '${gtag.GA_TRACKING_ID}', {'page_path': window.location.pathname});
+                    gtag('config', '${gtag.GA_TRACKING_ID}', {
+                      'custom_map': {'dimension1': 'display_mode'},
+                      'display_mode': displayMode
+                    });
+                    `,
+                  }}
+                />
+              ]}
+                {authorized &&
+                  <Component {...pageProps} />
+                }
+              </Layout>
+            </QueryClientProvider>
+          </Providers>
+        </React.Fragment>
   );
 }
 

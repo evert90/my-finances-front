@@ -3,32 +3,41 @@ import { FinancialRecord } from "../../class/FinancialRecord";
 import { FinancialRecordType } from "../../class/FinancialRecordType";
 import { currencyService } from "../../services/currency.service";
 import TableDropdown from "../Dropdowns/TableDropdown";
-import { useTable, usePagination, useGlobalFilter, useAsyncDebounce, useSortBy, useFilters, Row, IdType } from 'react-table';
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useTable, usePagination, useGlobalFilter, useFilters, Row } from 'react-table';
+import { useCallback, useMemo, useState } from "react";
 import { scrollService } from "../../services/scroll.service";
 import GlobalFilter from "../Tables/GlobalFiter";
 import { financialRecordService } from "../../services/financial-record.service";
 import { useToast } from "../Toast/ToastProvider";
-
+import { useQueryClient, useQuery } from '@tanstack/react-query';
+import moment from "moment";
 
 type FinancialRecordTableProps = {
-    records: Array<FinancialRecord>,
-    recordsState: React.Dispatch<React.SetStateAction<FinancialRecord[]>>,
     color: any
 }
 
 export const FinancialRecordTable: React.FC<FinancialRecordTableProps> = (props) => {
 
-    const [data, setData] = useState<Array<FinancialRecord>>(props.records)
+    const { data: dataQuery, isLoading, isFetching } = useQuery<Array<FinancialRecord>>(
+        ["financialRecords"],
+        financialRecordService.getAll,
+        {
+            staleTime: 60 * 1000,
+            refetchOnWindowFocus: false,
+            retry: false,
+            onSuccess: (data) => setData(data),
+            onError: (err) => toast?.pushError("Erro ao consultar receitas/despesas. " + err, 7000, "truncate-2-lines")
+        }
+    );
 
-    const toast = useToast()
+    const queryClient = useQueryClient();
 
-    useEffect(() => {
-      setData([...props.records])
-    }, [props])
+    const toast = useToast();
 
-    const removeFromTable = (record: FinancialRecord) => {
-        props.recordsState(props.records.filter(it => it.id != record.id))
+    const [data, setData] = useState(dataQuery || []);
+
+    const removeFromTable = () => {
+        queryClient.refetchQueries(["financialRecords"]);
     }
 
     const columns = useMemo(
@@ -63,10 +72,11 @@ export const FinancialRecordTable: React.FC<FinancialRecordTableProps> = (props)
                 const record: FinancialRecord = row.original as FinancialRecord
                 const queryLower = query.toLowerCase()
                 const type = FinancialRecordType[record.type] as string
+                const date = record.date = moment(record.date, 'YYYY-MM-DD')
 
                 return type?.toLowerCase() == queryLower ||
                     record.name.toLowerCase().includes(queryLower) ||
-                    record.date.format("DD/MM/YYYY").includes(queryLower) ||
+                    date.format("DD/MM/YYYY").includes(queryLower) ||
                     currencyService.format(record.value).includes(queryLower) ||
                     record.tags?.filter(tag => tag.name?.toLowerCase().includes(queryLower))?.length
             });
@@ -102,7 +112,7 @@ export const FinancialRecordTable: React.FC<FinancialRecordTableProps> = (props)
 
     return (
         <>
-            <div className={"relative flex flex-col min-w-0 break-words w-full shadow-lg rounded " +
+            <div className={`${(isLoading || isFetching) && "opacity-50"} relative flex flex-col min-w-0 break-words w-full shadow-lg rounded ` +
                     (props.color === "light" ? "bg-white" : "bg-blueGray-700 text-white")
                }
             >
@@ -123,7 +133,12 @@ export const FinancialRecordTable: React.FC<FinancialRecordTableProps> = (props)
                         />
                     </div>
                 </div>
-                <div className="block w-full overflow-x-auto">
+                <div className={`block w-full overflow-x-auto`}>
+                    {(isLoading || isFetching) &&
+                    <div className="center-card">
+                        <i className="mx-auto mb-2 mr-1 text-2xl text-blueGray-700 fas fa-circle-notch animate-spin"></i>
+                    </div>
+                    }
                     <table className="items-center table w-full bg-transparent border-collapse stripped">
                     <thead>
                         <tr>
@@ -221,7 +236,7 @@ export const FinancialRecordTable: React.FC<FinancialRecordTableProps> = (props)
                             )}
                             </td>
                             <td className="p-4 px-6 text-sm text-right align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">
-                                <TableDropdown record={record} stateChanger={removeFromTable} />
+                                <TableDropdown record={record} callback={removeFromTable} />
                             </td>
                         </tr>
                     })}
@@ -291,6 +306,7 @@ export const FinancialRecordTable: React.FC<FinancialRecordTableProps> = (props)
                     </nav>
                 </div>
             </div>
+
         </>
         );
 }

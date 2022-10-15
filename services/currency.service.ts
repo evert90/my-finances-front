@@ -1,6 +1,6 @@
 
 export const currencyService = {
-    format
+    format: format
 }
 
 function format(value: number) {

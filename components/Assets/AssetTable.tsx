@@ -1,4 +1,6 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import moment from "moment";
+import { useCallback, useMemo, useState } from "react";
 import Moment from "react-moment";
 import { Row, useFilters, useGlobalFilter, usePagination, useTable } from "react-table";
 import { Asset } from "../../class/Asset";
@@ -13,22 +15,30 @@ import GlobalFilter from "../Tables/GlobalFiter";
 import { useToast } from "../Toast/ToastProvider";
 
 type AssetTableProps = {
-    records: Array<Asset>,
-    recordsState: React.Dispatch<React.SetStateAction<Array<Asset>>>,
     color: any
 }
 
-export const AssetTable: React.FC<AssetTableProps> = (props) => {
-    const [data, setData] = useState<Array<Asset>>(props.records)
+export const AssetTable: React.FC<AssetTableProps> = () => {
+    const { data: dataQuery, isLoading, isFetching } = useQuery<Array<Asset>>(
+        ["assets"],
+        assetService.getAll,
+        {
+            staleTime: 60 * 1000,
+            refetchOnWindowFocus: false,
+            retry: false,
+            onSuccess: (data) => setData(data),
+            onError: (err) => toast?.pushError("Erro ao consultar bens. " + err, 7000, "truncate-2-lines")
+        }
+    );
 
-    const toast = useToast()
+    const [data, setData] = useState(dataQuery || []);
 
-    useEffect(() => {
-      setData([...props.records])
-    }, [props])
+    const queryClient = useQueryClient();
 
-    const removeFromTable = (record: Asset) => {
-        props.recordsState(props.records.filter(it => it.id != record.id))
+    const toast = useToast();
+
+    const removeFromTable = () => {
+        queryClient.refetchQueries(["assets"])
     }
 
     const columns = useMemo(
@@ -93,6 +103,8 @@ export const AssetTable: React.FC<AssetTableProps> = (props) => {
                 const type = AssetType[record.type] as string
                 const rendaFixaType = AssetRendaFixaType[record.rendaFixaType] as string
                 const rendaFixaRateType = AssetRendaFixaRateType[record.rendaFixaRateType] as string
+                const initialDate = moment(record.initialDate, 'YYYY-MM-DD')
+                const endDate = record.endDate ? moment(record.endDate, 'YYYY-MM-DD') : undefined
 
                 return record.name?.toLowerCase().includes(queryLower) ||
                     type?.toLowerCase() == queryLower ||
@@ -102,8 +114,8 @@ export const AssetTable: React.FC<AssetTableProps> = (props) => {
                     record.rate?.toString().includes(queryLower) ||
                     record.initialValue.toString().includes(queryLower) ||
                     record.endValue?.toString().includes(queryLower) ||
-                    record.initialDate.format("DD/MM/YYYY").includes(queryLower) ||
-                    record.endDate?.format("DD/MM/YYYY").includes(queryLower) ||
+                    initialDate.format("DD/MM/YYYY").includes(queryLower) ||
+                    endDate?.format("DD/MM/YYYY").includes(queryLower) ||
                     currencyService.format(record.initialValue).includes(queryLower) ||
                     record.tags?.filter(tag => tag.name?.toLowerCase().includes(queryLower))?.length
             });
@@ -139,7 +151,7 @@ export const AssetTable: React.FC<AssetTableProps> = (props) => {
 
     return (
         <>
-            <div className={"relative flex flex-col min-w-0 break-words w-full shadow-lg rounded bg-white"}>
+            <div className={`${(isLoading || isFetching) && "opacity-50"} relative flex flex-col min-w-0 break-words w-full shadow-lg rounded bg-white`}>
                 <div className="px-4 py-3 mb-0 border-0 rounded-t">
                     <div className="relative flex justify-between w-full max-w-full px-1 text-center" id="lancamentos">
                         <h3 className={"text-xl font-bold text-blueGray-700"}>
@@ -152,7 +164,12 @@ export const AssetTable: React.FC<AssetTableProps> = (props) => {
                         />
                     </div>
                 </div>
-                <div className="block w-full overflow-x-auto">
+                <div className={`block w-full overflow-x-auto`}>
+                    {(isLoading || isFetching) &&
+                    <div className="center-card">
+                        <i className="mx-auto mb-2 mr-1 text-2xl text-blueGray-700 fas fa-circle-notch animate-spin"></i>
+                    </div>
+                    }
                     <table className="items-center table w-full bg-transparent border-collapse stripped">
                         <thead>
                             <tr>
@@ -244,7 +261,7 @@ export const AssetTable: React.FC<AssetTableProps> = (props) => {
                                 )}
                                 </td>
                                 <td className="p-4 px-6 text-sm text-right align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">
-                                    <TableDropdown record={record} stateChanger={removeFromTable} />
+                                    <TableDropdown record={record} callback={removeFromTable} />
                                 </td>
                             </tr>
                         })}
@@ -254,9 +271,9 @@ export const AssetTable: React.FC<AssetTableProps> = (props) => {
                         <tbody>
                            <tr>
                                 <td className={"table-thead"}></td>
-                                <td className={"table-thead"}>Sem liquidez: {currencyService.format(assetService.getTotalSemLiquidez(props.records))}</td>
-                                <td className={"table-thead"}>Com liquidez: {currencyService.format(assetService.getTotalComLiquidez(props.records))}</td>
-                                <td className={"table-thead"}>Total: {currencyService.format(assetService.getTotal(props.records))}</td>
+                                <td className={"table-thead"}>Sem liquidez: {currencyService.format(assetService.getTotalSemLiquidez(data))}</td>
+                                <td className={"table-thead"}>Com liquidez: {currencyService.format(assetService.getTotalComLiquidez(data))}</td>
+                                <td className={"table-thead"}>Total: {currencyService.format(assetService.getTotal(data))}</td>
                             </tr>
                         </tbody>
                     </table>
