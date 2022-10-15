@@ -152,7 +152,7 @@ export const Dashboard: LayoutComponent = () => {
                 setFinancialRecordsChartTotal([...financialRecordsChartTotal])
             })
             .catch(error => {
-                toast?.pushError("Erro ao consultar totais de receitas/despesas " + error, 7000, "truncate-2-lines")
+                toast?.pushError("Erro ao consultar totais de receitas/despesas. " + error, 7000, "truncate-2-lines")
             }).finally(() => {})
         })
 

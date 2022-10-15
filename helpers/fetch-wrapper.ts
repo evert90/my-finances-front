@@ -1,91 +1,92 @@
+import axios, { AxiosRequestConfig, AxiosInstance, AxiosError, AxiosResponse } from 'axios';
 import getConfig from 'next/config';
 import { AuthenticatedUser } from '../class/AuthenticatedUser';
 import { userService } from '../services/user.service';
 
 const { publicRuntimeConfig } = getConfig();
 
-export const fetchWrapper = {
-    get,
-    post,
-    put,
-    delete: _delete,
-    getApiUrl,
-    getBaseUrl
-};
-
-function get(url) {
-    const requestOptions = {
-        method: 'GET',
-        headers: authHeader(url)
-    };
-    return fetch(url, requestOptions).then(handleResponse);
+export interface ErrorMessage {
+    message: string
 }
 
-function post(url, body) {
-    const requestOptions: RequestInit = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', ...authHeader(url) },
-        credentials: 'include',
-        body: JSON.stringify(body)
-    };
-    return fetch(url, requestOptions).then(handleResponse);
-}
-
-function put(url, body) {
-    const requestOptions = {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json', ...authHeader(url) },
-        body: JSON.stringify(body)
-    };
-    return fetch(url, requestOptions).then(handleResponse);
-}
-
-// prefixed with underscored because delete is a reserved word in javascript
-function _delete(url) {
-    const requestOptions = {
-        method: 'DELETE',
-        headers: authHeader(url)
-    };
-    return fetch(url, requestOptions).then(handleResponse);
-}
-
-// helper functions
-
-function authHeader(url) {
-    // return auth header with jwt if user is logged in and request is to the api url
-    const user: AuthenticatedUser = userService.getUserValue();
-    const isLoggedIn = user?.token;
-    const isApiUrl = url.startsWith(getApiUrl());
-    if (isLoggedIn && isApiUrl) {
-        return { Authorization: `Bearer ${user.token}` };
-    } else {
-        return {};
-    }
-}
-
-function handleResponse(response) {
-    return response.text().then(text => {
-        const data = text && JSON.parse(text);
-
-        if (!response.ok) {
-            if ([401, 403].includes(response.status) && userService.getUserValue()) {
-                // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
-                userService.logout();
-            }
-
-            const error = (data && data.message) || response.statusText;
-            return Promise.reject(error);
-        }
-
-        return data;
-    });
-}
-
-function getApiUrl() {
+const getApiUrl = (): string => {
     return getBaseUrl() + "/api"
 }
 
-
-function getBaseUrl() {
+const getBaseUrl = (): string => {
     return process.browser && localStorage.getItem("baseUrl") || publicRuntimeConfig.baseUrl
 }
+
+const apiClient: AxiosInstance = axios.create({
+    baseURL: getApiUrl()
+})
+
+apiClient.interceptors.request.use((config: AxiosRequestConfig) => {
+    config.headers = {...config.headers, ...getAuthHeaders()}
+    return config
+}, (error) => {
+    return Promise.reject(error)
+})
+
+const get = (url: string): Promise<any> => {
+    return apiClient
+        .get(url)
+        .then(handleSuccess)
+        .catch(handleError);
+}
+
+const post = (url: string, params: any): Promise<any> => {
+    const options: AxiosRequestConfig = {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        withCredentials: true
+    };
+
+    return apiClient
+        .post(url, params, options)
+        .then(handleSuccess)
+        .catch(handleError);
+}
+
+const _delete = (url: string): Promise<any> => {
+    return apiClient
+        .delete(url)
+        .then(handleSuccess)
+        .catch(handleError);
+}
+
+const getAuthHeaders = (): object => {
+    const user: AuthenticatedUser = userService.getUserValue();
+    const isLoggedIn = user?.token;
+
+    if(isLoggedIn) {
+        return {
+            Authorization: `Bearer ${user.token}`
+        };
+    }
+
+    return {};
+}
+
+const handleSuccess = (response: AxiosResponse): Promise<any> => {
+    return Promise.resolve(response.data)
+}
+
+const handleError = (error: AxiosError<ErrorMessage>): Promise<any> => {
+    if ([401, 403].includes(error?.response?.status) && userService.getUserValue()) {
+        // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
+        userService.logout();
+    }
+
+    const errorMsg = error?.response?.data?.message || error?.message;
+    return Promise.reject(errorMsg);
+}
+
+export const fetchWrapper = {
+    get: get,
+    post: post,
+    delete: _delete,
+    getApiUrl: getApiUrl,
+    getBaseUrl: getBaseUrl
+};

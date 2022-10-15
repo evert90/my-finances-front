@@ -1,11 +1,11 @@
 import { fetchWrapper } from '../helpers/fetch-wrapper';
 
-const baseUrl = `${fetchWrapper.getApiUrl()}/tags`;
+const baseUrl = `/tags`;
 
 export const tagService = {
-    getAll
+    getAll: getAll
 }
 
-function getAll() {
+function getAll(): Promise<any> {
     return fetchWrapper.get(`${baseUrl}/`)
 }

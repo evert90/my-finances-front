@@ -4,17 +4,17 @@ import { FinancialRecordRecurrence } from '../class/FinancialRecordRecurrence';
 import { ToastContextType } from '../components/Toast/ToastProvider';
 import { fetchWrapper } from '../helpers/fetch-wrapper';
 
-const baseUrl = `${fetchWrapper.getApiUrl()}/financial-records`;
+const baseUrl = '/financial-records';
 
 export const financialRecordService = {
-    getAll,
-    getByPeriod,
-    getTotal,
-    getTotalByPeriod,
-    getTotalByPeriodAndTags,
-    save,
-    deleteById,
-    pay
+    getAll: getAll,
+    getByPeriod: getByPeriod,
+    getTotal: getTotal,
+    getTotalByPeriod: getTotalByPeriod,
+    getTotalByPeriodAndTags: getTotalByPeriodAndTags,
+    save: save,
+    deleteById: deleteById,
+    pay: pay
 }
 
 function getAll(): Promise<any> {

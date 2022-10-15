@@ -1,21 +1,20 @@
 import { BehaviorSubject } from 'rxjs';
-import Router from 'next/router'
 import { fetchWrapper } from '../helpers/fetch-wrapper';
 import { AuthenticatedUser } from '../class/AuthenticatedUser';
 import { User } from '../class/User';
 import { utilsService } from './utils.service';
 
-const baseUrl = `${fetchWrapper.getApiUrl()}/users`;
+const baseUrl = '/users';
 const userSubject = new BehaviorSubject<AuthenticatedUser>(process.browser && JSON.parse(localStorage.getItem('user')));
 
 export const userService = {
     userSubject,
     user: userSubject.asObservable(),
     getUserValue: (): AuthenticatedUser => { return userSubject.value },
-    login,
-    logout,
-    getAll,
-    save
+    login: login,
+    logout: logout,
+    getAll: getAll,
+    save: save
 };
 
 function save(user: User): Promise<AuthenticatedUser> {
@@ -41,10 +40,10 @@ function login(user: User): Promise<AuthenticatedUser> {
 }
 
 function logout() {
-    // remove user from local storage, publish null to user subscribers and redirect to login page
+    // remove user from local storage, publish null to user subscribers and redirect to logout page
     localStorage.removeItem('user');
     userSubject.next(null);
-    utilsService.redirect(`${baseUrl}/auth/logout`);
+    utilsService.redirect(`${fetchWrapper.getApiUrl() + baseUrl}/auth/logout`);
 }
 
 function getAll() {

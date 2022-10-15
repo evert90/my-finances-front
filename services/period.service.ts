@@ -6,17 +6,17 @@ import { FinancialRecordType } from "../class/FinancialRecordType";
 import { PeriodType } from "../class/PeriodType";
 
 export const periodService = {
-    getPeriodMonths,
-    getPeriodTotalDays,
-    getPeriodTotalMonths,
-    getPeriodTotalYears,
-    getPeriodTagTotalDays,
-    getPeriodTagTotalMonths,
-    getPeriodTagTotalYears,
-    getPeriodIncomeTotal,
-    getPeriodExpenseTotal,
-    periodTypeToDateFormat,
-    periodTypeToLabel
+    getPeriodMonths: getPeriodMonths,
+    getPeriodTotalDays: getPeriodTotalDays,
+    getPeriodTotalMonths: getPeriodTotalMonths,
+    getPeriodTotalYears: getPeriodTotalYears,
+    getPeriodTagTotalDays: getPeriodTagTotalDays,
+    getPeriodTagTotalMonths: getPeriodTagTotalMonths,
+    getPeriodTagTotalYears: getPeriodTagTotalYears,
+    getPeriodIncomeTotal: getPeriodIncomeTotal,
+    getPeriodExpenseTotal: getPeriodExpenseTotal,
+    periodTypeToDateFormat: periodTypeToDateFormat,
+    periodTypeToLabel: periodTypeToLabel
 }
 
 function getPeriodMonths(meses: number): Array<Period> {

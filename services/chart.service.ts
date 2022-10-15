@@ -1,27 +1,22 @@
 import moment from "moment";
 import { CardOnDemand } from "../class/CardOnDemand";
 import { CardOnDemandFilterBy } from "../class/CardOnDemandFilterBy";
-import { FinancialRecordTotal } from "../class/FinancialRecordTotal";
 import { FinancialRecordType } from "../class/FinancialRecordType";
 import { PeriodTagTotal } from "../class/PeriodTagTotal";
 import { PeriodTotal } from "../class/PeriodTotal"
-import { PeriodType } from "../class/PeriodType";
-import { TagTotal } from "../class/TagTotal";
-import { ToastContextType } from "../components/Toast/ToastProvider";
 import { fetchWrapper } from "../helpers/fetch-wrapper";
 import { colorService } from "./color.service";
 import { currencyService } from "./currency.service";
-import { financialRecordService } from "./financial-record.service";
 import { periodService } from "./period.service";
 import { userService } from "./user.service";
 
 export const chartService = {
-    periodTotalToChartOptions,
-    periodTotalToChartSeries,
-    periodTagTotalToChartSeries,
-    getCardsOnDemandStorageName,
-    chartOnDemandToOptions,
-    chartOnDemandToSeries
+    periodTotalToChartOptions: periodTotalToChartOptions,
+    periodTotalToChartSeries: periodTotalToChartSeries,
+    periodTagTotalToChartSeries: periodTagTotalToChartSeries,
+    getCardsOnDemandStorageName: getCardsOnDemandStorageName,
+    chartOnDemandToOptions: chartOnDemandToOptions,
+    chartOnDemandToSeries: chartOnDemandToSeries
 }
 
 function chartOnDemandToOptions(chart: CardOnDemand): ApexCharts.ApexOptions {
@@ -34,7 +29,6 @@ function chartOnDemandToOptions(chart: CardOnDemand): ApexCharts.ApexOptions {
     )
 
 }
-
 
 function chartOnDemandToSeries(chart: CardOnDemand) {
     return CardOnDemandFilterBy[chart.filterBy] == CardOnDemandFilterBy.TAGS ?

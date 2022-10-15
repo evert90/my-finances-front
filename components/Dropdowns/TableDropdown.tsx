@@ -4,17 +4,19 @@ import { FinancialRecord } from "../../class/FinancialRecord";
 import { financialRecordService } from "../../services/financial-record.service";
 import { useToast } from "../Toast/ToastProvider";
 import { Asset } from "../../class/Asset";
-import { AssetRendaFixaRateType } from "../../class/AssetRendaFixaRateType";
 import { assetService } from "../../services/asset.service";
+import { useQueryClient } from '@tanstack/react-query';
 
 type TableDropdownProps = {
   record: FinancialRecord | Asset
-  stateChanger: Function
+  callback: Function
 }
 
 const TableDropdown: React.FC<TableDropdownProps> = (props) => {
 
     const toast = useToast();
+
+    const queryClient = useQueryClient();
 
     // dropdown props
     const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
@@ -42,6 +44,7 @@ const TableDropdown: React.FC<TableDropdownProps> = (props) => {
                 (props.record as Asset).endValue = response as any
                 assetService.save((props.record as Asset))
                 .then((response) => {
+                    queryClient.refetchQueries(["assets"])
                     toast.pushSuccess("Registro editado com sucesso", 5000)
                 })
                 .catch(error => {
@@ -56,6 +59,7 @@ const TableDropdown: React.FC<TableDropdownProps> = (props) => {
                 (props.record as FinancialRecord).value = response as any
                 financialRecordService.save((props.record as FinancialRecord))
                 .then((response) => {
+                    queryClient.refetchQueries(["financialRecords"])
                     toast.pushSuccess("Registro editado com sucesso", 5000)
                 })
                 .catch(error => {
@@ -73,7 +77,7 @@ const TableDropdown: React.FC<TableDropdownProps> = (props) => {
         service.deleteById(props.record.id)
             .then((response) => {
                 toast.pushSuccess("Registro removido com sucesso", 5000)
-                props.stateChanger(props.record)
+                props.callback();
             })
             .catch(error => {
                 toast?.pushError("Erro ao excluir registro. " + error, 7000, "truncate-2-lines");

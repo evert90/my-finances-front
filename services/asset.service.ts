@@ -1,18 +1,9 @@
 import { Asset } from "../class/Asset";
 import { fetchWrapper } from "../helpers/fetch-wrapper";
 
-const baseUrl = `${fetchWrapper.getApiUrl()}/assets`;
+const baseUrl = '/assets';
 
-export const assetService = {
-    getAll,
-    save,
-    getTotalSemLiquidez,
-    getTotalComLiquidez,
-    getTotal,
-    deleteById,
-}
-
-function getAll(): Promise<any> {
+const getAll = (): Promise<any> => {
     return fetchWrapper.get(`${baseUrl}/`)
 }
 
@@ -43,4 +34,13 @@ function getTotal(assets: Array<Asset>): number {
 
 function deleteById(id: number): Promise<any> {
     return fetchWrapper.delete(`${baseUrl}/${id}`)
+}
+
+export const assetService = {
+    getAll: getAll,
+    save: save,
+    getTotalSemLiquidez: getTotalSemLiquidez,
+    getTotalComLiquidez: getTotalComLiquidez,
+    getTotal: getTotal,
+    deleteById: deleteById,
 }

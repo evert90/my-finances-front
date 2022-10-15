@@ -1,4 +1,4 @@
-import { ChangeEventHandler, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FinancialRecordType } from "../../class/FinancialRecordType";
 import CreatableSelect from 'react-select/creatable';
 import { useToast } from "../Toast/ToastProvider";
@@ -8,29 +8,37 @@ import * as Yup from 'yup';
 import { useForm } from "react-hook-form";
 import { FinancialRecord } from "../../class/FinancialRecord";
 import { financialRecordService } from "../../services/financial-record.service";
-import moment from "moment";
 import { Tag } from "../../class/Tag";
 import { RecurrencePeriod } from "../../class/RecurrencePeriod";
 import { FinancialRecordRecurrence } from "../../class/FinancialRecordRecurrence";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { ErrorMessage } from "../../helpers/fetch-wrapper";
 
-
-type FinancialRecordFormProps = {
-    records: Array<FinancialRecord>,
-    recordsState: React.Dispatch<React.SetStateAction<FinancialRecord[]>>,
-}
-
-export const FinancialRecordForm: React.FC<FinancialRecordFormProps> = (props) => {
+export const FinancialRecordForm: React.FC = () => {
 
     const [showForm, setShowForm] = useState(false);
     const [showPaid, setShowPaid] = useState(false);
     const [showRecurrenceOptions, setshowRecurrenceOptions] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [values, setValues] = useState([]);
     const [optionsTags, setOptionsTags] = useState([]);
+    const [values, setValues] = useState([]);
 
     const toast = useToast();
 
-    const keys = Object.keys;
+    const queryClient = useQueryClient();
+
+    const mutation = useMutation(
+        (newFinancialRecord: FinancialRecord): Promise<FinancialRecord> => financialRecordService.save(newFinancialRecord),
+        {
+            onSuccess: () => {
+                queryClient.refetchQueries(["financialRecords"])
+                toast.pushSuccess("Registro salvo com sucesso", 5000);
+            },
+            onError: (error: ErrorMessage) => {
+                toast?.pushError("Erro ao salvar registro. " + error, 7000, "truncate-2-lines");
+            }
+        }
+    )
 
     useEffect(() => {
         setIsLoading(true)
@@ -45,6 +53,8 @@ export const FinancialRecordForm: React.FC<FinancialRecordFormProps> = (props) =
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    const keys = Object.keys;
 
     const customStyles = {
         control: (base, state) => ({
@@ -102,20 +112,7 @@ export const FinancialRecordForm: React.FC<FinancialRecordFormProps> = (props) =
             getRecurrence(recurrence) ? 1 : null,
             getRecurrence(recurrence) ? true : null)
 
-        console.log("fr", financialRecord)
-
-        return financialRecordService.save(financialRecord)
-            .then((response: FinancialRecord) => {
-                response.date = moment(response.date, 'YYYY-MM-DD')
-                props.records.push(response)
-                props.records.sort((a: FinancialRecord, b: FinancialRecord) => b.date.unix() - a.date.unix())
-                props.recordsState(props.records)
-                toast.pushSuccess("Registro salvo com sucesso", 5000);
-            })
-            .catch(error => {
-                toast?.pushError("Erro ao salvar registro. " + error, 7000, "truncate-2-lines");
-                setError('apiError', { message: error?.message });
-            });
+        return mutation.mutate(financialRecord);
     }
 
     const getPaid = (type: string, paid: string): boolean => {
