@@ -1,4 +1,5 @@
 export enum AssetRendaFixaRateType {
     CDI = "CDI",
-    IPCA = "IPCA"
+    IPCA = "IPCA",
+    PRE = "PRÉ"
 }
