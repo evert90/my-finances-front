@@ -29,8 +29,8 @@ function getPeriodMonths(meses: number): Array<Period> {
             .format('YYYY-MM-DD');
 
         let dataFinal = moment()
-            .endOf('month')
             .subtract(i, 'months')
+            .endOf('month')
             .format('YYYY-MM-DD');
 
         periodos.push(new Period(dataInicial, dataFinal, null))
