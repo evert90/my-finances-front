@@ -157,11 +157,13 @@ export const AssetTable: React.FC<AssetTableProps> = () => {
                         <h3 className={"text-xl font-bold text-blueGray-700"}>
                             Lançamentos
                         </h3>
+                        {!isLoading && !isFetching &&
                         <GlobalFilter
                             preGlobalFilteredRows={preGlobalFilteredRows}
                             globalFilter={globalFilter}
                             setGlobalFilter={setGlobalFilter}
                         />
+                        }
                     </div>
                 </div>
                 <div className={`block w-full overflow-x-auto`}>

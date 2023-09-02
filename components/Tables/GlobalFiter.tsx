@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAsyncDebounce } from "react-table";
 
 const TWO_HUNDRED_MS = 200;
@@ -21,6 +21,13 @@ function GlobalFilter({
             if(newValue) document.getElementById("input-filter").focus()
         }, 300);
     }
+
+    useEffect(() => {
+        setShowInput(!!value);
+        setValue(value);
+        onChange(value);
+    }, []);
+
 
     return (
         <div>

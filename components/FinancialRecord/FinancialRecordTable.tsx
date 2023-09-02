@@ -126,11 +126,13 @@ export const FinancialRecordTable: React.FC<FinancialRecordTableProps> = (props)
                         >
                         Lançamentos
                         </h3>
+                        {!isLoading && !isFetching &&
                         <GlobalFilter
                             preGlobalFilteredRows={preGlobalFilteredRows}
                             globalFilter={globalFilter}
                             setGlobalFilter={setGlobalFilter}
                         />
+                        }
                     </div>
                 </div>
                 <div className={`block w-full overflow-x-auto`}>
