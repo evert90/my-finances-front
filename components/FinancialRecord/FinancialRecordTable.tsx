@@ -3,7 +3,7 @@ import { FinancialRecord } from "../../class/FinancialRecord";
 import { FinancialRecordType } from "../../class/FinancialRecordType";
 import { currencyService } from "../../services/currency.service";
 import TableDropdown from "../Dropdowns/TableDropdown";
-import { useTable, usePagination, useGlobalFilter, useFilters, Row } from 'react-table';
+import { useTable, usePagination, useGlobalFilter, useFilters, Row, useSortBy } from 'react-table';
 import { useCallback, useMemo, useState } from "react";
 import { scrollService } from "../../services/scroll.service";
 import GlobalFilter from "../Tables/GlobalFiter";
@@ -61,6 +61,13 @@ export const FinancialRecordTable: React.FC<FinancialRecordTableProps> = (props)
             {
               Header: 'Tags',
               accessor: (row: FinancialRecord) => (row.tags.join(",")),
+              disableSortBy: true
+            },
+            {
+                Header: '',
+                id: 'actions',
+                accessor: (row: FinancialRecord) => (""),
+                disableSortBy: true
             },
           ],
           []
@@ -98,6 +105,7 @@ export const FinancialRecordTable: React.FC<FinancialRecordTableProps> = (props)
         visibleColumns,
         preGlobalFilteredRows,
         setGlobalFilter,
+        headerGroups
     } = useTable(
         {
             columns,
@@ -107,6 +115,7 @@ export const FinancialRecordTable: React.FC<FinancialRecordTableProps> = (props)
         },
         useFilters,
         useGlobalFilter,
+        useSortBy,
         usePagination
     )
 
@@ -143,67 +152,27 @@ export const FinancialRecordTable: React.FC<FinancialRecordTableProps> = (props)
                     }
                     <table className="items-center table w-full bg-transparent border-collapse stripped">
                     <thead>
-                        <tr>
-                        <th
-                            className={
-                            "column-fit px-6 align-middle border border-solid py-3 text-sm uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " +
-                            (props.color === "light"
-                                ? "bg-blueGray-50 text-blueGray-500 border-blueGray-100"
-                                : "bg-blueGray-600 text-blueGray-200 border-blueGray-500")
-                            }
-                        >
-                            Tipo
-                        </th>
-                        <th
-                            className={
-                            "px-6 align-middle border border-solid py-3 text-sm uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " +
-                            (props.color === "light"
-                                ? "bg-blueGray-50 text-blueGray-500 border-blueGray-100"
-                                : "bg-blueGray-600 text-blueGray-200 border-blueGray-500")
-                            }
-                        >
-                            Nome
-                        </th>
-                        <th
-                            className={
-                            "px-6 align-middle border border-solid py-3 text-sm uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " +
-                            (props.color === "light"
-                                ? "bg-blueGray-50 text-blueGray-500 border-blueGray-100"
-                                : "bg-blueGray-600 text-blueGray-200 border-blueGray-500")
-                            }
-                        >
-                            Data
-                        </th>
-                        <th
-                            className={
-                            "px-6 align-middle border border-solid py-3 text-sm uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " +
-                            (props.color === "light"
-                                ? "bg-blueGray-50 text-blueGray-500 border-blueGray-100"
-                                : "bg-blueGray-600 text-blueGray-200 border-blueGray-500")
-                            }
-                        >
-                            Valor
-                        </th>
-                        <th
-                            className={
-                            "px-6 align-middle border border-solid py-3 text-sm uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " +
-                            (props.color === "light"
-                                ? "bg-blueGray-50 text-blueGray-500 border-blueGray-100"
-                                : "bg-blueGray-600 text-blueGray-200 border-blueGray-500")
-                            }
-                        >
-                            Tags
-                        </th>
-                        <th
-                            className={
-                            "px-6 align-middle border border-solid py-3 text-sm uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " +
-                            (props.color === "light"
-                                ? "bg-blueGray-50 text-blueGray-500 border-blueGray-100"
-                                : "bg-blueGray-600 text-blueGray-200 border-blueGray-500")
-                            }
-                        ></th>
-                        </tr>
-                    </thead>
+                        {headerGroups.map(headerGroup => (
+                            <tr key={headerGroup.id} {...headerGroup.getHeaderGroupProps()}>
+                            {headerGroup.headers.map(column => (
+                                <th key={column.id}
+                                className={`table-thead text-sm ${column.id === 'type' ? 'column-fit' : ''}`}
+                                {...column.getHeaderProps(column.getSortByToggleProps({title: "Ordenar"}))}
+                                onClick={() => column.toggleSortBy(!column.isSortedDesc)}
+                                >
+                                {column.render("Header")}
+                                <span style={{marginLeft: "4px"}}>
+                                    {column.isSorted
+                                    ? column.isSortedDesc
+                                        ? <i className="fas fa-chevron-down"></i>
+                                        : <i className="fas fa-chevron-up"></i>
+                                    : ""}
+                                </span>
+                                </th>
+                            ))}
+                            </tr>
+                        ))}
+                        </thead>
                     <tbody>
                     {page.map((row: any, i) => {
                         const record: FinancialRecord = row.original as FinancialRecord
