@@ -2,7 +2,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import moment from "moment";
 import { useCallback, useMemo, useState } from "react";
 import Moment from "react-moment";
-import { Row, useFilters, useGlobalFilter, usePagination, useTable } from "react-table";
+import { Row, useFilters, useGlobalFilter, usePagination, useSortBy, useTable } from "react-table";
 import { Asset } from "../../class/Asset";
 import { AssetRendaFixaRateType } from "../../class/AssetRendaFixaRateType";
 import { AssetRendaFixaType } from "../../class/AssetRendaFixaType";
@@ -50,22 +50,15 @@ export const AssetTable: React.FC<AssetTableProps> = () => {
             {
                 Header: 'Tipo',
                 accessor: 'type',
-            },
-            {
-                Header: 'Data inicial',
-                accessor: (row: Asset) => (row.initialDate.toLocaleString()),
-            },
-            {
-                Header: 'Data final',
-                accessor: (row: Asset) => (row.endDate?.toLocaleString()),
-            },
-            {
-                Header: 'Título',
-                accessor: 'rendaFixaType',
+                id: 'type'
             },
             {
                 Header: 'Banco',
                 accessor: 'bank',
+            },
+            {
+                Header: 'Título',
+                accessor: 'rendaFixaType',
             },
             {
                 Header: 'Tipo de taxa',
@@ -76,8 +69,12 @@ export const AssetTable: React.FC<AssetTableProps> = () => {
                 accessor: 'rate',
             },
             {
-                Header: 'Liquidez',
-                accessor: 'liquidez',
+                Header: 'Data inicial',
+                accessor: (row: Asset) => (row.initialDate.toLocaleString()),
+            },
+            {
+                Header: 'Data final',
+                accessor: (row: Asset) => (row.endDate?.toLocaleString()),
             },
             {
                 Header: 'Valor inicial',
@@ -88,8 +85,19 @@ export const AssetTable: React.FC<AssetTableProps> = () => {
                 accessor: 'endValue',
             },
             {
+                Header: 'Liquidez',
+                accessor: 'liquidez',
+            },
+            {
               Header: 'Tags',
               accessor: (row: Asset) => (row.tags.join(",")),
+              disableSortBy: true
+            },
+            {
+                Header: '',
+                id: 'actions',
+                accessor: (row: Asset) => (""),
+                disableSortBy: true
             },
           ],
           []
@@ -137,6 +145,7 @@ export const AssetTable: React.FC<AssetTableProps> = () => {
         visibleColumns,
         preGlobalFilteredRows,
         setGlobalFilter,
+        headerGroups
     } = useTable(
         {
             columns,
@@ -146,6 +155,7 @@ export const AssetTable: React.FC<AssetTableProps> = () => {
         },
         useFilters,
         useGlobalFilter,
+        useSortBy,
         usePagination
     )
 
@@ -173,49 +183,28 @@ export const AssetTable: React.FC<AssetTableProps> = () => {
                     </div>
                     }
                     <table className="items-center table w-full bg-transparent border-collapse stripped">
-                        <thead>
-                            <tr>
-                                <th className={"table-thead"}>
-                                    Nome
-                                </th>
-                                <th className={"table-thead"}>
-                                    Tipo
-                                </th>
-                                <th className={"table-thead"}>
-                                    Banco
-                                </th>
-                                <th className={"table-thead"}>
-                                    Título
-                                </th>
-                                <th className={"table-thead"}>
-                                    Tipo de taxa
-                                </th>
-                                <th className={"table-thead"}>
-                                    Taxa
-                                </th>
-                                <th className={"table-thead"}>
-                                    Data inicial
-                                </th>
-                                <th className={"table-thead"}>
-                                    Data final
-                                </th>
-                                <th className={"table-thead"}>
-                                    Valor inicial
-                                </th>
-                                <th className={"table-thead"}>
-                                    Valor final
-                                </th>
-                                <th className={"table-thead"}>
-                                    Liquidez
-                                </th>
+                    <thead>
+                        {headerGroups.map(headerGroup => (
+                            <tr key={headerGroup.id} {...headerGroup.getHeaderGroupProps()}>
+                            {headerGroup.headers.map(column => (
 
-                                <th className={"table-thead"}>
-                                    Tags
+                                <th key={column.id}
+                                className={"table-thead"}
+                                {...column.getHeaderProps(column.getSortByToggleProps({title: "Ordenar"}))}
+                                onClick={() => column.toggleSortBy(!column.isSortedDesc)}
+                                >
+                                {column.render("Header")}
+                                <span style={{marginLeft: "4px"}}>
+                                    {column.isSorted
+                                    ? column.isSortedDesc
+                                        ? <i className="fas fa-chevron-down"></i>
+                                        : <i className="fas fa-chevron-up"></i>
+                                    : ""}
+                                </span>
                                 </th>
-                                <th className={"table-thead"}>
-
-                                </th>
+                            ))}
                             </tr>
+                        ))}
                         </thead>
                         <tbody>
                         {page.map((row: any, i) => {
