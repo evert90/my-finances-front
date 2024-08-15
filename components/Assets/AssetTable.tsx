@@ -85,8 +85,8 @@ export const AssetTable: React.FC<AssetTableProps> = () => {
                 accessor: 'endValue',
             },
             {
-                Header: 'Liquidez',
-                accessor: 'liquidez',
+                Header: 'Rendimento',
+                accessor: (row: Asset) => (getDifferenceSortable(row.initialValue, row.endValue)),
             },
             {
               Header: 'Tags',
@@ -102,6 +102,17 @@ export const AssetTable: React.FC<AssetTableProps> = () => {
           ],
           []
     )
+
+
+    const getDifference = (initialValue: number, endValue: number) => {
+        const difference = endValue && initialValue && currencyService.format(endValue - initialValue);
+        const differencePercentage = endValue && initialValue && ((endValue - initialValue) / initialValue * 100)?.toFixed(2) + "%"
+        return !!difference && !!differencePercentage ? `${difference} (${differencePercentage})` : "";
+    }
+
+    const getDifferenceSortable = (initialValue: number, endValue: number) => {
+        return endValue && initialValue && endValue - initialValue;
+    }
 
     const customGlobalFilterFunction = useCallback(
         (rows: Row[], ids: any, query: string) => {
@@ -125,6 +136,7 @@ export const AssetTable: React.FC<AssetTableProps> = () => {
                     initialDate.format("DD/MM/YYYY").includes(queryLower) ||
                     endDate?.format("DD/MM/YYYY").includes(queryLower) ||
                     currencyService.format(record.initialValue).includes(queryLower) ||
+                    getDifference(record.initialValue, record.endValue)?.includes(queryLower) ||
                     record.tags?.filter(tag => tag.name?.toLowerCase().includes(queryLower))?.length
             });
         },
@@ -242,7 +254,7 @@ export const AssetTable: React.FC<AssetTableProps> = () => {
                                     {record.endValue && currencyService.format(record.endValue)}
                                 </td>
                                 <td className="table-tbody-sm">
-                                    {record.liquidez === true ? "Sim" : record.liquidez === false ? "Não" : null}
+                                    {getDifference(record.initialValue, record.endValue)}
                                 </td>
                                 <td className="p-4 px-6 pl-[1.36rem] text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">
                                 {record.tags?.map(tag =>
