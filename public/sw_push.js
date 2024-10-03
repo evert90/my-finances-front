@@ -16,6 +16,6 @@ self.addEventListener('push', (event) => {
   self.addEventListener('notificationclick', (event) => {
     event.notification.close();
     event.waitUntil(
-      clients.openWindow('http://localhost:3000') // Change to your Next.js app URL
+      clients.openWindow('https://erp-front-three.vercel.app/') // Change to your Next.js app URL
     );
   });
