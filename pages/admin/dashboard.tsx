@@ -41,6 +41,7 @@ import { colorService } from "../../services/color.service";
 import { CardOnDemandDropdown } from "../../components/Dropdowns/CardOnDemandDropdown";
 import { cardService } from "../../services/card.service";
 import dynamic from "next/dynamic";
+import { pushSubscriptionService } from "../../services/push-subscribe.service";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 SwiperCore.use([Navigation])
@@ -130,6 +131,7 @@ export const Dashboard: LayoutComponent = () => {
 
         fetchCardsOnDemand();
 
+        pushSubscriptionService.subscribeUserToPush();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
