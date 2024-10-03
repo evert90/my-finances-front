@@ -1,5 +1,3 @@
-import { pushSubscriptionService } from "./push-subscribe.service";
-
 export const utilsService = {
     getNullable,
     redirect
