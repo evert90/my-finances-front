@@ -8,7 +8,6 @@ const pwa = () => withPWA({
             : 'http://localhost:21200', // production api
 
     },
-    sw: 'sw_push.js',
     excludeDefaultMomentLocales: false,
     pwa: {
         //disable: process.env.NODE_ENV === 'development',
