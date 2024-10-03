@@ -1,3 +1,5 @@
+import { pushSubscriptionService } from "./push-subscribe.service";
+
 export const utilsService = {
     getNullable,
     redirect
@@ -9,4 +11,4 @@ function getNullable(value: any) {
 
 function redirect(url: string) {
     window.location.assign(url)
-  }
+}
