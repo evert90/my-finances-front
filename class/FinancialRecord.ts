@@ -11,6 +11,7 @@ export class FinancialRecord {
         public type: string,
         public tags: Array<Tag>,
         public paid: boolean,
+        public notification: boolean,
         public createdAt?: Moment,
         public updatedAt?: Moment,
     ) {}

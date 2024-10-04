@@ -17,7 +17,7 @@ import { ErrorMessage } from "../../helpers/fetch-wrapper";
 export const FinancialRecordForm: React.FC = () => {
 
     const [showForm, setShowForm] = useState(false);
-    const [showPaid, setShowPaid] = useState(false);
+    const [showPaidAndNotification, setShowPaidAndNotification] = useState(false);
     const [showRecurrenceOptions, setshowRecurrenceOptions] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [optionsTags, setOptionsTags] = useState([]);
@@ -97,7 +97,7 @@ export const FinancialRecordForm: React.FC = () => {
     const { register, handleSubmit, setError, formState } = useForm(formOptions);
     const { errors } = formState;
 
-    function onSubmit({ name, date, value, tags, type, details, recurrence, paid }) {
+    function onSubmit({ name, date, value, tags, type, details, recurrence, paid, notification }) {
         let financialRecord = new FinancialRecordRecurrence(
             null,
             name,
@@ -106,7 +106,8 @@ export const FinancialRecordForm: React.FC = () => {
             date,
             type,
             values,
-            getPaid(type, paid),
+            getPaidOrNotification(type, paid),
+            getPaidOrNotification(type, notification),
             getRecurrence(recurrence),
             getRecurrence(recurrence) ? RecurrencePeriod.MONTHLY : null,
             getRecurrence(recurrence) ? 1 : null,
@@ -115,8 +116,8 @@ export const FinancialRecordForm: React.FC = () => {
         return mutation.mutate(financialRecord);
     }
 
-    const getPaid = (type: string, paid: string): boolean => {
-        return FinancialRecordType[type] == FinancialRecordType.EXPENSE ? paid == "Sim" : null
+    const getPaidOrNotification = (type: string, item: string): boolean => {
+        return FinancialRecordType[type] == FinancialRecordType.EXPENSE ? item == "Sim" : null
     }
 
     const getRecurrence = (recurrence: string): boolean => {
@@ -210,7 +211,7 @@ export const FinancialRecordForm: React.FC = () => {
                                     />
                                 </div>
                             </div>
-                            <div className={`w-full px-4 lg:w-6/12`}>
+                            <div className={`w-full px-4 ${showPaidAndNotification ? "lg:w-3/12" : "lg:w-6/12"}`}>
                                 <div className="relative w-full mb-3">
                                     <label
                                         className="block mb-2 text-xs font-bold uppercase text-blueGray-600"
@@ -220,7 +221,7 @@ export const FinancialRecordForm: React.FC = () => {
                                     </label>
                                     <select
                                         {...register('type')}
-                                        onChange={(e) => setShowPaid(FinancialRecordType[e.target.value] == FinancialRecordType.EXPENSE)}
+                                        onChange={(e) => setShowPaidAndNotification(FinancialRecordType[e.target.value] == FinancialRecordType.EXPENSE)}
                                         className={`${errors.type ? 'is-invalid' : ''} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
                                     >
                                         <option value="" label="Selecione o tipo" />
@@ -230,7 +231,7 @@ export const FinancialRecordForm: React.FC = () => {
                                     </select>
                                 </div>
                             </div>
-                            <div className={`w-full px-4 ${showPaid ? "lg:w-3/12" : "lg:w-6/12"}`}>
+                            <div className={`w-full px-4 ${showPaidAndNotification ? "lg:w-3/12" : "lg:w-6/12"}`}>
                                 <div className="relative w-full mb-3">
                                     <label
                                         className="block mb-2 text-xs font-bold uppercase text-blueGray-600"
@@ -248,7 +249,7 @@ export const FinancialRecordForm: React.FC = () => {
                                     </select>
                                 </div>
                             </div>
-                            <div className={`${!showPaid && "hidden"} w-full px-4 lg:w-3/12`}>
+                            <div className={`${!showPaidAndNotification && "hidden"} w-full px-4 lg:w-3/12`}>
                                 <div className="relative w-full mb-3">
                                     <label
                                         className="block mb-2 text-xs font-bold uppercase text-blueGray-600"
@@ -259,6 +260,23 @@ export const FinancialRecordForm: React.FC = () => {
                                     <select
                                         {...register('paid')}
                                         className={`${errors.paid ? 'is-invalid' : ''} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
+                                    >
+                                        <option key="Não" value="Não" label="Não" />
+                                        <option defaultChecked key="Sim" value="Sim" label="Sim" />
+                                    </select>
+                                </div>
+                            </div>
+                            <div className={`${!showPaidAndNotification && "hidden"} w-full px-4 lg:w-3/12`}>
+                                <div className="relative w-full mb-3">
+                                    <label
+                                        className="block mb-2 text-xs font-bold uppercase text-blueGray-600"
+                                        htmlFor="grid-password"
+                                    >
+                                        Notificação <i className={`cursor-pointer fas fa-question-circle`} title="Você receberá notificações próximo a data de vencimento"></i>
+                                    </label>
+                                    <select
+                                        {...register('notification')}
+                                        className={`${errors.notification ? 'is-invalid' : ''} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
                                     >
                                         <option key="Não" value="Não" label="Não" />
                                         <option defaultChecked key="Sim" value="Sim" label="Sim" />
