@@ -12,6 +12,7 @@ export class FinancialRecordRecurrence {
         public type: string,
         public tags: Array<Tag>,
         public paid: boolean,
+        public notification: boolean,
         public recurrence: boolean,
         public recurrencePeriod: RecurrencePeriod,
         public recurrenceQuantity: number,
