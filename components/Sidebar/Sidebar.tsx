@@ -162,7 +162,7 @@ const Sidebar = () => {
                   </a>
                 </Link>
               </li>
-
+{/*
               <li className="items-center">
                 <Link href="/admin/debts">
                   <a
@@ -212,7 +212,7 @@ const Sidebar = () => {
                   </a>
                 </Link>
               </li>
-{/*
+
               <li className="items-center">
                 <Link href="/admin/settings">
                   <a
