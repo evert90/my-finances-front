@@ -157,7 +157,7 @@ const pwa = () => withPWA({
                         maxEntries: 64,
                         maxAgeSeconds: 30 * 24 * 60 * 60 // 30 days
                     },
-                    networkTimeoutSeconds: 10 // fall back to cache if api does not response within 10 seconds
+                    networkTimeoutSeconds: 35 // fall back to cache if api does not response within 10 seconds
                 }
             },
             {
@@ -175,7 +175,7 @@ const pwa = () => withPWA({
                         maxEntries: 128,
                         maxAgeSeconds: 30 * 24 * 60 * 60 // 30 days
                     },
-                    networkTimeoutSeconds: 10
+                    networkTimeoutSeconds: 35
                 }
             },
             {
@@ -190,7 +190,7 @@ const pwa = () => withPWA({
                         maxEntries: 128,
                         maxAgeSeconds: 30 * 24 * 60 * 60 // 30 days
                     },
-                    networkTimeoutSeconds: 10
+                    networkTimeoutSeconds: 35
                 }
             }
         ]
