@@ -4,7 +4,7 @@ import Document, { Html, Head, Main, NextScript } from "next/document";
 class MyDocument extends Document {
   render() {
     return (
-      <Html lang="en">
+      <Html lang="pt-BR">
         <Head>
           <meta charSet="utf-8" />
           <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fffbfb"></meta>
