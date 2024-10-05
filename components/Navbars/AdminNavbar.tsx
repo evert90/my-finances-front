@@ -114,7 +114,7 @@ export const AdminNavbar = () => {
               ></i>
             </a>
           </Link>
-
+{/*}
           <Link href="/admin/debts">
             <a
 
@@ -151,7 +151,7 @@ export const AdminNavbar = () => {
               ></i>
             </a>
           </Link>
-
+*/}
           {/* Tooltips */}
           <div className={(dashboardPopoverShow ? "" : "hidden ") + "tooltip"} ref={dashboardPopoverRef}>
             <div className="arrow" data-popper-arrow></div>
@@ -177,6 +177,7 @@ export const AdminNavbar = () => {
               </div>
             </div>
           </div>
+{/*
           <div className={(debtsPopoverShow ? "" : "hidden ") + "tooltip"} ref={debtsPopoverRef}>
             <div className="arrow" data-popper-arrow></div>
             <div>
@@ -193,6 +194,7 @@ export const AdminNavbar = () => {
               </div>
             </div>
           </div>
+*/}
           {/* End Tooltips */}
 
           {/* Form */}
