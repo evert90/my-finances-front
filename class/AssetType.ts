@@ -1,6 +1,6 @@
 export enum AssetType {
-    IMOVEL = "Imóvel",
+    //IMOVEL = "Imóvel",
     RENDA_FIXA = "Renda fixa",
-    OUTROS = "Outros",
-    VEICULO = "Veículo"
+    //OUTROS = "Outros",
+    //VEICULO = "Veículo"
 }

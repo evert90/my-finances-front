@@ -88,7 +88,7 @@ export const AdminNavbar = () => {
               }
             >
               <i
-                className={"fas fa-money-bill-alt mr-6 text-xl-edit"}
+                className={"fas fa-money-bill-alt mr-5 text-xl-edit"}
                 onMouseEnter={() => openTooltip(financialRecordsRef, financialRecordsPopoverRef, setFinancialRecordsPopoverShow)}
                 onMouseLeave={() => closeTooltip(setFinancialRecordsPopoverShow)}
                 ref={financialRecordsRef}
@@ -107,7 +107,7 @@ export const AdminNavbar = () => {
               }
             >
               <i
-                className={"fas fa-building mr-6 text-xl-edit"}
+                className={"fas fa-funnel-dollar mr-6 text-xl-edit"}
                 onMouseEnter={() => openTooltip(assetsRef, assetsPopoverRef, setAssetsPopoverShow)}
                 onMouseLeave={() => closeTooltip(setAssetsPopoverShow)}
                 ref={assetsRef}
@@ -173,7 +173,7 @@ export const AdminNavbar = () => {
             <div className="arrow" data-popper-arrow></div>
             <div>
               <div>
-                Bens
+                Investimentos
               </div>
             </div>
           </div>
