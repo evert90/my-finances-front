@@ -27,7 +27,7 @@ export const AssetTable: React.FC<AssetTableProps> = () => {
             refetchOnWindowFocus: false,
             retry: false,
             onSuccess: (data) => setData(data),
-            onError: (err) => toast?.pushError("Erro ao consultar bens. " + err, 7000, "truncate-2-lines")
+            onError: (err) => toast?.pushError("Erro ao consultar investimentos. " + err, 7000, "truncate-2-lines")
         }
     );
 
@@ -44,13 +44,8 @@ export const AssetTable: React.FC<AssetTableProps> = () => {
     const columns = useMemo(
         () => [
             {
-                Header: 'Nome',
+                Header: 'Descrição',
                 accessor: 'name',
-            },
-            {
-                Header: 'Tipo',
-                accessor: 'type',
-                id: 'type'
             },
             {
                 Header: 'Banco',
@@ -61,7 +56,7 @@ export const AssetTable: React.FC<AssetTableProps> = () => {
                 accessor: 'rendaFixaType',
             },
             {
-                Header: 'Tipo de taxa',
+                Header: 'Tipo',
                 accessor: 'rendaFixaRateType',
             },
             {
@@ -104,11 +99,31 @@ export const AssetTable: React.FC<AssetTableProps> = () => {
     )
 
 
-    const getDifference = (initialValue: number, endValue: number) => {
+    const getDifference = (initialValue: number, endValue: number, initialDate: moment.Moment, endDate: moment.Moment) => {
         const difference = endValue && initialValue && currencyService.format(endValue - initialValue);
-        const differencePercentage = endValue && initialValue && ((endValue - initialValue) / initialValue * 100)?.toFixed(2) + "%"
-        return !!difference && !!differencePercentage ? `${difference} (${differencePercentage})` : "";
+        let differencePercentage: number = endValue && initialValue && ((endValue - initialValue) / initialValue * 100);
+        const differenceByYear = getDifferenceByYear(initialDate, endDate, differencePercentage)
+        return !!difference && !!differencePercentage ? `${difference} (${differenceByYear})` : "";
     }
+
+    const getDifferenceTotalPercentage = (initialValue: number, endValue: number) => {
+        const difference = endValue && initialValue && currencyService.format(endValue - initialValue);
+        let differencePercentage: number = endValue && initialValue && ((endValue - initialValue) / initialValue * 100);
+        return !!difference && !!differencePercentage ? `${differencePercentage.toFixed(2)}%` : "";
+    }
+
+    const getDifferenceByYear = (initialDate: moment.Moment, endDate: moment.Moment, differencePercentage: number) => {
+        const diasNoAno = 365;
+
+        const diferencaEmDias = moment(endDate).diff(moment(initialDate), 'days');
+
+        const tempoAnosDecimais = diferencaEmDias / diasNoAno;
+
+        const taxaAnual = differencePercentage / tempoAnosDecimais;
+
+        return taxaAnual.toFixed(2) + "% a.a";
+    }
+
 
     const getDifferenceSortable = (initialValue: number, endValue: number) => {
         return endValue && initialValue && endValue - initialValue;
@@ -136,7 +151,7 @@ export const AssetTable: React.FC<AssetTableProps> = () => {
                     initialDate.format("DD/MM/YYYY").includes(queryLower) ||
                     endDate?.format("DD/MM/YYYY").includes(queryLower) ||
                     currencyService.format(record.initialValue).includes(queryLower) ||
-                    getDifference(record.initialValue, record.endValue)?.includes(queryLower) ||
+                    getDifference(record.initialValue, record.endValue, record.initialDate, record.endDate)?.includes(queryLower) ||
                     record.tags?.filter(tag => tag.name?.toLowerCase().includes(queryLower))?.length
             });
         },
@@ -179,6 +194,69 @@ export const AssetTable: React.FC<AssetTableProps> = () => {
                         <h3 className={"text-xl font-bold text-blueGray-700"}>
                             Lançamentos
                         </h3>
+                        <div className={`${data?.length == 0 && "hidden"} flex flex-row justify-center mr-[6rem]`}>
+                            <nav className="block">
+                                <ul className="flex flex-wrap pl-0 list-none rounded">
+                                    <li>
+                                        <button onClick={() => {gotoPage(0); scrollService.toElement("lancamentos", -100)}}
+                                            disabled={!canPreviousPage}
+                                            className="relative flex items-center justify-center w-8 h-8 p-0 mx-1 text-xs font-semibold leading-tight bg-white border border-solid rounded-full first:ml-0 border-blueGray-500 text-blueGray-500 hover:bg-blueGray-500 hover:text-white">
+                                            <i className="-ml-px fas fa-chevron-left"></i>
+                                            <i className="-ml-px fas fa-chevron-left"></i>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button onClick={() => {previousPage(); scrollService.toElement("lancamentos", -100)}}
+                                            disabled={!canPreviousPage}
+                                            className="relative flex items-center justify-center w-8 h-8 p-0 mx-1 text-xs font-semibold leading-tight bg-white border border-solid rounded-full first:ml-0 border-blueGray-500 text-blueGray-500 hover:bg-blueGray-500 hover:text-white">
+                                            <i className="-ml-px fas fa-chevron-left"></i>
+                                        </button>
+                                    </li>
+                                    <li>
+                                    <select className="relative flex items-center justify-center w-[4.6rem] h-8 p-0 pl-2 mx-1 text-xs font-semibold leading-tight bg-white border border-solid rounded-full first:ml-0 border-blueGray-500 text-blueGray-500 hover:bg-blueGray-500 hover:text-white focus:ring-blueGray-500 focus:outline-none"
+                                            value={pageIndex}
+                                            onChange={e => {gotoPage(Number(e.target.value)); scrollService.toElement("lancamentos", -100)}}
+                                            >
+                                            {Array.from(Array(pageOptions.length).keys()).map(page => (
+                                                <option key={page} value={page}>
+                                                    {page + 1} de {pageOptions.length}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </li>
+                                    <li>
+                                        <button onClick={() => {nextPage(); scrollService.toElement("lancamentos", -100)}}
+                                            disabled={!canNextPage}
+                                            className="relative flex items-center justify-center w-8 h-8 p-0 mx-1 text-xs font-semibold leading-tight bg-white border border-solid rounded-full first:ml-0 border-blueGray-500 text-blueGray-500 hover:bg-blueGray-500 hover:text-white">
+                                            <i className="-mr-px fas fa-chevron-right"></i>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button onClick={() => {gotoPage(pageCount - 1); scrollService.toElement("lancamentos", -100)}}
+                                            disabled={!canNextPage}
+                                            className="relative flex items-center justify-center w-8 h-8 p-0 mx-1 text-xs font-semibold leading-tight bg-white border border-solid rounded-full first:ml-0 border-blueGray-500 text-blueGray-500 hover:bg-blueGray-500 hover:text-white">
+                                            <i className="-mr-px fas fa-chevron-right"></i>
+                                            <i className="-mr-px fas fa-chevron-right"></i>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <select className="relative flex items-center justify-center h-8 p-0 pl-2 mx-1 text-xs font-semibold leading-tight bg-white border border-solid rounded-full w-14 first:ml-0 border-blueGray-500 text-blueGray-500 hover:bg-blueGray-500 hover:text-white focus:ring-blueGray-500 focus:outline-none"
+                                            value={pageSize}
+                                            onChange={e => {
+                                                setPageSize(Number(e.target.value))
+                                            }}
+                                            >
+                                            {[10, 15, 20, 30, 40, 50, 75, 100, 1000].map(pageSize => (
+                                                <option key={pageSize} value={pageSize}>
+                                                {pageSize}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <div>
                         {!isLoading && !isFetching &&
                         <GlobalFilter
                             preGlobalFilteredRows={preGlobalFilteredRows}
@@ -186,6 +264,7 @@ export const AssetTable: React.FC<AssetTableProps> = () => {
                             setGlobalFilter={setGlobalFilter}
                         />
                         }
+                        </div>
                     </div>
                 </div>
                 <div className={`block w-full overflow-x-auto`}>
@@ -227,9 +306,6 @@ export const AssetTable: React.FC<AssetTableProps> = () => {
                                     {record.name}
                                 </td>
                                 <td className="table-tbody-sm">
-                                    {AssetType[record.type]}
-                                </td>
-                                <td className="table-tbody-sm">
                                     {record.bank}
                                 </td>
                                 <td className="table-tbody-sm">
@@ -253,8 +329,8 @@ export const AssetTable: React.FC<AssetTableProps> = () => {
                                 <td className="table-tbody-sm">
                                     {record.endValue && currencyService.format(record.endValue)}
                                 </td>
-                                <td className="table-tbody-sm">
-                                    {getDifference(record.initialValue, record.endValue)}
+                                <td className="table-tbody-sm" title={`${getDifferenceTotalPercentage(record.initialValue, record.endValue)}`}>
+                                    {getDifference(record.initialValue, record.endValue, record.initialDate, record.endDate)}
                                 </td>
                                 <td className="p-4 px-6 pl-[1.36rem] text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">
                                 {record.tags?.map(tag =>

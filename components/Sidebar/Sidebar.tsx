@@ -152,13 +152,13 @@ const Sidebar = () => {
                   >
                     <i
                       className={
-                        "fas fa-building mr-2 text-sm w-4 " +
+                        "fas fa-funnel-dollar mr-2 text-sm w-4 " +
                         (router.pathname.indexOf("/admin/assets") !== -1
                           ? "opacity-75"
                           : "text-blueGray-300")
                       }
                     ></i>{" "}
-                    Bens
+                    Investimentos
                   </a>
                 </Link>
               </li>
