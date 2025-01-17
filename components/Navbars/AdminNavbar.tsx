@@ -9,6 +9,7 @@ export const AdminNavbar = () => {
 
   const [dashboardPopoverShow, setDahsboardPopoverShow] = React.useState(false);
   const [financialRecordsPopoverShow, setFinancialRecordsPopoverShow] = React.useState(false);
+  const [financialRecordRecurrencesPopoverShow, setFinancialRecordRecurrencesPopoverShow] = React.useState(false);
   const [assetsPopoverShow, setAssetsPopoverShow] = React.useState(false);
   const [debtsPopoverShow, setDebtsPopoverShow] = React.useState(false);
   const [productsPopoverShow, setProductsPopoverShow] = React.useState(false);
@@ -23,6 +24,8 @@ export const AdminNavbar = () => {
   const debtsPopoverRef: RefObject<HTMLInputElement> = React.createRef();
   const productsRef: RefObject<HTMLInputElement> = React.createRef();
   const productsPopoverRef: RefObject<HTMLInputElement> = React.createRef();
+  const financialRecordRecurrencesRef: RefObject<HTMLInputElement> = React.createRef();
+  const financialRecordRecurrencesPopoverRef: RefObject<HTMLInputElement> = React.createRef();
 
   const openTooltip = (iconRef: RefObject<HTMLInputElement>, popoverRef: RefObject<HTMLInputElement>, setPopover: any) => {
     const instance = createPopper(iconRef.current, popoverRef.current, {
@@ -92,6 +95,25 @@ export const AdminNavbar = () => {
                 onMouseEnter={() => openTooltip(financialRecordsRef, financialRecordsPopoverRef, setFinancialRecordsPopoverShow)}
                 onMouseLeave={() => closeTooltip(setFinancialRecordsPopoverShow)}
                 ref={financialRecordsRef}
+              ></i>
+            </a>
+          </Link>
+
+          <Link href="/admin/recurrences" as="/admin/recurrences">
+            <a
+
+              className={
+                "text-md py-3 font-bold block " +
+                (router.pathname.indexOf("/admin/recurrences") !== -1
+                  ? "text-lightBlue-600 hover:text-lightBlue-700 opacity-75"
+                  : "text-blueGray-300 hover:text-blueGray-600")
+              }
+            >
+              <i
+                className={"fas fa-retweet mr-5 text-xl-edit"}
+                onMouseEnter={() => openTooltip(financialRecordRecurrencesRef, financialRecordRecurrencesPopoverRef, setFinancialRecordRecurrencesPopoverShow)}
+                onMouseLeave={() => closeTooltip(setFinancialRecordRecurrencesPopoverShow)}
+                ref={financialRecordRecurrencesRef}
               ></i>
             </a>
           </Link>
@@ -166,6 +188,14 @@ export const AdminNavbar = () => {
             <div>
               <div>
                 Receitas/Despesas
+              </div>
+            </div>
+          </div>
+          <div className={(financialRecordRecurrencesPopoverShow ? "" : "hidden ") + "tooltip"} ref={financialRecordRecurrencesPopoverRef}>
+            <div className="arrow" data-popper-arrow></div>
+            <div>
+              <div>
+                Recorrências
               </div>
             </div>
           </div>
