@@ -6,10 +6,13 @@ import { useToast } from "../Toast/ToastProvider";
 import { Asset } from "../../class/Asset";
 import { assetService } from "../../services/asset.service";
 import { useQueryClient } from '@tanstack/react-query';
+import { FinancialRecordRecurrence } from "../../class/FinancialRecordRecurrence";
+import { financialRecordRecurrenceService } from "../../services/financial-record-recurrence.service";
 
 type TableDropdownProps = {
-  record: FinancialRecord | Asset
-  callback: Function
+  record: FinancialRecord | FinancialRecordRecurrence | Asset
+  callback: Function,
+  onlyDelete?: boolean
 }
 
 const TableDropdown: React.FC<TableDropdownProps> = (props) => {
@@ -73,7 +76,7 @@ const TableDropdown: React.FC<TableDropdownProps> = (props) => {
 
     const deleteRecord = (event: React.MouseEvent) => {
         event.preventDefault();
-        const service: any = (props.record as Asset).initialDate ? assetService : financialRecordService;
+        const service: any = getService();
         service.deleteById(props.record.id)
             .then((response) => {
                 toast.pushSuccess("Registro removido com sucesso", 5000)
@@ -82,6 +85,11 @@ const TableDropdown: React.FC<TableDropdownProps> = (props) => {
             .catch(error => {
                 toast?.pushError("Erro ao excluir registro. " + error, 7000, "truncate-2-lines");
             }).finally(() => {})
+    }
+
+    const getService = () => {
+        return (props.record as Asset).initialDate ? assetService :
+        (props.record as FinancialRecordRecurrence).recurrencePeriod ? financialRecordRecurrenceService : financialRecordService;
     }
 
     return (
@@ -104,6 +112,7 @@ const TableDropdown: React.FC<TableDropdownProps> = (props) => {
                     "bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-[10rem]"
                 }
             >
+                {!props.onlyDelete &&
                 <a
                     className={
                     "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700 hover:bg-gray-100 cursor-pointer"
@@ -112,6 +121,7 @@ const TableDropdown: React.FC<TableDropdownProps> = (props) => {
                 >
                     <i className="mr-2 fas fa-edit"></i> Editar
                 </a>
+                }
                 <a
                     className={
                     "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700 hover:bg-gray-100 cursor-pointer"

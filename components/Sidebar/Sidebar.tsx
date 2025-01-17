@@ -139,6 +139,31 @@ const Sidebar = () => {
               </li>
 
               <li className="items-center">
+                <Link href="/admin/recurrences">
+                  <a
+
+                    onClick={() => setCollapseShow("hidden")}
+                    className={
+                      "text-md py-3 font-bold block " +
+                      (router.pathname.indexOf("/admin/recurrences") !== -1
+                        ? "text-lightBlue-500 hover:text-lightBlue-600"
+                        : "text-blueGray-700 hover:text-blueGray-500")
+                    }
+                  >
+                    <i
+                      className={
+                        "fas fa-retweet mr-2 text-sm w-4 " +
+                        (router.pathname.indexOf("/admin/recurrences") !== -1
+                          ? "opacity-75"
+                          : "text-blueGray-300")
+                      }
+                    ></i>{" "}
+                    Recorrências
+                  </a>
+                </Link>
+              </li>
+
+              <li className="items-center">
                 <Link href="/admin/assets">
                   <a
 
