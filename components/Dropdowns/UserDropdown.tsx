@@ -38,7 +38,7 @@ const UserDropdown = () => {
     pushNotificationService
     .sendNotificationTest()
     .then((response: any) => {
-        toast.pushSuccess("Notificação enviada", 5000);
+        toast.pushSuccess("Enviada com sucesso", 5000);
     })
     .catch(error => {
         toast?.pushError("Erro ao enviar notificação. " + error, 7000, "truncate-2-lines")
@@ -82,6 +82,7 @@ const UserDropdown = () => {
         >
           <i className="mr-1 fa fa-user"></i> Perfil
         </a>
+        <div className="h-0 my-2 border border-solid border-blueGray-100" />
         <a
 
           className={
