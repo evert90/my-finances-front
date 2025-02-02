@@ -44,6 +44,7 @@ const TableDropdown: React.FC<TableDropdownProps> = (props) => {
         if((props.record as Asset)?.initialDate) {
             let response = prompt("Digite o valor final")
             if(response && response != "") {
+                const oldValue = (props.record as Asset).endValue;
                 (props.record as Asset).endValue = response as any
                 assetService.save((props.record as Asset))
                 .then((response) => {
@@ -51,6 +52,7 @@ const TableDropdown: React.FC<TableDropdownProps> = (props) => {
                     toast.pushSuccess("Registro editado com sucesso", 5000)
                 })
                 .catch(error => {
+                    (props.record as Asset).endValue = oldValue;
                     toast?.pushError("Erro ao editar registro. " + error, 7000, "truncate-2-lines");
                 }).finally(() => {})
             }
@@ -59,6 +61,7 @@ const TableDropdown: React.FC<TableDropdownProps> = (props) => {
 
             let response = prompt("Digite o novo valor")
             if(response && response != "") {
+                const oldValue = (props.record as FinancialRecord).value;
                 (props.record as FinancialRecord).value = response as any
                 financialRecordService.save((props.record as FinancialRecord))
                 .then((response) => {
@@ -66,6 +69,7 @@ const TableDropdown: React.FC<TableDropdownProps> = (props) => {
                     toast.pushSuccess("Registro editado com sucesso", 5000)
                 })
                 .catch(error => {
+                    (props.record as FinancialRecord).value = oldValue;
                     toast?.pushError("Erro ao editar registro. " + error, 7000, "truncate-2-lines");
                 }).finally(() => {})
             }
