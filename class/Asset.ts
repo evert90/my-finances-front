@@ -22,5 +22,6 @@ export class Asset {
         public liquidez?: boolean,
         public createdAt?: Moment,
         public updatedAt?: Moment,
+        public redemptionDate?: Moment,
     ) {}
 }

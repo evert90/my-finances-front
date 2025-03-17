@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { createPopper } from "@popperjs/core";
 import { FinancialRecord } from "../../class/FinancialRecord";
 import { financialRecordService } from "../../services/financial-record.service";
@@ -8,11 +8,13 @@ import { assetService } from "../../services/asset.service";
 import { useQueryClient } from '@tanstack/react-query';
 import { FinancialRecordRecurrence } from "../../class/FinancialRecordRecurrence";
 import { financialRecordRecurrenceService } from "../../services/financial-record-recurrence.service";
+import { ModalRedemptionDate } from "../Modal/ModalRedemptionDate";
+import { set } from "react-hook-form";
 
 type TableDropdownProps = {
-  record: FinancialRecord | FinancialRecordRecurrence | Asset
-  callback: Function,
-  onlyDelete?: boolean
+    record: FinancialRecord | FinancialRecordRecurrence | Asset
+    callback: Function,
+    onlyDelete?: boolean
 }
 
 const TableDropdown: React.FC<TableDropdownProps> = (props) => {
@@ -20,6 +22,8 @@ const TableDropdown: React.FC<TableDropdownProps> = (props) => {
     const toast = useToast();
 
     const queryClient = useQueryClient();
+
+    const [showModal, setShowModal] = useState<boolean>(false)
 
     // dropdown props
     const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
@@ -39,14 +43,17 @@ const TableDropdown: React.FC<TableDropdownProps> = (props) => {
         setDropdownPopoverShow(false);
     };
 
-    const editRecord = (event: React.MouseEvent) => {
-        event.preventDefault();
-        if((props.record as Asset)?.initialDate) {
-            let response = prompt("Digite o valor final")
-            if(response && response != "") {
-                const oldValue = (props.record as Asset).endValue;
-                (props.record as Asset).endValue = response as any
-                assetService.save((props.record as Asset))
+    const handleSave = (updatedData) => {
+        setShowModal(false);
+        editAsset(updatedData);
+    };
+
+    const editAsset = (updatedData) => {
+        if (updatedData) {
+            const oldValue = (props.record as Asset).endValue;
+            (props.record as Asset).redemptionDate = updatedData.redemptionDate as any
+            (props.record as Asset).endValue = updatedData.endValue as any
+            assetService.save((props.record as Asset))
                 .then((response) => {
                     queryClient.refetchQueries(["assets"])
                     toast.pushSuccess("Registro editado com sucesso", 5000)
@@ -54,24 +61,29 @@ const TableDropdown: React.FC<TableDropdownProps> = (props) => {
                 .catch(error => {
                     (props.record as Asset).endValue = oldValue;
                     toast?.pushError("Erro ao editar registro. " + error, 7000, "truncate-2-lines");
-                }).finally(() => {})
-            }
+                }).finally(() => { })
+        }
+    }
 
-        } else if((props.record as FinancialRecord)?.value || (props.record as FinancialRecord)?.value === 0) {
+    const editRecord = (event: React.MouseEvent) => {
+        event?.preventDefault();
+        if ((props.record as Asset)?.initialDate) {
+            setShowModal(true);
+        } else if ((props.record as FinancialRecord)?.value || (props.record as FinancialRecord)?.value === 0) {
 
             let response = prompt("Digite o novo valor")
-            if(response && response != "") {
+            if (response && response != "") {
                 const oldValue = (props.record as FinancialRecord).value;
                 (props.record as FinancialRecord).value = response as any
                 financialRecordService.save((props.record as FinancialRecord))
-                .then((response) => {
-                    queryClient.refetchQueries(["financialRecords"])
-                    toast.pushSuccess("Registro editado com sucesso", 5000)
-                })
-                .catch(error => {
-                    (props.record as FinancialRecord).value = oldValue;
-                    toast?.pushError("Erro ao editar registro. " + error, 7000, "truncate-2-lines");
-                }).finally(() => {})
+                    .then((response) => {
+                        queryClient.refetchQueries(["financialRecords"])
+                        toast.pushSuccess("Registro editado com sucesso", 5000)
+                    })
+                    .catch(error => {
+                        (props.record as FinancialRecord).value = oldValue;
+                        toast?.pushError("Erro ao editar registro. " + error, 7000, "truncate-2-lines");
+                    }).finally(() => { })
             }
 
         }
@@ -88,12 +100,12 @@ const TableDropdown: React.FC<TableDropdownProps> = (props) => {
             })
             .catch(error => {
                 toast?.pushError("Erro ao excluir registro. " + error, 7000, "truncate-2-lines");
-            }).finally(() => {})
+            }).finally(() => { })
     }
 
     const getService = () => {
         return (props.record as Asset).initialDate ? assetService :
-        (props.record as FinancialRecordRecurrence).recurrencePeriod ? financialRecordRecurrenceService : financialRecordService;
+            (props.record as FinancialRecordRecurrence).recurrencePeriod ? financialRecordRecurrenceService : financialRecordService;
     }
 
     return (
@@ -109,6 +121,10 @@ const TableDropdown: React.FC<TableDropdownProps> = (props) => {
                 <i className="fas fa-ellipsis-v"></i>
             </a>
 
+            {showModal ? (
+                <ModalRedemptionDate setShowModalState={setShowModal} record={props.record as Asset} onSave={handleSave}></ModalRedemptionDate>
+            ) : null}
+
             <div
                 ref={popoverDropdownRef}
                 className={
@@ -117,20 +133,20 @@ const TableDropdown: React.FC<TableDropdownProps> = (props) => {
                 }
             >
                 {!props.onlyDelete &&
-                <a
-                    className={
-                    "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700 hover:bg-gray-100 cursor-pointer"
-                    }
-                    onClick={(e) => {closeDropdownPopover(); editRecord(e)}}
-                >
-                    <i className="mr-2 fas fa-edit"></i> Editar
-                </a>
+                    <a
+                        className={
+                            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700 hover:bg-gray-100 cursor-pointer"
+                        }
+                        onClick={(e) => { closeDropdownPopover(); editRecord(e) }}
+                    >
+                        <i className="mr-2 fas fa-edit"></i> Editar
+                    </a>
                 }
                 <a
                     className={
-                    "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700 hover:bg-gray-100 cursor-pointer"
+                        "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700 hover:bg-gray-100 cursor-pointer"
                     }
-                    onClick={(e) => {closeDropdownPopover(); deleteRecord(e)}}
+                    onClick={(e) => { closeDropdownPopover(); deleteRecord(e) }}
                 >
                     <i className="mr-2.5 fas fa-trash"></i> Remover
                 </a>
