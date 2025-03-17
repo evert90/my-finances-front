@@ -151,7 +151,7 @@ export const AssetTable: React.FC<AssetTableProps> = () => {
                     initialDate.format("DD/MM/YYYY").includes(queryLower) ||
                     endDate?.format("DD/MM/YYYY").includes(queryLower) ||
                     currencyService.format(record.initialValue).includes(queryLower) ||
-                    getDifference(record.initialValue, record.endValue, record.initialDate, record.endDate)?.includes(queryLower) ||
+                    getDifference(record.initialValue, record.endValue, record.initialDate, record.redemptionDate ?? record.endDate)?.includes(queryLower) ||
                     record.tags?.filter(tag => tag.name?.toLowerCase().includes(queryLower))?.length
             });
         },
@@ -320,7 +320,7 @@ export const AssetTable: React.FC<AssetTableProps> = () => {
                                 <td className="table-tbody-sm">
                                     <Moment date={record.initialDate} format="DD/MM/YYYY" />
                                 </td>
-                                <td className="table-tbody-sm">
+                                <td className="table-tbody-sm" title={record.redemptionDate && record.redemptionDate != record.endDate && "Data do resgate: " + moment(record.redemptionDate).format('DD/MM/YYYY')}>
                                     {record.endDate && <Moment date={record.endDate} format="DD/MM/YYYY" />}
                                 </td>
                                 <td className="table-tbody-sm">
@@ -330,7 +330,7 @@ export const AssetTable: React.FC<AssetTableProps> = () => {
                                     {record.endValue && currencyService.format(record.endValue)}
                                 </td>
                                 <td className="table-tbody-sm" title={`${getDifferenceTotalPercentage(record.initialValue, record.endValue)}`}>
-                                    {getDifference(record.initialValue, record.endValue, record.initialDate, record.endDate)}
+                                    {getDifference(record.initialValue, record.endValue, record.initialDate, record.redemptionDate ?? record.endDate)}
                                 </td>
                                 <td className="p-4 px-6 pl-[1.36rem] text-sm align-middle border-t-0 border-l-0 border-r-0 whitespace-nowrap">
                                 {record.tags?.map(tag =>
