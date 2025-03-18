@@ -7,7 +7,7 @@ export const ModalServiceTerms: React.FC<ModalServiceTermsProps> = (props) => {
     return (
         <>
             <div className="fixed inset-0 flex items-center justify-center overflow-x-hidden overflow-y-scroll outline-none z-70 focus:outline-none">
-                <div className="relative w-[99%] h-[99%] md:h-auto max-w-3xl mx-auto my-6">
+                <div className="relative w-[99%] h-auto max-w-3xl mx-auto my-6">
                     {/*content*/}
                     <div className="relative flex flex-col w-full bg-white border-0 rounded-lg shadow-lg outline-none focus:outline-none">
                         {/*header*/}
