@@ -25,7 +25,7 @@ const Sidebar = () => {
             <i className="fas fa-bars"></i>
           </button>
           {/* Brand */}
-          <Link
+          <Link passHref
             href="/"
             className="inline-block p-4 px-0 mr-0 text-sm font-bold text-left uppercase md:block md:pb-2 text-blueGray-600 whitespace-nowrap">
 
@@ -52,7 +52,7 @@ const Sidebar = () => {
             <div className="block pb-1 mb-2 border-b border-solid md:min-w-full md:hidden border-blueGray-200">
               <div className="flex flex-wrap">
                 <div className="w-6/12">
-                  <Link
+                  <Link passHref
                     href="/"
                     className="inline-block p-4 px-0 mr-0 text-sm font-bold text-left uppercase md:block md:pb-2 text-blueGray-600 whitespace-nowrap">
 
@@ -88,7 +88,7 @@ const Sidebar = () => {
             {/* Navigation */}
             <ul className="flex flex-col list-none md:flex-col md:min-w-full">
               <li className="items-center">
-                <Link
+                <Link passHref
                   href="/admin/dashboard"
                   onClick={() => setCollapseShow("hidden")}
                   className={
@@ -106,12 +106,12 @@ const Sidebar = () => {
                         : "text-blueGray-300")
                     }
                   ></i>{" "}Dashboard
-                                    
+
                 </Link>
               </li>
 
               <li className="items-center">
-                <Link
+                <Link passHref
                   href="/admin/financial-records"
                   onClick={() => setCollapseShow("hidden")}
                   className={
@@ -129,12 +129,12 @@ const Sidebar = () => {
                         : "text-blueGray-300")
                     }
                   ></i>{" "}Receitas/Despesas
-                                    
+
                 </Link>
               </li>
 
               <li className="items-center">
-                <Link
+                <Link passHref
                   href="/admin/recurrences"
                   onClick={() => setCollapseShow("hidden")}
                   className={
@@ -152,12 +152,12 @@ const Sidebar = () => {
                         : "text-blueGray-300")
                     }
                   ></i>{" "}Recorrências
-                                    
+
                 </Link>
               </li>
 
               <li className="items-center">
-                <Link
+                <Link passHref
                   href="/admin/assets"
                   onClick={() => setCollapseShow("hidden")}
                   className={
@@ -175,7 +175,7 @@ const Sidebar = () => {
                         : "text-blueGray-300")
                     }
                   ></i>{" "}Investimentos
-                                    
+
                 </Link>
               </li>
 {/*
