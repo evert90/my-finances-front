@@ -15,12 +15,12 @@ export const AuthNavbar: React.FC<AuthNavbarProps> = ({transparent}) =>  {
       <nav className="absolute top-0 z-50 flex flex-wrap items-center justify-between w-full px-2 py-3 navbar-expand-lg">
         <div className="container flex flex-wrap items-center justify-between px-4 mx-auto">
           <div className="relative flex justify-between w-full lg:w-auto lg:static lg:block lg:justify-start">
-            <Link href="/">
-              <a
-                className="inline-block py-2 mr-4 text-sm font-bold leading-relaxed text-white uppercase whitespace-nowrap"
-              >
+            <Link
+              href="/"
+              className="inline-block py-2 mr-4 text-sm font-bold leading-relaxed text-white uppercase whitespace-nowrap">
+              
                 Notus NextJS
-              </a>
+              
             </Link>
             <button
               className="block px-3 py-1 text-xl leading-none bg-transparent border border-transparent border-solid rounded outline-none cursor-pointer lg:hidden focus:outline-none"

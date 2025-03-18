@@ -128,10 +128,10 @@ const Landing = () => {
                   good to go. Just make sure you enable them first via
                   JavaScript.
                 </p>
-                <Link href="/">
-                  <a className="mt-8 font-bold text-blueGray-700">
+                <Link href="/" className="mt-8 font-bold text-blueGray-700">
+                  
                     Check Notus NextJS!
-                  </a>
+                  
                 </Link>
               </div>
 

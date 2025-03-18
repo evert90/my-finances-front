@@ -120,11 +120,11 @@ export const Dashboard: LayoutComponent = () => {
     useEffect(() => {
         async function fetchCardsOnDemand () {
             if(cardsOnDemand?.length > 0) {
-                const updatedCards: Array<CardOnDemand> = await Promise.all(
+                const updatedCards: Array<CardOnDemand> = (await Promise.all(
                     cardsOnDemand.map(async (cardOnDemand) => {
                         await cardService.setValues(cardOnDemand, toast)
                         return cardOnDemand
-                    })) || [];
+                    }))) || [];
                 setCardsOnDemand([...updatedCards]);
             }
         }
