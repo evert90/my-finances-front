@@ -62,7 +62,7 @@ export const AdminNavbar = () => {
             Dashboard
           </a>
             */}
-          <Link
+          <Link passHref
             href="/admin/dashboard"
             as="/admin/dashboard"
             className={
@@ -81,7 +81,7 @@ export const AdminNavbar = () => {
 
           </Link>
 
-          <Link
+          <Link passHref
             href="/admin/financial-records"
             as="/admin/financial-records"
             className={
@@ -100,7 +100,7 @@ export const AdminNavbar = () => {
 
           </Link>
 
-          <Link
+          <Link passHref
             href="/admin/recurrences"
             as="/admin/recurrences"
             className={
@@ -119,7 +119,7 @@ export const AdminNavbar = () => {
 
           </Link>
 
-          <Link
+          <Link passHref
             href="/admin/assets"
             className={
               "text-md py-3 font-bold block " +

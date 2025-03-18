@@ -175,7 +175,7 @@ export const Register: LayoutComponent = () => {
             </div>
             <div className="relative flex flex-wrap mt-6">
               <div className="w-1/2">
-                <Link href="/auth/login" className="text-blueGray-200">
+                <Link passHref href="/auth/login" className="text-blueGray-200">
 
                   <small>Área de login</small>
 
