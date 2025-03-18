@@ -12,8 +12,6 @@ const pwa = () => withPWA({
     pwa: {
         //disable: process.env.NODE_ENV === 'development',
         dest: 'public',
-        register: true,
-        skipWaiting: true,
         mode: 'production',
         runtimeCaching: [
             {
@@ -210,9 +208,6 @@ module.exports = withSentryConfig(
     {
         // For all available options, see:
         // https://www.npmjs.com/package/@sentry/webpack-plugin#options
-
-        org: "everton-y7",
-        project: "javascript-nextjs",
 
         // Only print logs for uploading source maps in CI
         silent: !process.env.CI,
