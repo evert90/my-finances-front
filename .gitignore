@@ -31,3 +31,6 @@ commit.sh
 
 # Sentry
 .sentryclirc
+
+# Sentry Config File
+.env.sentry-build-plugin
