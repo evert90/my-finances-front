@@ -170,10 +170,10 @@ export const Login: LayoutComponent = () => {
                 </a>
               </div>
               <div className="w-1/2 text-right">
-                <Link href="/auth/register">
-                  <a className="text-blueGray-200">
-                    <small>Criar nova conta</small>
-                  </a>
+                <Link href="/auth/register" className="text-blueGray-200">
+
+                  <small>Criar nova conta</small>
+
                 </Link>
               </div>
             </div>

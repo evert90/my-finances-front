@@ -62,7 +62,6 @@ export const Index = () => {
                     alt="..."
                 />
             </section>
-
             <section className="relative pb-40 mt-48 md:mt-40 bg-blueGray-100">
                 <div
                     className="absolute top-0 left-0 right-0 bottom-auto w-full h-20 -mt-20"
@@ -510,7 +509,6 @@ export const Index = () => {
                     </div>
                 </div>
             </section>
-
             <section className="relative block z-1 bg-blueGray-600">
                 <div className="container mx-auto">
                     <div className="flex flex-wrap justify-center">
@@ -520,7 +518,7 @@ export const Index = () => {
                                     <h5 className="pb-4 text-xl font-semibold text-center">
                                         Login Page
                                     </h5>
-                                    <Link href="/auth/login" passHref>
+                                    <Link href="/auth/login" passHref legacyBehavior>
                                         <div className="relative flex flex-col w-full min-w-0 mb-6 break-words transition-all duration-150 ease-linear bg-white rounded-lg shadow-lg hover:-mt-4">
                                             <img
                                                 alt="..."
@@ -535,7 +533,7 @@ export const Index = () => {
                                     <h5 className="pb-4 text-xl font-semibold text-center">
                                         Profile Page
                                     </h5>
-                                    <Link href="/profile" passHref>
+                                    <Link href="/profile" passHref legacyBehavior>
                                         <div className="relative flex flex-col w-full min-w-0 mb-6 break-words transition-all duration-150 ease-linear bg-white rounded-lg shadow-lg hover:-mt-4">
                                             <img
                                                 alt="..."
@@ -550,7 +548,7 @@ export const Index = () => {
                                     <h5 className="pb-4 text-xl font-semibold text-center">
                                         Landing Page
                                     </h5>
-                                    <Link href="/landing" passHref>
+                                    <Link href="/landing" passHref legacyBehavior>
                                         <div className="relative flex flex-col w-full min-w-0 mb-6 break-words transition-all duration-150 ease-linear bg-white rounded-lg shadow-lg hover:-mt-4">
                                             <img
                                                 alt="..."
@@ -565,7 +563,6 @@ export const Index = () => {
                     </div>
                 </div>
             </section>
-
             <section className="py-20 overflow-hidden bg-blueGray-600">
                 <div className="container pb-64 mx-auto">
                     <div className="flex flex-wrap justify-center">
@@ -608,7 +605,6 @@ export const Index = () => {
                     </div>
                 </div>
             </section>
-
             <section className="relative pt-32 pb-16 bg-blueGray-200">
                 <div
                     className="absolute top-0 left-0 right-0 bottom-auto w-full h-20 -mt-20"

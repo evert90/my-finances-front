@@ -62,79 +62,79 @@ export const AdminNavbar = () => {
             Dashboard
           </a>
             */}
-          <Link href="/admin/dashboard" as="/admin/dashboard">
-            <a
-              className={
-                "text-md py-3 font-bold block " +
-                (router.pathname.indexOf("/admin/dashboard") !== -1
-                  ? "text-lightBlue-600 hover:text-lightBlue-700 opacity-75"
-                  : "text-blueGray-300 hover:text-blueGray-600")
-              }
-            >
-              <i
-                className={"fas fa-tachometer-alt mr-6 text-xl-edit"}
-                onMouseEnter={() => openTooltip(dashboardRef, dashboardPopoverRef, setDahsboardPopoverShow)}
-                onMouseLeave={() => closeTooltip(setDahsboardPopoverShow)}
-                ref={dashboardRef}
-              ></i>
-            </a>
+          <Link
+            href="/admin/dashboard"
+            as="/admin/dashboard"
+            className={
+              "text-md py-3 font-bold block " +
+              (router.pathname.indexOf("/admin/dashboard") !== -1
+                ? "text-lightBlue-600 hover:text-lightBlue-700 opacity-75"
+                : "text-blueGray-300 hover:text-blueGray-600")
+            }>
+
+            <i
+              className={"fas fa-tachometer-alt mr-6 text-xl-edit"}
+              onMouseEnter={() => openTooltip(dashboardRef, dashboardPopoverRef, setDahsboardPopoverShow)}
+              onMouseLeave={() => closeTooltip(setDahsboardPopoverShow)}
+              ref={dashboardRef}
+            ></i>
+
           </Link>
 
-          <Link href="/admin/financial-records" as="/admin/financial-records">
-            <a
+          <Link
+            href="/admin/financial-records"
+            as="/admin/financial-records"
+            className={
+              "text-md py-3 font-bold block " +
+              (router.pathname.indexOf("/admin/financial-records") !== -1
+                ? "text-lightBlue-600 hover:text-lightBlue-700 opacity-75"
+                : "text-blueGray-300 hover:text-blueGray-600")
+            }>
 
-              className={
-                "text-md py-3 font-bold block " +
-                (router.pathname.indexOf("/admin/financial-records") !== -1
-                  ? "text-lightBlue-600 hover:text-lightBlue-700 opacity-75"
-                  : "text-blueGray-300 hover:text-blueGray-600")
-              }
-            >
-              <i
-                className={"fas fa-money-bill-alt mr-5 text-xl-edit"}
-                onMouseEnter={() => openTooltip(financialRecordsRef, financialRecordsPopoverRef, setFinancialRecordsPopoverShow)}
-                onMouseLeave={() => closeTooltip(setFinancialRecordsPopoverShow)}
-                ref={financialRecordsRef}
-              ></i>
-            </a>
+            <i
+              className={"fas fa-money-bill-alt mr-5 text-xl-edit"}
+              onMouseEnter={() => openTooltip(financialRecordsRef, financialRecordsPopoverRef, setFinancialRecordsPopoverShow)}
+              onMouseLeave={() => closeTooltip(setFinancialRecordsPopoverShow)}
+              ref={financialRecordsRef}
+            ></i>
+
           </Link>
 
-          <Link href="/admin/recurrences" as="/admin/recurrences">
-            <a
+          <Link
+            href="/admin/recurrences"
+            as="/admin/recurrences"
+            className={
+              "text-md py-3 font-bold block " +
+              (router.pathname.indexOf("/admin/recurrences") !== -1
+                ? "text-lightBlue-600 hover:text-lightBlue-700 opacity-75"
+                : "text-blueGray-300 hover:text-blueGray-600")
+            }>
 
-              className={
-                "text-md py-3 font-bold block " +
-                (router.pathname.indexOf("/admin/recurrences") !== -1
-                  ? "text-lightBlue-600 hover:text-lightBlue-700 opacity-75"
-                  : "text-blueGray-300 hover:text-blueGray-600")
-              }
-            >
-              <i
-                className={"fas fa-retweet mr-5 text-xl-edit"}
-                onMouseEnter={() => openTooltip(financialRecordRecurrencesRef, financialRecordRecurrencesPopoverRef, setFinancialRecordRecurrencesPopoverShow)}
-                onMouseLeave={() => closeTooltip(setFinancialRecordRecurrencesPopoverShow)}
-                ref={financialRecordRecurrencesRef}
-              ></i>
-            </a>
+            <i
+              className={"fas fa-retweet mr-5 text-xl-edit"}
+              onMouseEnter={() => openTooltip(financialRecordRecurrencesRef, financialRecordRecurrencesPopoverRef, setFinancialRecordRecurrencesPopoverShow)}
+              onMouseLeave={() => closeTooltip(setFinancialRecordRecurrencesPopoverShow)}
+              ref={financialRecordRecurrencesRef}
+            ></i>
+
           </Link>
 
-          <Link href="/admin/assets">
-            <a
+          <Link
+            href="/admin/assets"
+            className={
+              "text-md py-3 font-bold block " +
+              (router.pathname.indexOf("/admin/assets") !== -1
+                ? "text-lightBlue-600 hover:text-lightBlue-700 opacity-75"
+                : "text-blueGray-300 hover:text-blueGray-600")
+            }>
 
-              className={
-                "text-md py-3 font-bold block " +
-                (router.pathname.indexOf("/admin/assets") !== -1
-                  ? "text-lightBlue-600 hover:text-lightBlue-700 opacity-75"
-                  : "text-blueGray-300 hover:text-blueGray-600")
-              }
-            >
-              <i
-                className={"fas fa-funnel-dollar mr-6 text-xl-edit"}
-                onMouseEnter={() => openTooltip(assetsRef, assetsPopoverRef, setAssetsPopoverShow)}
-                onMouseLeave={() => closeTooltip(setAssetsPopoverShow)}
-                ref={assetsRef}
-              ></i>
-            </a>
+            <i
+              className={"fas fa-funnel-dollar mr-6 text-xl-edit"}
+              onMouseEnter={() => openTooltip(assetsRef, assetsPopoverRef, setAssetsPopoverShow)}
+              onMouseLeave={() => closeTooltip(setAssetsPopoverShow)}
+              ref={assetsRef}
+            ></i>
+
           </Link>
 {/*}
           <Link href="/admin/debts">
@@ -245,7 +245,6 @@ export const AdminNavbar = () => {
         </div>
       </nav>
       {/* End Navbar */}
-
     </>
   );
 }

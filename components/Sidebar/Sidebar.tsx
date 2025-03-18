@@ -25,12 +25,12 @@ const Sidebar = () => {
             <i className="fas fa-bars"></i>
           </button>
           {/* Brand */}
-          <Link href="/">
-            <a
-              className="inline-block p-4 px-0 mr-0 text-sm font-bold text-left uppercase md:block md:pb-2 text-blueGray-600 whitespace-nowrap"
-            >
-              <img src="/img/logo/horizontal_blue3.png" style={logoStyle} alt="" />
-            </a>
+          <Link
+            href="/"
+            className="inline-block p-4 px-0 mr-0 text-sm font-bold text-left uppercase md:block md:pb-2 text-blueGray-600 whitespace-nowrap">
+
+            <img src="/img/logo/horizontal_blue3.png" style={logoStyle} alt="" />
+
           </Link>
           {/* User */}
           <ul className="flex flex-wrap items-center list-none md:hidden">
@@ -52,13 +52,12 @@ const Sidebar = () => {
             <div className="block pb-1 mb-2 border-b border-solid md:min-w-full md:hidden border-blueGray-200">
               <div className="flex flex-wrap">
                 <div className="w-6/12">
-                  <Link href="/">
-                    <a
+                  <Link
+                    href="/"
+                    className="inline-block p-4 px-0 mr-0 text-sm font-bold text-left uppercase md:block md:pb-2 text-blueGray-600 whitespace-nowrap">
 
-                      className="inline-block p-4 px-0 mr-0 text-sm font-bold text-left uppercase md:block md:pb-2 text-blueGray-600 whitespace-nowrap"
-                    >
-                      <img src="/img/logo/horizontal_blue3.png" style={logoStyle} alt="" />
-                    </a>
+                    <img src="/img/logo/horizontal_blue3.png" style={logoStyle} alt="" />
+
                   </Link>
                 </div>
                 <div className="flex justify-end w-6/12">
@@ -89,102 +88,94 @@ const Sidebar = () => {
             {/* Navigation */}
             <ul className="flex flex-col list-none md:flex-col md:min-w-full">
               <li className="items-center">
-                <Link href="/admin/dashboard">
-                  <a
+                <Link
+                  href="/admin/dashboard"
+                  onClick={() => setCollapseShow("hidden")}
+                  className={
+                    "text-md py-3 font-bold block " +
+                    (router.pathname.indexOf("/admin/dashboard") !== -1
+                      ? "text-lightBlue-500 hover:text-lightBlue-600"
+                      : "text-blueGray-700 hover:text-blueGray-500")
+                  }>
 
-                    onClick={() => setCollapseShow("hidden")}
+                  <i
                     className={
-                      "text-md py-3 font-bold block " +
+                      "fas fa-tachometer-alt mr-2 text-sm w-4 " +
                       (router.pathname.indexOf("/admin/dashboard") !== -1
-                        ? "text-lightBlue-500 hover:text-lightBlue-600"
-                        : "text-blueGray-700 hover:text-blueGray-500")
+                        ? "opacity-75"
+                        : "text-blueGray-300")
                     }
-                  >
-                    <i
-                      className={
-                        "fas fa-tachometer-alt mr-2 text-sm w-4 " +
-                        (router.pathname.indexOf("/admin/dashboard") !== -1
-                          ? "opacity-75"
-                          : "text-blueGray-300")
-                      }
-                    ></i>{" "}
-                    Dashboard
-                  </a>
+                  ></i>{" "}Dashboard
+                                    
                 </Link>
               </li>
 
               <li className="items-center">
-                <Link href="/admin/financial-records">
-                  <a
+                <Link
+                  href="/admin/financial-records"
+                  onClick={() => setCollapseShow("hidden")}
+                  className={
+                    "text-md py-3 font-bold block " +
+                    (router.pathname.indexOf("/admin/financial-records") !== -1
+                      ? "text-lightBlue-500 hover:text-lightBlue-600"
+                      : "text-blueGray-700 hover:text-blueGray-500")
+                  }>
 
-                    onClick={() => setCollapseShow("hidden")}
+                  <i
                     className={
-                      "text-md py-3 font-bold block " +
+                      "fas fa-money-bill-alt mr-2 text-sm w-4 " +
                       (router.pathname.indexOf("/admin/financial-records") !== -1
-                        ? "text-lightBlue-500 hover:text-lightBlue-600"
-                        : "text-blueGray-700 hover:text-blueGray-500")
+                        ? "opacity-75"
+                        : "text-blueGray-300")
                     }
-                  >
-                    <i
-                      className={
-                        "fas fa-money-bill-alt mr-2 text-sm w-4 " +
-                        (router.pathname.indexOf("/admin/financial-records") !== -1
-                          ? "opacity-75"
-                          : "text-blueGray-300")
-                      }
-                    ></i>{" "}
-                    Receitas/Despesas
-                  </a>
+                  ></i>{" "}Receitas/Despesas
+                                    
                 </Link>
               </li>
 
               <li className="items-center">
-                <Link href="/admin/recurrences">
-                  <a
+                <Link
+                  href="/admin/recurrences"
+                  onClick={() => setCollapseShow("hidden")}
+                  className={
+                    "text-md py-3 font-bold block " +
+                    (router.pathname.indexOf("/admin/recurrences") !== -1
+                      ? "text-lightBlue-500 hover:text-lightBlue-600"
+                      : "text-blueGray-700 hover:text-blueGray-500")
+                  }>
 
-                    onClick={() => setCollapseShow("hidden")}
+                  <i
                     className={
-                      "text-md py-3 font-bold block " +
+                      "fas fa-retweet mr-2 text-sm w-4 " +
                       (router.pathname.indexOf("/admin/recurrences") !== -1
-                        ? "text-lightBlue-500 hover:text-lightBlue-600"
-                        : "text-blueGray-700 hover:text-blueGray-500")
+                        ? "opacity-75"
+                        : "text-blueGray-300")
                     }
-                  >
-                    <i
-                      className={
-                        "fas fa-retweet mr-2 text-sm w-4 " +
-                        (router.pathname.indexOf("/admin/recurrences") !== -1
-                          ? "opacity-75"
-                          : "text-blueGray-300")
-                      }
-                    ></i>{" "}
-                    Recorrências
-                  </a>
+                  ></i>{" "}Recorrências
+                                    
                 </Link>
               </li>
 
               <li className="items-center">
-                <Link href="/admin/assets">
-                  <a
+                <Link
+                  href="/admin/assets"
+                  onClick={() => setCollapseShow("hidden")}
+                  className={
+                    "text-md py-3 font-bold block " +
+                    (router.pathname.indexOf("/admin/assets") !== -1
+                      ? "text-lightBlue-500 hover:text-lightBlue-600"
+                      : "text-blueGray-700 hover:text-blueGray-500")
+                  }>
 
-                    onClick={() => setCollapseShow("hidden")}
+                  <i
                     className={
-                      "text-md py-3 font-bold block " +
+                      "fas fa-funnel-dollar mr-2 text-sm w-4 " +
                       (router.pathname.indexOf("/admin/assets") !== -1
-                        ? "text-lightBlue-500 hover:text-lightBlue-600"
-                        : "text-blueGray-700 hover:text-blueGray-500")
+                        ? "opacity-75"
+                        : "text-blueGray-300")
                     }
-                  >
-                    <i
-                      className={
-                        "fas fa-funnel-dollar mr-2 text-sm w-4 " +
-                        (router.pathname.indexOf("/admin/assets") !== -1
-                          ? "opacity-75"
-                          : "text-blueGray-300")
-                      }
-                    ></i>{" "}
-                    Investimentos
-                  </a>
+                  ></i>{" "}Investimentos
+                                    
                 </Link>
               </li>
 {/*
