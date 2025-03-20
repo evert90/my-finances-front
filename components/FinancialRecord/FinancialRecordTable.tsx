@@ -24,6 +24,7 @@ export const FinancialRecordTable: React.FC<FinancialRecordTableProps> = (props)
         {
             staleTime: 60 * 1000,
             refetchOnWindowFocus: false,
+            keepPreviousData: true,
             retry: false,
             onSuccess: (data) => setData(data),
             onError: (err) => toast?.pushError("Erro ao consultar receitas/despesas. " + err, 7000, "truncate-2-lines")
@@ -111,6 +112,7 @@ export const FinancialRecordTable: React.FC<FinancialRecordTableProps> = (props)
             columns,
             data,
             initialState: { pageIndex: 0, pageSize: 50 },
+            autoResetPage: false,
             globalFilter: customGlobalFilterFunction
         },
         useFilters,

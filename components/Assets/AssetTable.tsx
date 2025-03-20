@@ -25,6 +25,7 @@ export const AssetTable: React.FC<AssetTableProps> = () => {
         {
             staleTime: 60 * 1000,
             refetchOnWindowFocus: false,
+            keepPreviousData: true,
             retry: false,
             onSuccess: (data) => setData(data),
             onError: (err) => toast?.pushError("Erro ao consultar investimentos. " + err, 7000, "truncate-2-lines")
@@ -178,6 +179,7 @@ export const AssetTable: React.FC<AssetTableProps> = () => {
             columns,
             data,
             initialState: { pageIndex: 0, pageSize: 100 },
+            autoResetPage: false,
             globalFilter: customGlobalFilterFunction
         },
         useFilters,
