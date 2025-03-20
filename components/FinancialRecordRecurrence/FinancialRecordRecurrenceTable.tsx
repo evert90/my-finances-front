@@ -24,6 +24,7 @@ export const FinancialRecordRecurrenceTable: React.FC<FinancialRecordRecurrenceT
         {
             staleTime: 60 * 1000,
             refetchOnWindowFocus: false,
+            keepPreviousData: true,
             retry: false,
             onSuccess: (data) => setData(data),
             onError: (err) => toast?.pushError("Erro ao consultar recorrências. " + err, 7000, "truncate-2-lines")
@@ -107,6 +108,7 @@ export const FinancialRecordRecurrenceTable: React.FC<FinancialRecordRecurrenceT
             columns,
             data,
             initialState: { pageIndex: 0, pageSize: 50 },
+            autoResetPage: false,
             globalFilter: customGlobalFilterFunction
         },
         useFilters,
