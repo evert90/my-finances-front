@@ -3,10 +3,8 @@ name: Code test and coverage
 on: [pull_request]
 
 jobs:
-  build:
-
+  install:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [18.x]
@@ -20,8 +18,122 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: Install dependencies
+    - name: Cache de dependências
+      id: cache
+      uses: actions/cache@v4
+      with:
+        path: |
+          node_modules
+          ~/.cache/Cypress
+        key: npm-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          npm-${{ runner.os }}-
+
+    - name: Instalar dependências
+      if: steps.cache.outputs.cache-hit != 'true'
       run: npm install --force
 
-    - name: Run the tests
+  unit_tests:
+    runs-on: ubuntu-latest
+    needs: install  # This job depends on the install job
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Restaurar cache de dependências
+      uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: npm-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+    - name: Run Unit Tests
       run: npm run test:ci
+
+  cypress_tests:
+    runs-on: ubuntu-latest
+    needs: [install]  # This job depends on both install and get_vercel_url jobs
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Restaurar cache de dependências
+      uses: actions/cache@v4
+      with:
+        path: |
+          node_modules
+          ~/.cache/Cypress
+        key: npm-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+    - name: Run Cypress Tests
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        # Wait for a while before starting
+        echo "Waiting 90 seconds before checking deployment..."
+        sleep 90
+
+        # Set variables for GitHub API
+        REPO=${{ github.repository }}
+        DEPLOYMENTS_URL="https://api.github.com/repos/$REPO/deployments"
+
+        # Fetch deployments from GitHub API
+        echo "Fetching deployments from GitHub API..."
+        DEPLOYMENTS=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "$DEPLOYMENTS_URL")
+
+        # Extract the first deployment's statuses_url
+        STATUSES_URL=$(echo "$DEPLOYMENTS" | jq -r '.[0].statuses_url')
+
+        echo "Debug: Status url:"
+        echo "$STATUSES_URL"
+
+        if [[ "$STATUSES_URL" == "null" || -z "$STATUSES_URL" ]]; then
+          echo "Error: No statuses_url found in the deployment response."
+          exit 1
+        fi
+
+        # Retry fetching the status details every 10 seconds for 1 minute
+        echo "Retrying to fetch the status every 10 seconds for 1 minute..."
+
+        MAX_RETRIES=6  # 60 seconds / 10 seconds = 6 retries
+        COUNT=0
+        VERCEL_URL=""
+
+        while [[ $COUNT -lt $MAX_RETRIES && -z "$VERCEL_URL" ]]; do
+          echo "Attempt #$((COUNT+1))..."
+
+          # Fetch the status details using the statuses_url
+          STATUS_RESPONSE=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "$STATUSES_URL")
+
+          # Debug: Print the status response
+          echo "Debug: Full status response:"
+          echo "$STATUS_RESPONSE"
+
+          # Extract the target_url of the status with "state": "success"
+          VERCEL_URL=$(echo "$STATUS_RESPONSE" | jq -r '.[] | select(.state == "success") | .target_url')
+
+          # Debug: Print the extracted Vercel URL
+          echo "Debug: Extracted Vercel URL: $VERCEL_URL"
+
+          if [[ -n "$VERCEL_URL" ]]; then
+            echo "Deployment URL found: $VERCEL_URL"
+            break
+          else
+            echo "Vercel URL not found with state 'success'. Retrying in 10 seconds..."
+            sleep 10
+            COUNT=$((COUNT+1))
+          fi
+        done
+
+        if [[ -z "$VERCEL_URL" ]]; then
+          echo "Error: Vercel URL not found with state 'success' after $MAX_RETRIES attempts."
+          exit 1
+        fi
+
+        CYPRESS_BASE_URL=$VERCEL_URL npm run cypress:headless
+
+    - name: Upload Cypress screenshots
+      uses: actions/upload-artifact@v4
+      if: failure()
+      with:
+        name: cypress-screenshots
+        path: /home/runner/work/erp-front/erp-front/cypress/screenshots/**/*.png
