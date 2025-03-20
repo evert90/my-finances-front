@@ -43,7 +43,9 @@ jobs:
     - name: Restaurar cache de dependências
       uses: actions/cache@v4
       with:
-        path: node_modules
+        path: |
+          node_modules
+          ~/.cache/Cypress
         key: npm-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
     - name: Run Unit Tests
@@ -68,67 +70,79 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        # Wait for a while before starting
-        echo "Waiting 90 seconds before checking deployment..."
-        sleep 90
-
         # Set variables for GitHub API
         REPO=${{ github.repository }}
-        DEPLOYMENTS_URL="https://api.github.com/repos/$REPO/deployments"
+        PULL_REQUEST_NUMBER=${{ github.event.pull_request.number }}
+        COMMITS_URL="https://api.github.com/repos/$REPO/pulls/$PULL_REQUEST_NUMBER/commits"
 
-        # Fetch deployments from GitHub API
-        echo "Fetching deployments from GitHub API..."
-        DEPLOYMENTS=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "$DEPLOYMENTS_URL")
+        # Fetch commits from the PR to get the SHA of the last commit
+        echo "Fetching commits from GitHub API..."
+        COMMITS=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "$COMMITS_URL")
 
-        # Extract the first deployment's statuses_url
-        STATUSES_URL=$(echo "$DEPLOYMENTS" | jq -r '.[0].statuses_url')
+        # Extract the SHA of the last commit
+        LAST_COMMIT_SHA=$(echo "$COMMITS" | jq -r '.[-1].sha')
 
-        echo "Debug: Status url:"
-        echo "$STATUSES_URL"
+        echo "Last commit SHA: $LAST_COMMIT_SHA"
 
-        if [[ "$STATUSES_URL" == "null" || -z "$STATUSES_URL" ]]; then
-          echo "Error: No statuses_url found in the deployment response."
-          exit 1
-        fi
+        # Set the deployments URL with the SHA of the last commit
+        DEPLOYMENTS_URL="https://api.github.com/repos/$REPO/deployments?sha=$LAST_COMMIT_SHA"
 
-        # Retry fetching the status details every 10 seconds for 1 minute
-        echo "Retrying to fetch the status every 10 seconds for 1 minute..."
+        # Retry fetching deployments for 120 seconds
+        echo "Waiting up to 120 seconds to find a deployment with the last commit SHA..."
 
-        MAX_RETRIES=6  # 60 seconds / 10 seconds = 6 retries
-        COUNT=0
-        VERCEL_URL=""
+        MAX_WAIT_TIME=120  # Wait for 120 seconds
+        WAIT_INTERVAL=10   # Retry every 10 seconds
+        FOUND_DEPLOYMENT=false
 
-        while [[ $COUNT -lt $MAX_RETRIES && -z "$VERCEL_URL" ]]; do
-          echo "Attempt #$((COUNT+1))..."
+        START_TIME=$(date +%s)
+        while [ $(($(date +%s) - $START_TIME)) -lt $MAX_WAIT_TIME ]; do
+          # Fetch deployments from GitHub API
+          DEPLOYMENTS=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "$DEPLOYMENTS_URL")
 
-          # Fetch the status details using the statuses_url
-          STATUS_RESPONSE=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "$STATUSES_URL")
+          # Check if there is any deployment
+          DEPLOYMENT_COUNT=$(echo "$DEPLOYMENTS" | jq length)
 
-          # Debug: Print the status response
-          echo "Debug: Full status response:"
-          echo "$STATUS_RESPONSE"
+          if [[ "$DEPLOYMENT_COUNT" -gt 0 ]]; then
+            # Extract the statuses_url of the first deployment
+            STATUSES_URL=$(echo "$DEPLOYMENTS" | jq -r '.[0].statuses_url')
 
-          # Extract the target_url of the status with "state": "success"
-          VERCEL_URL=$(echo "$STATUS_RESPONSE" | jq -r '.[] | select(.state == "success") | .target_url')
-
-          # Debug: Print the extracted Vercel URL
-          echo "Debug: Extracted Vercel URL: $VERCEL_URL"
-
-          if [[ -n "$VERCEL_URL" ]]; then
-            echo "Deployment URL found: $VERCEL_URL"
-            break
-          else
-            echo "Vercel URL not found with state 'success'. Retrying in 10 seconds..."
-            sleep 10
-            COUNT=$((COUNT+1))
+            if [[ "$STATUSES_URL" != "null" && -n "$STATUSES_URL" ]]; then
+              echo "Deployment found. Fetching status URL: $STATUSES_URL"
+              FOUND_DEPLOYMENT=true
+              break
+            fi
           fi
+
+          echo "Deployment not found, retrying in $WAIT_INTERVAL seconds..."
+          sleep $WAIT_INTERVAL
         done
 
-        if [[ -z "$VERCEL_URL" ]]; then
-          echo "Error: Vercel URL not found with state 'success' after $MAX_RETRIES attempts."
+        if ! $FOUND_DEPLOYMENT; then
+          echo "Error: Deployment not found after $MAX_WAIT_TIME seconds."
           exit 1
         fi
 
+        # Fetch the status details from the statuses URL
+        STATUS_RESPONSE=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "$STATUSES_URL")
+
+        # Debug: Print the status response
+        echo "Debug: Full status response:"
+        echo "$STATUS_RESPONSE"
+
+        # Extract the target_url of the status with "state": "success"
+        VERCEL_URL=$(echo "$STATUS_RESPONSE" | jq -r '.[] | select(.state == "success") | .target_url')
+
+        # Debug: Print the extracted Vercel URL
+        echo "Debug: Extracted Vercel URL: $VERCEL_URL"
+
+        if [[ -n "$VERCEL_URL" ]]; then
+          echo "Deployment URL found: $VERCEL_URL"
+        else
+          echo "Error: Vercel URL not found with state 'success'."
+          exit 1
+        fi
+
+        # Run Cypress tests
         CYPRESS_BASE_URL=$VERCEL_URL npm run cypress:headless
 
     - name: Upload Cypress screenshots
