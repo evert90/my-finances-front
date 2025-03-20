@@ -11,14 +11,14 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Set up Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: Cache de dependências
+    - name: Dependency cache
       id: cache
       uses: actions/cache@v4
       with:
@@ -31,16 +31,16 @@ jobs:
 
     - name: Instalar dependências
       if: steps.cache.outputs.cache-hit != 'true'
-      run: npm install --force
+      run: npm install --legacy-peer-deps
 
   unit_tests:
     runs-on: ubuntu-latest
-    needs: install  # This job depends on the install job
+    needs: install
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
-    - name: Restaurar cache de dependências
+    - name: Restore dependency cache
       uses: actions/cache@v4
       with:
         path: |
@@ -53,12 +53,12 @@ jobs:
 
   cypress_tests:
     runs-on: ubuntu-latest
-    needs: [install]  # This job depends on both install and get_vercel_url jobs
+    needs: install
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
-    - name: Restaurar cache de dependências
+    - name: Restore dependency cache
       uses: actions/cache@v4
       with:
         path: |
@@ -66,7 +66,7 @@ jobs:
           ~/.cache/Cypress
         key: npm-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
-    - name: Run Cypress Tests
+    - name: Get deployment url
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
@@ -137,17 +137,22 @@ jobs:
 
         if [[ -n "$VERCEL_URL" ]]; then
           echo "Deployment URL found: $VERCEL_URL"
+          echo "CYPRESS_BASE_URL=$VERCEL_URL" >> $GITHUB_ENV
         else
           echo "Error: Vercel URL not found with state 'success'."
           exit 1
         fi
 
-        # Run Cypress tests
-        CYPRESS_BASE_URL=$VERCEL_URL npm run cypress:headless
+    - name: Run Cypress tests
+      uses: cypress-io/github-action@v6
+      with:
+        install: false
+        browser: chrome
 
-    - name: Upload Cypress screenshots
+    - name: Upload artifacts
       uses: actions/upload-artifact@v4
       if: failure()
       with:
         name: cypress-screenshots
-        path: /home/runner/work/erp-front/erp-front/cypress/screenshots/**/*.png
+        path: cypress/screenshots
+        if-no-files-found: ignore
