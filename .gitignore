@@ -36,5 +36,4 @@ commit.sh
 .env.sentry-build-plugin
 
 # Cypress
-
 cypress/screenshots/*
