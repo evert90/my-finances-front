@@ -40,7 +40,7 @@
 // load type definitions that come with Cypress module
 /// <reference types="cypress" />
 
-import {Cypress, cy} from 'local-cypress'
+export { };
 
 Cypress.Commands.add('dataCy', (value: string) => {
   return cy.get(`[data-testid="${value}"]`)
@@ -53,7 +53,7 @@ declare global {
        * Custom command to select DOM element by data-cy attribute.
        * @example cy.dataCy('greeting')
        */
-      dataCy(value: string): Chainable<JQuery<Element>>
+      dataCy(value: string): Chainable<JQuery<HTMLElement>>
     }
   }
 }

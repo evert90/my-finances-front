@@ -1,5 +1,3 @@
-import {cy, expect, describe, it, Cypress} from 'local-cypress'
-
 describe('Index', () => {
     it('should redirect to login page', () => {
         cy.visit('/')
