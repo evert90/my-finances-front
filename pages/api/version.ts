@@ -6,6 +6,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (commitSha) {
     res.status(200).json({ version: commitSha });
   } else {
-    res.status(500).json({ error: 'Versão não encontrada' });
+    res.status(404).json({ error: 'Versão não encontrada' });
   }
 }

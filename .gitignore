@@ -34,3 +34,7 @@ commit.sh
 
 # Sentry Config File
 .env.sentry-build-plugin
+
+# Cypress
+
+cypress/screenshots/*
