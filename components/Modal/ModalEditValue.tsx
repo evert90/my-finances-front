@@ -5,16 +5,17 @@ import * as Yup from 'yup';
 import { Asset } from "../../class/Asset";
 import { useReducer } from "react";
 import { currencyService } from "../../services/currency.service";
+import { FinancialRecord } from "../../class/FinancialRecord";
 
-type ModalRedemptionDateProps = {
+type ModalEditValueProps = {
     setShowModalState: React.Dispatch<React.SetStateAction<boolean>>,
-    record: Asset,
+    record: FinancialRecord,
     onSave: Function
 }
 
-export const ModalRedemptionDate: React.FC<ModalRedemptionDateProps> = (props) => {
+export const ModalEditValue: React.FC<ModalEditValueProps> = (props) => {
 
-    const [stateValue, dispatchValue] = useReducer(currencyService.reducer, { formatted: Number.isFinite(props.record.endValue) ? currencyService.format(props.record.endValue): "", raw: props.record.endValue });
+    const [stateValue, dispatchValue] = useReducer(currencyService.reducer, { formatted: Number.isFinite(props.record.value) ? currencyService.format(props.record.value): "", raw: props.record.value });
 
     const handleChangeValue = (event: any) => {
         dispatchValue({ value: event.target.value });
@@ -22,15 +23,8 @@ export const ModalRedemptionDate: React.FC<ModalRedemptionDateProps> = (props) =
 
     // form validation rules
     const validationSchema = Yup.object().shape({
-        redemptionDate: Yup.string(),
-        endValue: Yup.string(),
-    }).test('both-or-none', 'Preencha ambos os campos ou nenhum', function (values) {
-        const { redemptionDate, endValue } = values;
-        if ((redemptionDate && !endValue) || (!redemptionDate && endValue)) {
-            return this.createError({ path: redemptionDate ? 'endValue' : 'redemptionDate' });
-        }
-        return true;
-    });
+        value: Yup.string().required()
+    })
 
     const formOptions = { resolver: yupResolver(validationSchema) };
 
@@ -38,8 +32,8 @@ export const ModalRedemptionDate: React.FC<ModalRedemptionDateProps> = (props) =
     const { register, handleSubmit, setError, formState } = useForm(formOptions);
     const { errors } = formState;
 
-    function onSubmit({ redemptionDate, endValue }) {
-        props.onSave({ redemptionDate, endValue: currencyService.toNumber(endValue) })
+    function onSubmit({ value }) {
+        props.onSave({ value: currencyService.toNumber(value) })
     }
 
     return (
@@ -52,7 +46,7 @@ export const ModalRedemptionDate: React.FC<ModalRedemptionDateProps> = (props) =
                             {/*header*/}
                             <div className="flex items-start justify-between p-5 border-b border-solid rounded-t border-blueGray-200">
                                 <h3 className="text-2xl font-semibold">
-                                    Dados do investimento
+                                    {props.record.name}
                                 </h3>
                                 <button
                                     className="float-right p-1 ml-auto text-3xl font-semibold leading-none text-black bg-transparent border-0 outline-none opacity-70 focus:outline-none"
@@ -67,25 +61,6 @@ export const ModalRedemptionDate: React.FC<ModalRedemptionDateProps> = (props) =
                             {/*body*/}
 
                             <div className="relative flex-wrap px-6 py-2">
-
-                                <div className="flex flex-wrap mt-6 mb-6">
-                                    <div className="w-full px-4">
-                                        <div className="relative w-full mb-3">
-                                            <label
-                                                className="block mb-2 text-xs font-bold text-left uppercase text-blueGray-600"
-                                                htmlFor="grid-password"
-                                            >
-                                                Data do resgate
-                                            </label>
-                                            <input
-                                                type="date"
-                                                defaultValue={props.record.redemptionDate as any}
-                                                {...register('redemptionDate')}
-                                                className={`${errors.redepmtionDate ? 'is-invalid' : ''} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
                                 <div className="flex flex-wrap mt-6 mb-3">
                                     <div className="w-full px-4">
                                         <div className="relative w-full mb-3">
@@ -97,8 +72,8 @@ export const ModalRedemptionDate: React.FC<ModalRedemptionDateProps> = (props) =
                                             </label>
                                             <input
                                                 type="text"
-                                                {...register('endValue')}
-                                                className={`${errors.endValue ? 'is-invalid' : ''} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
+                                                {...register('value')}
+                                                className={`${errors.value ? 'is-invalid' : ''} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
                                                 value={stateValue.formatted}
                                                 onChange={handleChangeValue}
                                             />

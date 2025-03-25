@@ -9,7 +9,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { FinancialRecordRecurrence } from "../../class/FinancialRecordRecurrence";
 import { financialRecordRecurrenceService } from "../../services/financial-record-recurrence.service";
 import { ModalRedemptionDate } from "../Modal/ModalRedemptionDate";
-import { set } from "react-hook-form";
+import { ModalEditValue } from "../Modal/ModalEditValue";
 
 type TableDropdownProps = {
     record: FinancialRecord | FinancialRecordRecurrence | Asset
@@ -23,7 +23,9 @@ const TableDropdown: React.FC<TableDropdownProps> = (props) => {
 
     const queryClient = useQueryClient();
 
-    const [showModal, setShowModal] = useState<boolean>(false)
+    const [showModalAsset, setShowModalAsset] = useState<boolean>(false)
+
+    const [showModalFinancialRecord, setShowModalFinancialRecord] = useState<boolean>(false)
 
     // dropdown props
     const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
@@ -43,9 +45,14 @@ const TableDropdown: React.FC<TableDropdownProps> = (props) => {
         setDropdownPopoverShow(false);
     };
 
-    const handleSave = (updatedData) => {
-        setShowModal(false);
+    const handleSaveAsset = (updatedData) => {
+        setShowModalAsset(false);
         editAsset(updatedData);
+    };
+
+    const handleSaveFinancialRecord = (updatedData) => {
+        setShowModalFinancialRecord(false);
+        editFinancialRecord(updatedData);
     };
 
     const editAsset = (updatedData) => {
@@ -65,27 +72,28 @@ const TableDropdown: React.FC<TableDropdownProps> = (props) => {
         }
     }
 
+    const editFinancialRecord = (updatedData) => {
+        if (updatedData) {
+            const oldValue = (props.record as FinancialRecord).value;
+            (props.record as FinancialRecord).value = updatedData.value as any
+            financialRecordService.save((props.record as FinancialRecord))
+                .then((response) => {
+                    queryClient.refetchQueries(["financialRecords"])
+                    toast.pushSuccess("Registro editado com sucesso", 5000)
+                })
+                .catch(error => {
+                    (props.record as FinancialRecord).value = oldValue;
+                    toast?.pushError("Erro ao editar registro. " + error, 7000, "truncate-2-lines");
+                }).finally(() => { })
+        }
+    }
+
     const editRecord = (event: React.MouseEvent) => {
         event?.preventDefault();
         if ((props.record as Asset)?.initialDate) {
-            setShowModal(true);
+            setShowModalAsset(true);
         } else if ((props.record as FinancialRecord)?.value || (props.record as FinancialRecord)?.value === 0) {
-
-            let response = prompt("Digite o novo valor")
-            if (response && response != "") {
-                const oldValue = (props.record as FinancialRecord).value;
-                (props.record as FinancialRecord).value = response as any
-                financialRecordService.save((props.record as FinancialRecord))
-                    .then((response) => {
-                        queryClient.refetchQueries(["financialRecords"])
-                        toast.pushSuccess("Registro editado com sucesso", 5000)
-                    })
-                    .catch(error => {
-                        (props.record as FinancialRecord).value = oldValue;
-                        toast?.pushError("Erro ao editar registro. " + error, 7000, "truncate-2-lines");
-                    }).finally(() => { })
-            }
-
+            setShowModalFinancialRecord(true);
         }
 
     }
@@ -121,8 +129,12 @@ const TableDropdown: React.FC<TableDropdownProps> = (props) => {
                 <i className="fas fa-ellipsis-v"></i>
             </a>
 
-            {showModal ? (
-                <ModalRedemptionDate setShowModalState={setShowModal} record={props.record as Asset} onSave={handleSave}></ModalRedemptionDate>
+            {showModalAsset ? (
+                <ModalRedemptionDate setShowModalState={setShowModalAsset} record={props.record as Asset} onSave={handleSaveAsset}></ModalRedemptionDate>
+            ) : null}
+
+            {showModalFinancialRecord ? (
+                <ModalEditValue setShowModalState={setShowModalFinancialRecord} record={props.record as FinancialRecord} onSave={handleSaveFinancialRecord}></ModalEditValue>
             ) : null}
 
             <div
