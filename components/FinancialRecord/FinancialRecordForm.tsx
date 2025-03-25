@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { FinancialRecordType } from "../../class/FinancialRecordType";
 import CreatableSelect from 'react-select/creatable';
 import { useToast } from "../Toast/ToastProvider";
@@ -13,6 +13,7 @@ import { RecurrencePeriod } from "../../class/RecurrencePeriod";
 import { FinancialRecordRecurrence } from "../../class/FinancialRecordRecurrence";
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { ErrorMessage } from "../../helpers/fetch-wrapper";
+import { currencyService } from "../../services/currency.service";
 
 export const FinancialRecordForm: React.FC = () => {
 
@@ -22,6 +23,12 @@ export const FinancialRecordForm: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [optionsTags, setOptionsTags] = useState([]);
     const [values, setValues] = useState([]);
+
+    const [state, dispatch] = useReducer(currencyService.reducer, { formatted: "", raw: 0 });
+
+    const handleChange = (event: any) => {
+        dispatch({ value: event.target.value });
+    };
 
     const toast = useToast();
 
@@ -94,7 +101,7 @@ export const FinancialRecordForm: React.FC = () => {
     const formOptions = { resolver: yupResolver(validationSchema) };
 
     // get functions to build form with useForm() hook
-    const { register, handleSubmit, setError, formState } = useForm(formOptions);
+    const { register, handleSubmit, setError, setValue, formState } = useForm(formOptions);
     const { errors } = formState;
 
     function onSubmit({ name, date, value, tags, type, details, recurrence, paid, notification }) {
@@ -102,7 +109,7 @@ export const FinancialRecordForm: React.FC = () => {
             null,
             name,
             details,
-            value,
+            currencyService.toNumber(value),
             date,
             type,
             values,
@@ -178,10 +185,11 @@ export const FinancialRecordForm: React.FC = () => {
                                         Valor
                                     </label>
                                     <input
-                                        type="number" min="0" step="any"
+                                        type="text"
                                         {...register('value')}
                                         className={`${errors.value ? 'is-invalid' : ''} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
-                                        defaultValue=""
+                                        value={state.formatted}
+                                        onChange={handleChange}
                                     />
                                 </div>
                             </div>

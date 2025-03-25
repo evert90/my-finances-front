@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { Asset } from "../../class/Asset";
 import { Tag } from "../../class/Tag";
 import { tagService } from "../../services/tag.service";
@@ -14,6 +14,7 @@ import { AssetRendaFixaRateType } from "../../class/AssetRendaFixaRateType";
 import { utilsService } from "../../services/utils.service";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ErrorMessage } from "../../helpers/fetch-wrapper";
+import { currencyService } from "../../services/currency.service";
 
 export const AssetForm: React.FC = () => {
 
@@ -22,6 +23,17 @@ export const AssetForm: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [values, setValues] = useState([]);
     const [optionsTags, setOptionsTags] = useState([]);
+
+    const [stateInitialValue, dispatchInitialValue] = useReducer(currencyService.reducer, { formatted: "", raw: 0 });
+    const [stateEndValue, dispatchEndValue] = useReducer(currencyService.reducer, { formatted: "", raw: 0 });
+
+    const handleChangeInitialValue = (event: any) => {
+        dispatchInitialValue({ value: event.target.value });
+    };
+
+    const handleChangeEndValue = (event: any) => {
+        dispatchEndValue({ value: event.target.value });
+    };
 
     const toast = useToast();
 
@@ -101,8 +113,8 @@ export const AssetForm: React.FC = () => {
             null,
             utilsService.getNullable(form.name),
             utilsService.getNullable(form.details),
-            form.initialValue,
-            utilsService.getNullable(form.endValue),
+            currencyService.toNumber(form.initialValue?.toString()),
+            currencyService.toNumber(form.endValue?.toString()),
             form.initialDate,
             utilsService.getNullable(form.endDate),
             form.type,
@@ -190,10 +202,11 @@ export const AssetForm: React.FC = () => {
                                         Valor inicial
                                     </label>
                                     <input
-                                        type="number" min="1" step="any"
+                                        type="text"
                                         {...register('initialValue')}
                                         className={`${errors.initialValue ? 'is-invalid' : ''} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
-                                        defaultValue=""
+                                        value={stateInitialValue.formatted}
+                                        onChange={handleChangeInitialValue}
                                     />
                                 </div>
                             </div>
@@ -206,10 +219,11 @@ export const AssetForm: React.FC = () => {
                                         Valor final
                                     </label>
                                     <input
-                                        type="number" min="1" step="any"
+                                        type="text"
                                         {...register('endValue')}
                                         className={`${errors.endValue ? 'is-invalid' : ''} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
-                                        defaultValue=""
+                                        value={stateEndValue.formatted}
+                                        onChange={handleChangeEndValue}
                                     />
                                 </div>
                             </div>

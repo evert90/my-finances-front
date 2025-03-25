@@ -322,14 +322,14 @@ export const AssetTable: React.FC<AssetTableProps> = () => {
                                 <td className="table-tbody-sm">
                                     <Moment date={record.initialDate} format="DD/MM/YYYY" />
                                 </td>
-                                <td className="table-tbody-sm" title={record.redemptionDate && record.redemptionDate != record.endDate && "Data do resgate: " + moment(record.redemptionDate).format('DD/MM/YYYY')}>
-                                    {record.endDate && <Moment date={record.endDate} format="DD/MM/YYYY" />}
+                                <td className="table-tbody-sm" title={record.redemptionDate && record.redemptionDate != record.endDate && (!!record.endDate && "Data do resgate: " + moment(record.redemptionDate).format('DD/MM/YYYY') || "Data do resgate")}>
+                                    {record.endDate && <Moment date={record.endDate} format="DD/MM/YYYY" /> || record.redemptionDate && <Moment date={record.redemptionDate} format="DD/MM/YYYY" />}
                                 </td>
                                 <td className="table-tbody-sm">
                                     {currencyService.format(record.initialValue)}
                                 </td>
                                 <td className="table-tbody-sm">
-                                    {record.endValue && currencyService.format(record.endValue)}
+                                    {Number.isFinite(record.endValue) && currencyService.format(record.endValue)}
                                 </td>
                                 <td className="table-tbody-sm" title={`${getDifferenceTotalPercentage(record.initialValue, record.endValue)}`}>
                                     {getDifference(record.initialValue, record.endValue, record.initialDate, record.redemptionDate ?? record.endDate)}
