@@ -89,6 +89,7 @@ export default function ToastMessage({
         Var.base,
         type && "max-h-40"
       )}
+      data-testid="toast"
     >
       <div className="flex flex-row flex-no-wrap w-full p-2">
         {Var.icon && (

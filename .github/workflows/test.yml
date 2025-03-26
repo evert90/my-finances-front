@@ -148,6 +148,9 @@ jobs:
       with:
         install: false
         browser: chrome
+      env:
+        CYPRESS_BACKEND_URL: ${{ secrets.CYPRESS_BACKEND_URL }}
+        CYPRESS_USER_PASSWORD: ${{ secrets.CYPRESS_USER_PASSWORD }}
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
