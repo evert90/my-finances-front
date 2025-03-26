@@ -164,13 +164,14 @@ export const Login: LayoutComponent = () => {
                     }
                   }
                   }
+                  data-testid="api-url"
                   className="cursor-pointer text-blueGray-200"
                 >
                   <small>Alterar api?</small>
                 </a>
               </div>
               <div className="w-1/2 text-right">
-                <Link passHref href="/auth/register" className="text-blueGray-200">
+                <Link passHref href="/auth/register" data-testid="register-link" className="text-blueGray-200">
 
                   <small>Criar nova conta</small>
 

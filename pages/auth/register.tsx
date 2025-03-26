@@ -104,6 +104,7 @@ export const Register: LayoutComponent = () => {
                     </label>
                     <input
                       type="text"
+                      data-testid="register-name"
                       {...register('name')}
                       className={`${errors.name ? 'is-invalid' : ''} border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150`}
                       placeholder="Nome completo"
@@ -119,6 +120,7 @@ export const Register: LayoutComponent = () => {
                     </label>
                     <input
                       type="email"
+                      data-testid="register-email"
                       {...register('email')}
                       className={`${errors.email ? 'is-invalid' : ''} border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150`}
                       placeholder="Email"
@@ -134,6 +136,7 @@ export const Register: LayoutComponent = () => {
                     </label>
                     <input
                       type="password"
+                      data-testid="register-password"
                       {...register('password')}
                       className={`${errors.password ? 'is-invalid' : ''} border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150`}
                       placeholder="Senha"
@@ -144,6 +147,7 @@ export const Register: LayoutComponent = () => {
                     <label className="inline-flex items-center cursor-pointer">
                       <input
                         id="customCheckLogin"
+                        data-testid="register-terms"
                         {...register('serviceTerms')}
                         type="checkbox"
                         className={`${errors.serviceTerms ? 'border-2 border-red-800' : ''} w-5 h-5 ml-1 transition-all duration-150 ease-linear border-0 rounded form-checkbox text-blueGray-700`}
@@ -164,6 +168,7 @@ export const Register: LayoutComponent = () => {
                     <button
                       className="w-full px-6 py-3 mb-1 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none disabled:opacity-50 bg-blueGray-800 active:bg-blueGray-600 hover:shadow-lg focus:outline-none"
                       type="submit"
+                      data-testid="register-submit"
                       disabled={formState.isSubmitting}
                     >
                       {formState.isSubmitting && <i className="mx-auto mr-1 text-white fas fa-circle-notch animate-spin text-1xl"></i>}

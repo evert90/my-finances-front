@@ -46,6 +46,16 @@ Cypress.Commands.add('dataCy', (value: string) => {
   return cy.get(`[data-testid="${value}"]`)
 })
 
+Cypress.Commands.add('clearAndType', {
+  prevSubject: true,
+}, (subject, text) => {
+  cy.wrap(subject)
+    .clear()
+    .then(() => cy.wrap(subject).should('be.empty'))
+    .then(() => cy.wrap(subject).type(text))
+    .then(() => cy.wrap(subject).should('have.value', text));
+});
+
 declare global {
   namespace Cypress {
     interface Chainable {
@@ -53,6 +63,7 @@ declare global {
        * Custom command to select DOM element by data-cy attribute.
        * @example cy.dataCy('greeting')
        */
+      clearAndType(text: string): Chainable<JQuery<HTMLElement>>,
       dataCy(value: string): Chainable<JQuery<HTMLElement>>
     }
   }
