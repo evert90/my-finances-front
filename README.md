@@ -1,4 +1,4 @@
-# ERP FRONT
+# MY FINANCES FRONT
 
 Projeto para controle de finanças pessoais com NextJS + Tailwind
 
