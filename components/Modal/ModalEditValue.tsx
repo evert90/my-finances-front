@@ -2,8 +2,7 @@ import { useForm } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from 'yup';
-import { Asset } from "../../class/Asset";
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import { currencyService } from "../../services/currency.service";
 import { FinancialRecord } from "../../class/FinancialRecord";
 
@@ -15,7 +14,7 @@ type ModalEditValueProps = {
 
 export const ModalEditValue: React.FC<ModalEditValueProps> = (props) => {
 
-    const [stateValue, dispatchValue] = useReducer(currencyService.reducer, { formatted: Number.isFinite(props.record.value) ? currencyService.format(props.record.value): "", raw: props.record.value });
+    const [stateValue, dispatchValue] = useReducer(currencyService.reducer, { formatted: Number.isFinite(props.record.value) ? currencyService.format(props.record.value) : "", raw: props.record.value });
 
     const handleChangeValue = (event: any) => {
         dispatchValue({ value: event.target.value });
@@ -29,12 +28,16 @@ export const ModalEditValue: React.FC<ModalEditValueProps> = (props) => {
     const formOptions = { resolver: yupResolver(validationSchema) };
 
     // get functions to build form with useForm() hook
-    const { register, handleSubmit, setError, formState } = useForm(formOptions);
+    const { register, handleSubmit, setError, setFocus, formState } = useForm(formOptions);
     const { errors } = formState;
 
     function onSubmit({ value }) {
         props.onSave({ value: currencyService.toNumber(value) })
     }
+
+    useEffect(() => {
+        setFocus("value");
+    }, [setFocus]);
 
     return (
         <>
@@ -72,6 +75,7 @@ export const ModalEditValue: React.FC<ModalEditValueProps> = (props) => {
                                             </label>
                                             <input
                                                 type="text"
+                                                onFocus={e => e.target.select()}
                                                 {...register('value')}
                                                 className={`${errors.value ? 'is-invalid' : ''} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
                                                 value={stateValue.formatted}
