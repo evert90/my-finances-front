@@ -97,6 +97,7 @@ export const ModalRedemptionDate: React.FC<ModalRedemptionDateProps> = (props) =
                                             </label>
                                             <input
                                                 type="text"
+                                                inputMode="numeric"
                                                 {...register('endValue')}
                                                 className={`${errors.endValue ? 'is-invalid' : ''} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
                                                 value={stateValue.formatted}

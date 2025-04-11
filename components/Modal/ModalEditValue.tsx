@@ -76,6 +76,7 @@ export const ModalEditValue: React.FC<ModalEditValueProps> = (props) => {
                                             <input
                                                 type="text"
                                                 onFocus={e => e.target.select()}
+                                                inputMode="numeric"
                                                 {...register('value')}
                                                 className={`${errors.value ? 'is-invalid' : ''} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
                                                 value={stateValue.formatted}
