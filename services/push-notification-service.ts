@@ -7,6 +7,6 @@ export const pushNotificationService = {
 }
 
 function sendNotificationTest(): Promise<any> {
-    return fetchWrapper.post(`${baseUrl}/`, {})
+    return fetchWrapper.post(`${baseUrl}`, {})
 }
 

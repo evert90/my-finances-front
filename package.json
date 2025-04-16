@@ -52,7 +52,8 @@
     "test:ci": "jest --ci",
     "test:coverage-summary": "jest --coverageReporters='text-summary'",
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm run dev",
-    "lint": "next lint"
+    "lint": "next lint",
+    "tsc": "tsc"
   },
   "browserslist": {
     "production": [

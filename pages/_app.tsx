@@ -19,6 +19,8 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { User } from '../class/User';
+import { useToast } from '../components/Toast/ToastProvider';
 // Prevent fontawesome from dynamically adding its css since we did it manually above
 config.autoAddCss = false;
 
@@ -33,6 +35,8 @@ function MyApp({ Component, pageProps }) {
   const [queryClient] = useState(() => new QueryClient())
 
   const router = useRouter();
+
+  const toast = useToast();
 
   let root: Root;
 
@@ -53,7 +57,7 @@ function MyApp({ Component, pageProps }) {
 
     //unregisterServiceWorkers()
 
-    authCheck(router.asPath);
+    authCheck();
 
     Router.events.on("routeChangeStart", routeChangeStart);
 
@@ -71,15 +75,16 @@ function MyApp({ Component, pageProps }) {
   }, []);
 
   const unregisterServiceWorkers = () => {
-    navigator.serviceWorker.getRegistrations().then(function(registrations) {
+    navigator.serviceWorker.getRegistrations().then(function (registrations) {
       console.log("registrations", registrations)
-      for(let registration of registrations) {
-       registration.unregister()
-    } })
+      for (let registration of registrations) {
+        registration.unregister()
+      }
+    })
   }
 
   const routeChangeComplete = (url) => {
-    authCheck(url)
+    authCheck()
     root.unmount();
     document.body.classList.remove("body-page-transition");
     gtag.pageview(url)
@@ -96,54 +101,48 @@ function MyApp({ Component, pageProps }) {
     document.body.classList.remove("body-page-transition");
   }
 
-  const authCheck = (url: string) => {
-    // redirect to login page if accessing a private page and not logged in
-    const publicPaths = ['/auth/login', '/auth/register'];
-    const path = url.split('?')[0];
-
-    if (!userService.getUserValue()?.token && !publicPaths.includes(path)) {
-      console.log("Unathorized")
-      setAuthorized(false);
-      Router.push({
-        pathname: '/auth/login',
-        query: { returnUrl: Router.asPath }
-      });
-    } else {
+  const authCheck = () => {
+    userService.getUser().then((user: User) => {
+      userService.userSubject.next(user);
       setAuthorized(true);
-    }
+    })
+      .catch(error => {
+        setAuthorized(false);
+        toast?.pushError("Erro ao buscar usuário. " + error, 7000, "truncate-2-lines");
+      });
   }
 
   return (
-        <React.Fragment>
-          <Head>
-            <meta
-              name="viewport"
-              content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
-            />
-            { <link rel="manifest" href="/manifest.json" /> }
-            <link rel="apple-touch-icon" href="/img/icons/icon-144x144.png"></link>
-            <meta name="theme-color" content="#fff" />
-            <title>My Finances</title>
-            {/*
+    <React.Fragment>
+      <Head>
+        <meta
+          name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
+        />
+        {<link rel="manifest" href="/manifest.json" />}
+        <link rel="apple-touch-icon" href="/img/icons/icon-144x144.png"></link>
+        <meta name="theme-color" content="#fff" />
+        <title>My Finances</title>
+        {/*
             <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
             */}
-          </Head>
-          <Providers>
-            <QueryClientProvider client={queryClient}>
-              <Layout>
-              {/* Global Site Tag (gtag.js) - Google Analytics */}
-              {gtag.GA_TRACKING_ID && [
-                <Script
-                  key="scriptGtag"
-                  strategy="afterInteractive"
-                  src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
-                />,
-                <Script
-                  key="initGtag"
-                  id="gtag-init"
-                  strategy="afterInteractive"
-                  dangerouslySetInnerHTML={{
-                    __html: `
+      </Head>
+      <Providers>
+        <QueryClientProvider client={queryClient}>
+          <Layout>
+            {/* Global Site Tag (gtag.js) - Google Analytics */}
+            {gtag.GA_TRACKING_ID && [
+              <Script
+                key="scriptGtag"
+                strategy="afterInteractive"
+                src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
+              />,
+              <Script
+                key="initGtag"
+                id="gtag-init"
+                strategy="afterInteractive"
+                dangerouslySetInnerHTML={{
+                  __html: `
                     let displayMode = 'browser';
                     const mqStandAlone = '(display-mode: standalone)';
                     if (navigator.standalone || window.matchMedia(mqStandAlone).matches) {
@@ -158,16 +157,16 @@ function MyApp({ Component, pageProps }) {
                       'display_mode': displayMode
                     });
                     `,
-                  }}
-                />
-              ]}
-                {authorized &&
-                  <Component {...pageProps} />
-                }
-              </Layout>
-            </QueryClientProvider>
-          </Providers>
-        </React.Fragment>
+                }}
+              />
+            ]}
+            {authorized &&
+              <Component {...pageProps} />
+            }
+          </Layout>
+        </QueryClientProvider>
+      </Providers>
+    </React.Fragment>
   );
 }
 

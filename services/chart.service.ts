@@ -208,5 +208,5 @@ function periodTagTotalToChartSeries(tags: Array<string>, data: Array<PeriodTagT
 }
 
 function getCardsOnDemandStorageName() {
-    return `cardsOnDemand_${fetchWrapper.getApiUrl()}_${userService.getUserValue()?.user?.id}`
+    return `cardsOnDemand_${fetchWrapper.getApiUrl()}_${userService.getUserValue()?.id}`
 }
