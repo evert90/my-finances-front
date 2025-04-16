@@ -4,8 +4,8 @@ const withPWA = require('next-pwa');
 const pwa = () => withPWA({
     publicRuntimeConfig: {
         baseUrl: process.env.NODE_ENV === 'development'
-            ? 'http://localhost:21200' // development api
-            : 'http://localhost:21200', // production api
+            ? '' // development api
+            : '', // production api
 
     },
     excludeDefaultMomentLocales: false,
@@ -13,6 +13,8 @@ const pwa = () => withPWA({
         //disable: process.env.NODE_ENV === 'development',
         dest: 'public',
         mode: 'production',
+        register: true,
+        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5 MB
         runtimeCaching: [
             {
                 urlPattern: /^https:\/\/fonts\.(?:gstatic)\.com\/.*/i,

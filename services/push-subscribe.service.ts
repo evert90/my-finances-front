@@ -33,7 +33,7 @@ const subscribeUserToPush = async () => {
 };
 
 async function save(subscription: any): Promise<any> {
-    return fetchWrapper.post(`${baseUrl}/`, subscription)
+    return fetchWrapper.post(`${baseUrl}`, subscription)
         .then((response: any) => {
             return response;
         });

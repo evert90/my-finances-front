@@ -1,6 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosInstance, AxiosError, AxiosResponse } from 'axios';
 import getConfig from 'next/config';
-import { AuthenticatedUser } from '../class/AuthenticatedUser';
 import { userService } from '../services/user.service';
 
 const { publicRuntimeConfig } = getConfig();
@@ -22,7 +21,6 @@ const apiClient: AxiosInstance = axios.create({
 })
 
 apiClient.interceptors.request.use((config: AxiosRequestConfig) => {
-    config.headers = {...config.headers, ...getAuthHeaders()}
     return config
 }, (error) => {
     return Promise.reject(error)
@@ -54,19 +52,6 @@ const _delete = (url: string): Promise<any> => {
         .delete(url)
         .then(handleSuccess)
         .catch(handleError);
-}
-
-const getAuthHeaders = (): object => {
-    const user: AuthenticatedUser = userService.getUserValue();
-    const isLoggedIn = user?.token;
-
-    if(isLoggedIn) {
-        return {
-            Authorization: `Bearer ${user.token}`
-        };
-    }
-
-    return {};
 }
 
 const handleSuccess = (response: AxiosResponse): Promise<any> => {
