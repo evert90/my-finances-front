@@ -22,7 +22,7 @@ const subscribeUserToPush = async () => {
         // Subscribe to push notifications
         const subscription = await registration.pushManager.subscribe({
             userVisibleOnly: true,
-            applicationServerKey: urlBase64ToUint8Array(process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY), // Replace with your VAPID public key
+            applicationServerKey: urlBase64ToUint8Array(process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY)
         });
 
         // Send subscription to the server

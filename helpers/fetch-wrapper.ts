@@ -13,7 +13,7 @@ const getApiUrl = (): string => {
 }
 
 const getBaseUrl = (): string => {
-    return process.browser && localStorage.getItem("baseUrl") || publicRuntimeConfig.baseUrl
+    return process.browser && localStorage.getItem("baseUrl") || ""
 }
 
 const apiClient: AxiosInstance = axios.create({
