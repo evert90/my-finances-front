@@ -1,4 +1,5 @@
 const nextConfig = {
+    excludeDefaultMomentLocales: false,
     async headers() {
         return [
             {

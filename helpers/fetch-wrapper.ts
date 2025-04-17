@@ -1,8 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosInstance, AxiosError, AxiosResponse } from 'axios';
-import getConfig from 'next/config';
 import { userService } from '../services/user.service';
-
-const { publicRuntimeConfig } = getConfig();
 
 export interface ErrorMessage {
     message: string
