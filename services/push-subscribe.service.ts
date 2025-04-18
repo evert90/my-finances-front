@@ -10,7 +10,7 @@ const subscribeUserToPush = async () => {
 
     try {
         // Register the service worker
-        const registration = await navigator.serviceWorker.register('/sw.js');
+        const registration = await navigator.serviceWorker.register('/app/sw.js');
 
         // Request user permission for notifications
         const permission = await Notification.requestPermission();

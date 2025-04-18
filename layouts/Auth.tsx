@@ -18,7 +18,7 @@ export const Auth = ({ children }) => {
           <div
             className="absolute top-0 w-full h-full bg-no-repeat bg-blueGray-800 bg-full"
             style={{
-              backgroundImage: "url('/img/register_bg_2.png')",
+              backgroundImage: "url('/app/img/register_bg_2.png')",
             }}
           ></div>
           {children}

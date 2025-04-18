@@ -9,18 +9,18 @@ export const PageChange = ({path}) => {
   return (
     <div>
       <div
-        className="bg-cover fixed z-40 w-full h-full top-0 left-0"
+        className="fixed top-0 left-0 z-40 w-full h-full bg-cover"
         style={{
-          backgroundImage: "url('/img/img-1-1000x600.jpg')",
+          backgroundImage: "url('/app/img/img-1-1000x600.jpg')",
         }}
       ></div>
-      <div className="top-0 left-0 w-full h-full block z-50 absolute bg-black bg-opacity-50"></div>
-      <div className="my-32 mx-auto max-w-sm text-center relative z-50 top-0">
+      <div className="absolute top-0 left-0 z-50 block w-full h-full bg-black bg-opacity-50"></div>
+      <div className="relative top-0 z-50 max-w-sm mx-auto my-32 text-center">
         <div className="block mb-4">
-          <i className="fas fa-circle-notch animate-spin text-white mx-auto text-6xl"></i>
+          <i className="mx-auto text-6xl text-white fas fa-circle-notch animate-spin"></i>
         </div>
         <h4 className="text-lg font-medium text-white">
-          Loading page contents for: {path}
+          Carregando...
         </h4>
       </div>
     </div>

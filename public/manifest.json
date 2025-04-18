@@ -4,8 +4,8 @@
     "theme_color": "#ffffff",
     "background_color": "#ffffff",
     "display": "standalone",
-    "scope": "/",
-    "start_url": "/admin/dashboard",
+    "scope": "/app",
+    "start_url": "/app/admin/dashboard",
     "icons": [
         {
           "src": "img/icons/android-launchericon-72-72.png",

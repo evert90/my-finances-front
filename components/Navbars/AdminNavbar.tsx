@@ -123,7 +123,7 @@ export const AdminNavbar = () => {
             href="/admin/assets"
             className={
               "text-md py-3 font-bold block " +
-              (router.pathname.indexOf("/admin/assets") !== -1
+              (router.pathname.indexOf("/app/admin/assets") !== -1
                 ? "text-lightBlue-600 hover:text-lightBlue-700 opacity-75"
                 : "text-blueGray-300 hover:text-blueGray-600")
             }>
@@ -136,44 +136,7 @@ export const AdminNavbar = () => {
             ></i>
 
           </Link>
-{/*}
-          <Link href="/admin/debts">
-            <a
 
-              className={
-                "text-md py-3 font-bold block " +
-                (router.pathname.indexOf("/admin/debts") !== -1
-                  ? "text-lightBlue-600 hover:text-lightBlue-700 opacity-75"
-                  : "text-blueGray-300 hover:text-blueGray-600")
-              }
-            >
-              <i
-                className={"fas fa-money-check-alt mr-6 text-xl-edit"}
-                onMouseEnter={() => openTooltip(debtsRef, debtsPopoverRef, setDebtsPopoverShow)}
-                onMouseLeave={() => closeTooltip(setDebtsPopoverShow)}
-                ref={debtsRef}
-              ></i>
-            </a>
-          </Link>
-
-          <Link href="/admin/products">
-            <a
-
-              className={
-                "text-md py-3 font-bold block " +
-                (router.pathname.indexOf("/admin/products") !== -1
-                  ? "text-lightBlue-600 hover:text-lightBlue-700 opacity-75"
-                  : "text-blueGray-300 hover:text-blueGray-600")
-              }
-            >
-              <i className={"fas fa-shopping-cart mr-6 text-xl-edit"}
-                onMouseEnter={() => openTooltip(productsRef, productsPopoverRef, setProductsPopoverShow)}
-                onMouseLeave={() => closeTooltip(setProductsPopoverShow)}
-                ref={productsRef}
-              ></i>
-            </a>
-          </Link>
-*/}
           {/* Tooltips */}
           <div className={(dashboardPopoverShow ? "" : "hidden ") + "tooltip"} ref={dashboardPopoverRef}>
             <div className="arrow" data-popper-arrow></div>

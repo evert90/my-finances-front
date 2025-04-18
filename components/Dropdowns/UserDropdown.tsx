@@ -61,7 +61,7 @@ const UserDropdown = () => {
             <img
               alt="..."
               className="w-full align-middle scale-95 border-none rounded-full shadow-lg scale-0097"
-              src="/img/team-1-800x800.jpg"
+              src="/app/img/team-1-800x800.jpg"
             />
           </span>
         </div>

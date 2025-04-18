@@ -24,6 +24,8 @@ import { useToast } from '../components/Toast/ToastProvider';
 // Prevent fontawesome from dynamically adding its css since we did it manually above
 config.autoAddCss = false;
 
+
+
 function MyApp({ Component, pageProps }) {
 
   const componentLayout = Component as LayoutComponent;
@@ -55,8 +57,6 @@ function MyApp({ Component, pageProps }) {
     `);
     document.insertBefore(comment, document.documentElement);
 
-    //unregisterServiceWorkers()
-
     authCheck();
 
     Router.events.on("routeChangeStart", routeChangeStart);
@@ -73,15 +73,6 @@ function MyApp({ Component, pageProps }) {
     }
 
   }, []);
-
-  const unregisterServiceWorkers = () => {
-    navigator.serviceWorker.getRegistrations().then(function (registrations) {
-      console.log("registrations", registrations)
-      for (let registration of registrations) {
-        registration.unregister()
-      }
-    })
-  }
 
   const routeChangeComplete = (url) => {
     authCheck()
@@ -119,8 +110,8 @@ function MyApp({ Component, pageProps }) {
           name="viewport"
           content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
         />
-        {<link rel="manifest" href="/manifest.json" />}
-        <link rel="apple-touch-icon" href="/img/icons/icon-144x144.png"></link>
+        {<link rel="manifest" href="/app/manifest.json" />}
+        <link rel="apple-touch-icon" href="/app/img/icons/icon-144x144.png"></link>
         <meta name="theme-color" content="#fff" />
         <title>My Finances</title>
         {/*

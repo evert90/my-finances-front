@@ -1,5 +1,6 @@
 const nextConfig = {
     excludeDefaultMomentLocales: false,
+    basePath: "/app",
     async headers() {
         return [
             {
@@ -20,7 +21,7 @@ const nextConfig = {
                 ],
             },
             {
-                source: '/sw.js',
+                source: '/app/sw.js',
                 headers: [
                     {
                         key: 'Content-Type',

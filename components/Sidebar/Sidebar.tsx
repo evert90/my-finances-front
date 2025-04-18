@@ -29,7 +29,7 @@ const Sidebar = () => {
             href="/"
             className="inline-block p-4 px-0 mr-0 text-sm font-bold text-left uppercase md:block md:pb-2 text-blueGray-600 whitespace-nowrap">
 
-            <img src="/img/logo/horizontal_blue3.png" style={logoStyle} alt="" />
+            <img src="/app/img/logo/horizontal_blue3.png" style={logoStyle} alt="" />
 
           </Link>
           {/* User */}
@@ -56,7 +56,7 @@ const Sidebar = () => {
                     href="/"
                     className="inline-block p-4 px-0 mr-0 text-sm font-bold text-left uppercase md:block md:pb-2 text-blueGray-600 whitespace-nowrap">
 
-                    <img src="/img/logo/horizontal_blue3.png" style={logoStyle} alt="" />
+                    <img src="/app/img/logo/horizontal_blue3.png" style={logoStyle} alt="" />
 
                   </Link>
                 </div>
@@ -178,129 +178,6 @@ const Sidebar = () => {
 
                 </Link>
               </li>
-{/*
-              <li className="items-center">
-                <Link href="/admin/debts">
-                  <a
-
-                    onClick={() => setCollapseShow("hidden")}
-                    className={
-                      "text-md py-3 font-bold block " +
-                      (router.pathname.indexOf("/admin/debts") !== -1
-                        ? "text-lightBlue-500 hover:text-lightBlue-600"
-                        : "text-blueGray-700 hover:text-blueGray-500")
-                    }
-                  >
-                    <i
-                      className={
-                        "fas fa-money-check-alt mr-2 text-sm w-4 " +
-                        (router.pathname.indexOf("/admin/debts") !== -1
-                          ? "opacity-75"
-                          : "text-blueGray-300")
-                      }
-                    ></i>{" "}
-                    Dívidas
-                  </a>
-                </Link>
-              </li>
-
-              <li className="items-center">
-                <Link href="/admin/products">
-                  <a
-
-                    onClick={() => setCollapseShow("hidden")}
-                    className={
-                      "text-md py-3 font-bold block " +
-                      (router.pathname.indexOf("/admin/products") !== -1
-                        ? "text-lightBlue-500 hover:text-lightBlue-600"
-                        : "text-blueGray-700 hover:text-blueGray-500")
-                    }
-                  >
-                    <i
-                      className={
-                        "fas fa-shopping-cart mr-2 text-sm w-4 " +
-                        (router.pathname.indexOf("/admin/products") !== -1
-                          ? "opacity-75"
-                          : "text-blueGray-300")
-                      }
-                    ></i>{" "}
-                    Produtos
-                  </a>
-                </Link>
-              </li>
-
-              <li className="items-center">
-                <Link href="/admin/settings">
-                  <a
-
-                    className={
-                      "text-md py-3 font-bold block " +
-                      (router.pathname.indexOf("/admin/settings") !== -1
-                        ? "text-lightBlue-500 hover:text-lightBlue-600"
-                        : "text-blueGray-700 hover:text-blueGray-500")
-                    }
-                  >
-                    <i
-                      className={
-                        "fas fa-tools mr-2 text-sm " +
-                        (router.pathname.indexOf("/admin/settings") !== -1
-                          ? "opacity-75"
-                          : "text-blueGray-300")
-                      }
-                    ></i>{" "}
-                    Settings
-                  </a>
-                </Link>
-              </li>
-
-              <li className="items-center">
-                <Link href="/admin/tables">
-                  <a
-
-                    className={
-                      "text-md py-3 font-bold block " +
-                      (router.pathname.indexOf("/admin/tables") !== -1
-                        ? "text-lightBlue-500 hover:text-lightBlue-600"
-                        : "text-blueGray-700 hover:text-blueGray-500")
-                    }
-                  >
-                    <i
-                      className={
-                        "fas fa-table mr-2 text-sm " +
-                        (router.pathname.indexOf("/admin/tables") !== -1
-                          ? "opacity-75"
-                          : "text-blueGray-300")
-                      }
-                    ></i>{" "}
-                    Tables
-                  </a>
-                </Link>
-              </li>
-
-              <li className="items-center">
-                <Link href="/admin/maps">
-                  <a
-
-                    className={
-                      "text-md py-3 font-bold block " +
-                      (router.pathname.indexOf("/admin/maps") !== -1
-                        ? "text-lightBlue-500 hover:text-lightBlue-600"
-                        : "text-blueGray-700 hover:text-blueGray-500")
-                    }
-                  >
-                    <i
-                      className={
-                        "fas fa-map-marked mr-2 text-sm " +
-                        (router.pathname.indexOf("/admin/maps") !== -1
-                          ? "opacity-75"
-                          : "text-blueGray-300")
-                      }
-                    ></i>{" "}
-                    Maps
-                  </a>
-                </Link>
-              </li>
-*/}
             </ul>
           </div>
         </div>

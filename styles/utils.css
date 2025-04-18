@@ -16,7 +16,7 @@
 
 @media (min-width: 990px) {
     .background-navbar {
-        background-image: url(/img/logo/horizontal_blue3.png);
+        background-image: url(/app/img/logo/horizontal_blue3.png);
         background-repeat: no-repeat;
         background-position: center;
         background-size: 15rem;

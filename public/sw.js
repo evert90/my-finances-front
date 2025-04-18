@@ -5,7 +5,7 @@ self.addEventListener('push', function (event) {
     event.waitUntil(
         registration.showNotification(data.title, {
             body: data.message,
-            icon: 'img/icons/android-launchericon-192-192.png'
+            icon: 'app/img/icons/android-launchericon-192-192.png'
         })
     )
 })
@@ -23,7 +23,7 @@ self.addEventListener('notificationclick', function (event) {
                 }
                 return client.focus()
             }
-            return clients.openWindow('/admin/dashboard')
+            return clients.openWindow('/app/admin/dashboard')
         })
     )
 })
