@@ -13,7 +13,7 @@ class MyDocument extends Document {
           <link
             rel="apple-touch-icon"
             sizes="76x76"
-            href="/img/brand/apple-icon.png"
+            href="/img/icons/icon-144x144.png"
           />
         </Head>
         <body className="antialiased text-blueGray-700">
