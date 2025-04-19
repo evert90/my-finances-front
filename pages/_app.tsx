@@ -75,13 +75,13 @@ function MyApp({ Component, pageProps }) {
   }, []);
 
   const routeChangeComplete = (url) => {
-    authService.check(setAuthorized, toast);
     root.unmount();
     document.body.classList.remove("body-page-transition");
     gtag.pageview(url)
   }
 
   const routeChangeStart = (url) => {
+    authService.check(setAuthorized, toast);
     document.body.classList.add("body-page-transition");
     root = createRoot(document.getElementById("page-transition"));
     root.render(<PageChange path={url} />);
