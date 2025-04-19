@@ -42,13 +42,16 @@ import { CardOnDemandDropdown } from "../../components/Dropdowns/CardOnDemandDro
 import { cardService } from "../../services/card.service";
 import dynamic from "next/dynamic";
 import { pushSubscriptionService } from "../../services/push-subscribe.service";
+import { authService } from "../../services/auth.service";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 SwiperCore.use([Navigation])
 
 export const Dashboard: LayoutComponent = () => {
 
-    const toast = useToast()
+    const toast = useToast();
+
+    const [authorized, setAuthorized] = useState(false);
 
     const totalFinancialRecordsCards = 12
 
@@ -118,6 +121,12 @@ export const Dashboard: LayoutComponent = () => {
     }
 
     useEffect(() => {
+        authService.check(setAuthorized, toast);
+    }, []);
+
+    useEffect(() => {
+        if (authorized !== true) return;
+
         async function fetchCardsOnDemand() {
             if (cardsOnDemand?.length > 0) {
                 const updatedCards: Array<CardOnDemand> = (await Promise.all(
@@ -133,9 +142,10 @@ export const Dashboard: LayoutComponent = () => {
 
         pushSubscriptionService.subscribeUserToPush();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [authorized])
 
     useEffect(() => {
+        if (authorized !== true) return;
 
         financialRecordService.getTotal()
             .then((totals: Array<FinancialRecordTotal>) => {
@@ -171,7 +181,7 @@ export const Dashboard: LayoutComponent = () => {
         })
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [authorized])
 
     return (
         <>
