@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react";
 import { createRoot, Root } from 'react-dom/client';
 import { LayoutComponent } from "../class/LayoutComponent";
 import { PageChange } from "../components/PageChange/PageChange";
-import { userService } from "../services/user.service";
 import '../styles/scrollbar.css';
 import '../styles/global.css';
 import '../styles/tooltip.css';
@@ -21,6 +20,7 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { User } from '../class/User';
 import { useToast } from '../components/Toast/ToastProvider';
+import { authService } from '../services/auth.service';
 // Prevent fontawesome from dynamically adding its css since we did it manually above
 config.autoAddCss = false;
 
@@ -32,7 +32,7 @@ function MyApp({ Component, pageProps }) {
 
   const Layout = componentLayout.layout || (({ children }) => <>{children}</>);
 
-  const [authorized, setAuthorized] = React.useState(false);
+  const [authorized, setAuthorized] = useState(false);
 
   const [queryClient] = useState(() => new QueryClient())
 
@@ -57,7 +57,7 @@ function MyApp({ Component, pageProps }) {
     `);
     document.insertBefore(comment, document.documentElement);
 
-    authCheck();
+    authService.check(setAuthorized, toast);
 
     Router.events.on("routeChangeStart", routeChangeStart);
 
@@ -75,7 +75,7 @@ function MyApp({ Component, pageProps }) {
   }, []);
 
   const routeChangeComplete = (url) => {
-    authCheck()
+    authService.check(setAuthorized, toast);
     root.unmount();
     document.body.classList.remove("body-page-transition");
     gtag.pageview(url)
@@ -90,17 +90,6 @@ function MyApp({ Component, pageProps }) {
   const routeChangeError = () => {
     root.unmount();
     document.body.classList.remove("body-page-transition");
-  }
-
-  const authCheck = () => {
-    userService.getUser().then((user: User) => {
-      userService.userSubject.next(user);
-      setAuthorized(true);
-    })
-      .catch(error => {
-        setAuthorized(false);
-        toast?.pushError("Erro ao buscar usuário. " + error, 7000, "truncate-2-lines");
-      });
   }
 
   return (
