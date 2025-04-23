@@ -15,8 +15,6 @@ export const userService = {
 };
 
 function logout() {
-    // remove user from local storage, publish null to user subscribers and redirect to logout page
-    localStorage.removeItem('user');
     userSubject.next(null);
     utilsService.redirect(`/gateway/logout`);
 }
