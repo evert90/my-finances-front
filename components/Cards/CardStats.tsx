@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 export const CardStats = ({
   statSubtitle,
   statTitle,
+  statTitleClass,
   statArrow,
   statPercent,
   statPercentColor,
@@ -17,7 +18,7 @@ export const CardStats = ({
         <div className="flex-auto p-4">
         {!statTitle &&
           <div className="center-stat">
-              <i className="mx-auto mr-1 text-3xl text-blueGray-700 fas fa-circle-notch animate-spin"></i>
+              <i className={`mx-auto mr-1 text-3xl text-blueGray-700 fas fa-circle-notch animate-spin`}></i>
           </div>
         }
           <div className="flex flex-wrap">
@@ -25,7 +26,7 @@ export const CardStats = ({
               <h5 className="text-xs font-bold uppercase text-blueGray-400">
                 {statSubtitle}
               </h5>
-              <span className="text-xl font-semibold text-blueGray-700">
+              <span className={`text-xl font-semibold text-blueGray-700 ${statTitleClass}`}>
                 {statTitle}
               </span>
             </div>
@@ -64,6 +65,7 @@ export const CardStats = ({
 CardStats.defaultProps = {
   statSubtitle: "Traffic",
   statTitle: "350,897",
+  statTitleClass: "",
   statArrow: "up",
   statPercent: "3.48",
   statPercentColor: "text-emerald-500",
@@ -75,6 +77,7 @@ CardStats.defaultProps = {
 CardStats.propTypes = {
   statSubtitle: PropTypes.string,
   statTitle: PropTypes.string,
+  statTitleClass: PropTypes.string,
   statArrow: PropTypes.oneOf(["up", "down"]),
   statPercent: PropTypes.string,
   // can be any of the text color utilities

@@ -56,7 +56,9 @@ export const Dashboard: LayoutComponent = () => {
     const totalFinancialRecordsCards = 12
 
     const [incomeTotal, setIncomeTotal] = useState<number>(undefined)
+    const [incomeTotalCurrentYear, setIncomeTotalCurrentYear] = useState<number>(undefined)
     const [expenseTotal, setExpenseTotal] = useState<number>(undefined)
+    const [expenseTotalCurrentYear, setExpenseTotalCurrentYear] = useState<number>(undefined)
     const [financialRecordsCards, setFinancialRecordsCards] = useState<Array<Period>>(periodService.getPeriodMonths(totalFinancialRecordsCards))
     const [financialRecordsChartTotal, setFinancialRecordsChartTotal] = useState<Array<PeriodTotal>>(periodService.getPeriodTotalMonths(window?.innerWidth < 600 ? 4 : 12, "area"))
     const [cardsOnDemand, setCardsOnDemand] = useState<Array<CardOnDemand>>((process.browser && JSON.parse(localStorage.getItem(chartService.getCardsOnDemandStorageName()))) || [])
@@ -156,6 +158,15 @@ export const Dashboard: LayoutComponent = () => {
                 toast?.pushError("Erro ao consultar total de receitas/despesas. " + error, 7000, "truncate-2-lines")
             }).finally(() => { })
 
+            financialRecordService.getTotalCurrentYear()
+            .then((totals: Array<FinancialRecordTotal>) => {
+                setIncomeTotalCurrentYear(totals?.find(it => FinancialRecordType[it.type] == FinancialRecordType.INCOME)?.total || 0)
+                setExpenseTotalCurrentYear(totals?.find(it => FinancialRecordType[it.type] == FinancialRecordType.EXPENSE)?.total || 0)
+            })
+            .catch(error => {
+                toast?.pushError("Erro ao consultar total de receitas/despesas desse ano. " + error, 7000, "truncate-2-lines")
+            }).finally(() => { })
+
 
         financialRecordsChartTotal.map(period => {
             financialRecordService.getTotalByPeriod(period.start, period.end)
@@ -190,8 +201,9 @@ export const Dashboard: LayoutComponent = () => {
                 <div className="flex flex-wrap">
                     <div className={`w-full px-4 lg:w-6/12 xl:6-3/12`}>
                         <CardStats
-                            statSubtitle="Receitas"
-                            statTitle={isNaN(incomeTotal) ? null : currencyService.format(incomeTotal)}
+                            statSubtitle="Balanço"
+                            statTitle={isNaN(incomeTotal) || isNaN(expenseTotal) ? null : currencyService.format(incomeTotal - expenseTotal)}
+                            statTitleClass={expenseTotal > incomeTotal && "text-red-500"}
                             statArrow="up"
                             statPercent="3.48"
                             statPercentColor="text-emerald-500"
@@ -202,8 +214,9 @@ export const Dashboard: LayoutComponent = () => {
                     </div>
                     <div className={`w-full px-4 lg:w-6/12 xl:6-3/12`}>
                         <CardStats
-                            statSubtitle="Despesas"
-                            statTitle={isNaN(incomeTotal) ? null : currencyService.format(expenseTotal)}
+                            statSubtitle="Balanço em 2025"
+                            statTitle={isNaN(incomeTotalCurrentYear) || isNaN(expenseTotalCurrentYear) ? null : currencyService.format(incomeTotalCurrentYear - expenseTotalCurrentYear)}
+                            statTitleClass={expenseTotalCurrentYear > incomeTotalCurrentYear && "text-red-500"}
                             statArrow="down"
                             statPercent="3.48"
                             statPercentColor="text-red-500"

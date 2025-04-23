@@ -1,4 +1,5 @@
 
+import moment from 'moment';
 import { FinancialRecord } from '../class/FinancialRecord';
 import { FinancialRecordRecurrence } from '../class/FinancialRecordRecurrence';
 import { ToastContextType } from '../components/Toast/ToastProvider';
@@ -10,6 +11,7 @@ export const financialRecordService = {
     getAll: getAll,
     getByPeriod: getByPeriod,
     getTotal: getTotal,
+    getTotalCurrentYear: getTotalCurrentYear,
     getTotalByPeriod: getTotalByPeriod,
     getTotalByPeriodAndTags: getTotalByPeriodAndTags,
     save: save,
@@ -29,6 +31,11 @@ function getTotal(): Promise<any> {
     return fetchWrapper.get(`${baseUrl}/report/total`)
 }
 
+function getTotalCurrentYear(): Promise<any> {
+    const start = moment().startOf('year').format('YYYY-MM-DD');
+    const end = moment().endOf('year').format('YYYY-MM-DD');
+    return fetchWrapper.get(`${baseUrl}/report/total/period?` + new URLSearchParams({ start, end }))
+}
 
 function getTotalByPeriod(start: string, end: string): Promise<any> {
     return fetchWrapper.get(`${baseUrl}/report/total/period?` + new URLSearchParams({ start, end }))
