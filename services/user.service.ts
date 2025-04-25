@@ -11,7 +11,8 @@ export const userService = {
     user: userSubject.asObservable(),
     getUserValue: (): User => { return userSubject.value },
     logout: logout,
-    getUser: getUser
+    getUser: getUser,
+    getFirstName: getFirstName
 };
 
 function logout() {
@@ -21,4 +22,9 @@ function logout() {
 
 function getUser(): Promise<User> {
     return fetchWrapper.post(baseUrl, {});
+}
+
+function getFirstName(): string {
+    const username = userService.getUserValue()?.name;
+    return username?.includes(" ") ? username.split(" ")[0] : username
 }

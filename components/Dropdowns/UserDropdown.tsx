@@ -80,7 +80,7 @@ const UserDropdown = () => {
           }
           onClick={(e) => e.preventDefault()}
         >
-          <i className="mr-1 fa fa-user"></i> Perfil
+          <i className="mr-1 fa fa-user"></i> {userService.getFirstName()}
         </a>
         <div className="h-0 my-2 border border-solid border-blueGray-100" />
         <a
