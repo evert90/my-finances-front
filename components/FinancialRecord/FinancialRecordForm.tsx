@@ -5,7 +5,7 @@ import { useToast } from "../Toast/ToastProvider";
 import { tagService } from "../../services/tag.service";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from 'yup';
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { FinancialRecord } from "../../class/FinancialRecord";
 import { financialRecordService } from "../../services/financial-record.service";
 import { Tag } from "../../class/Tag";
@@ -23,12 +23,6 @@ export const FinancialRecordForm: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [optionsTags, setOptionsTags] = useState([]);
     const [values, setValues] = useState([]);
-
-    const [state, dispatch] = useReducer(currencyService.reducer, { formatted: "", raw: 0 });
-
-    const handleChange = (event: any) => {
-        dispatch({ value: event.target.value });
-    };
 
     const toast = useToast();
 
@@ -90,7 +84,6 @@ export const FinancialRecordForm: React.FC = () => {
         value: label
     });
 
-    // form validation rules
     const validationSchema = Yup.object().shape({
         name: Yup.string().required(),
         date: Yup.string().required(),
@@ -101,7 +94,7 @@ export const FinancialRecordForm: React.FC = () => {
     const formOptions = { resolver: yupResolver(validationSchema) };
 
     // get functions to build form with useForm() hook
-    const { register, handleSubmit, setError, setValue, formState } = useForm(formOptions);
+    const { register, handleSubmit, control, formState } = useForm(formOptions);
     const { errors } = formState;
 
     function onSubmit({ name, date, value, tags, type, details, recurrence, paid, notification }) {
@@ -109,7 +102,7 @@ export const FinancialRecordForm: React.FC = () => {
             null,
             name,
             details,
-            currencyService.toNumber(value),
+            value,
             date,
             type,
             values,
@@ -184,13 +177,20 @@ export const FinancialRecordForm: React.FC = () => {
                                     >
                                         Valor
                                     </label>
-                                    <input
-                                        type="text"
-                                        inputMode="numeric"
-                                        {...register('value')}
-                                        className={`${errors.value ? 'is-invalid' : ''} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
-                                        value={state.formatted}
-                                        onChange={handleChange}
+                                    <Controller
+                                        name="value"
+                                        control={control}
+                                        render={({ field }) => (
+                                            <input
+                                                autoFocus
+                                                type="text"
+                                                inputMode="numeric"
+                                                onFocus={e => e.target.select()}
+                                                value={currencyService.format(field.value)}
+                                                onChange={(e) => field.onChange(currencyService.toNumber(e.target.value))}
+                                                className={`${errors.value ? 'is-invalid' : ''} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
+                                            />
+                                        )}
                                     />
                                 </div>
                             </div>

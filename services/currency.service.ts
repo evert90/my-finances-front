@@ -6,6 +6,9 @@ export const currencyService = {
 }
 
 function format(value: number) {
+    if(value == undefined) {
+        return "";
+    }
     return Intl.NumberFormat('pt-BR', { style: "currency", currency: "BRL" }).format(value);
 }
 

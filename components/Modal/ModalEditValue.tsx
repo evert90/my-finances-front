@@ -2,10 +2,11 @@ import { useForm } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from 'yup';
-import { useEffect, useReducer } from "react";
+import { useEffect } from "react";
 import { currencyService } from "../../services/currency.service";
 import { FinancialRecord } from "../../class/FinancialRecord";
 
+import { Controller } from 'react-hook-form';
 type ModalEditValueProps = {
     setShowModalState: React.Dispatch<React.SetStateAction<boolean>>,
     record: FinancialRecord,
@@ -14,30 +15,28 @@ type ModalEditValueProps = {
 
 export const ModalEditValue: React.FC<ModalEditValueProps> = (props) => {
 
-    const [stateValue, dispatchValue] = useReducer(currencyService.reducer, { formatted: Number.isFinite(props.record.value) ? currencyService.format(props.record.value) : "", raw: props.record.value });
-
-    const handleChangeValue = (event: any) => {
-        dispatchValue({ value: event.target.value });
-    };
-
-    // form validation rules
     const validationSchema = Yup.object().shape({
         value: Yup.string().required()
     })
 
-    const formOptions = { resolver: yupResolver(validationSchema) };
+    const formOptions = {
+        resolver: yupResolver(validationSchema)
+    };
 
     // get functions to build form with useForm() hook
-    const { register, handleSubmit, setError, setFocus, formState } = useForm(formOptions);
+    const { handleSubmit, control, formState, reset } = useForm(formOptions);
     const { errors } = formState;
 
-    function onSubmit({ value }) {
-        props.onSave({ value: currencyService.toNumber(value) })
-    }
-
     useEffect(() => {
-        setFocus("value");
-    }, [setFocus]);
+        //SETA O VALOR INICIAL
+        if (props.record.value !== undefined) {
+            reset({ value: props.record.value });
+        }
+    }, [props.record.value]);
+
+    function onSubmit({ value }) {
+        props.onSave({ value })
+    }
 
     return (
         <>
@@ -54,6 +53,7 @@ export const ModalEditValue: React.FC<ModalEditValueProps> = (props) => {
                                 <button
                                     className="float-right p-1 ml-auto text-3xl font-semibold leading-none text-black bg-transparent border-0 outline-none opacity-70 focus:outline-none"
                                     title="Fechar"
+                                    type="button"
                                     onClick={() => props.setShowModalState(false)}
                                 >
                                     <span className="block w-6 h-6 -mt-1 text-2xl text-black bg-transparent outline-none opacity-70 focus:outline-none">
@@ -73,14 +73,20 @@ export const ModalEditValue: React.FC<ModalEditValueProps> = (props) => {
                                             >
                                                 Valor
                                             </label>
-                                            <input
-                                                type="text"
-                                                onFocus={e => e.target.select()}
-                                                inputMode="numeric"
-                                                {...register('value')}
-                                                className={`${errors.value ? 'is-invalid' : ''} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
-                                                value={stateValue.formatted}
-                                                onChange={handleChangeValue}
+                                            <Controller
+                                                name="value"
+                                                control={control}
+                                                render={({ field }) => (
+                                                    <input
+                                                        autoFocus
+                                                        type="text"
+                                                        inputMode="numeric"
+                                                        onFocus={e => e.target.select()}
+                                                        value={currencyService.format(field.value)}
+                                                        onChange={(e) => field.onChange(currencyService.toNumber(e.target.value))}
+                                                        className={`${errors.value ? 'is-invalid' : ''} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
+                                                    />
+                                                )}
                                             />
                                         </div>
                                     </div>
@@ -91,7 +97,7 @@ export const ModalEditValue: React.FC<ModalEditValueProps> = (props) => {
                             {/*footer*/}
                             <div className="flex items-center justify-end px-6 py-6 border-t border-solid rounded-b border-blueGray-200">
                                 <button
-                                    className="px-6 py-3 mb-1 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-blueGray-800 active:bg-blueGray-600 hover:shadow-lg focus:outline-none"
+                                    className="px-6 py-3 mb-1 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none disabled:opacity-50 bg-lightBlue-600 active:bg-blueGray-600 hover:shadow-lg focus:outline-none"
                                     type="submit"
                                 >
                                     Salvar

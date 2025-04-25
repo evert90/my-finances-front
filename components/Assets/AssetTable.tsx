@@ -101,15 +101,15 @@ export const AssetTable: React.FC<AssetTableProps> = () => {
 
 
     const getDifference = (initialValue: number, endValue: number, initialDate: moment.Moment, endDate: moment.Moment) => {
-        const difference = endValue && initialValue && currencyService.format(endValue - initialValue);
-        let differencePercentage: number = endValue && initialValue && ((endValue - initialValue) / initialValue * 100);
+        const difference = endValue != undefined && initialValue != undefined && currencyService.format(endValue - initialValue);
+        let differencePercentage: number = endValue != undefined && initialValue != undefined && ((endValue - initialValue) / initialValue * 100);
         const differenceByYear = getDifferenceByYear(initialDate, endDate, differencePercentage)
         return !!difference && !!differencePercentage ? `${difference} (${differenceByYear})` : "";
     }
 
     const getDifferenceTotalPercentage = (initialValue: number, endValue: number) => {
-        const difference = endValue && initialValue && currencyService.format(endValue - initialValue);
-        let differencePercentage: number = endValue && initialValue && ((endValue - initialValue) / initialValue * 100);
+        const difference = endValue != undefined && initialValue != undefined && currencyService.format(endValue - initialValue);
+        let differencePercentage: number = endValue != undefined && initialValue != undefined && ((endValue - initialValue) / initialValue * 100);
         return !!difference && !!differencePercentage ? `${differencePercentage.toFixed(2)}%` : "";
     }
 
@@ -303,7 +303,7 @@ export const AssetTable: React.FC<AssetTableProps> = () => {
                         {page.map((row: any, i) => {
                             const record: Asset = row.original as Asset
 
-                            return <tr key={i} className={`${record.endValue ? "bg-orange-200" : "bg-white"} hover:bg-blueGray-100`}>
+                            return <tr key={i} className={`${record.endValue != undefined ? "bg-orange-200" : "bg-white"} hover:bg-blueGray-100`}>
                                 <td className="table-tbody-sm">
                                     {record.name}
                                 </td>

@@ -1,11 +1,11 @@
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useState } from "react";
 import { Asset } from "../../class/Asset";
 import { Tag } from "../../class/Tag";
 import { tagService } from "../../services/tag.service";
 import { useToast } from "../Toast/ToastProvider";
 import * as Yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { assetService } from "../../services/asset.service";
 import CreatableSelect from 'react-select/creatable';
 import { AssetType } from "../../class/AssetType";
@@ -23,17 +23,6 @@ export const AssetForm: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [values, setValues] = useState([]);
     const [optionsTags, setOptionsTags] = useState([]);
-
-    const [stateInitialValue, dispatchInitialValue] = useReducer(currencyService.reducer, { formatted: "", raw: 0 });
-    const [stateEndValue, dispatchEndValue] = useReducer(currencyService.reducer, { formatted: "", raw: 0 });
-
-    const handleChangeInitialValue = (event: any) => {
-        dispatchInitialValue({ value: event.target.value });
-    };
-
-    const handleChangeEndValue = (event: any) => {
-        dispatchEndValue({ value: event.target.value });
-    };
 
     const toast = useToast();
 
@@ -95,7 +84,6 @@ export const AssetForm: React.FC = () => {
         value: label
     });
 
-    // form validation rules
     const validationSchema = Yup.object().shape({
         initialDate: Yup.string().required(),
         initialValue: Yup.string().required(),
@@ -104,8 +92,7 @@ export const AssetForm: React.FC = () => {
 
     const formOptions = { resolver: yupResolver(validationSchema) };
 
-    // get functions to build form with useForm() hook
-    const { register, handleSubmit, setError, formState } = useForm(formOptions);
+    const { register, handleSubmit, control, formState } = useForm(formOptions);
     const { errors } = formState;
 
     function onSubmit(form: Asset) {
@@ -113,8 +100,8 @@ export const AssetForm: React.FC = () => {
             null,
             utilsService.getNullable(form.name),
             utilsService.getNullable(form.details),
-            currencyService.toNumber(form.initialValue?.toString()),
-            currencyService.toNumber(form.endValue?.toString()),
+            form.initialValue,
+            form.endValue,
             form.initialDate,
             utilsService.getNullable(form.endDate),
             form.type,
@@ -122,7 +109,7 @@ export const AssetForm: React.FC = () => {
             AssetType[form.type] == AssetType.RENDA_FIXA ? utilsService.getNullable(form.rendaFixaType) : null,
             AssetType[form.type] == AssetType.RENDA_FIXA ? utilsService.getNullable(form.rendaFixaRateType) : null,
             AssetType[form.type] == AssetType.RENDA_FIXA ? utilsService.getNullable(form.bank) : null,
-            AssetType[form.type] == AssetType.RENDA_FIXA ? utilsService.getNullable(form.rate): null,
+            AssetType[form.type] == AssetType.RENDA_FIXA ? utilsService.getNullable(form.rate) : null,
             getLiquidez(form.type, (form.liquidez as any))
         )
 
@@ -201,13 +188,22 @@ export const AssetForm: React.FC = () => {
                                     >
                                         Valor inicial
                                     </label>
-                                    <input
-                                        type="text"
-                                        inputMode="numeric"
-                                        {...register('initialValue')}
-                                        className={`${errors.initialValue ? 'is-invalid' : ''} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
-                                        value={stateInitialValue.formatted}
-                                        onChange={handleChangeInitialValue}
+                                    <Controller
+                                        name="initialValue"
+                                        control={control}
+                                        render={({ field }) => (
+                                            <input
+                                                type="text"
+                                                inputMode="numeric"
+                                                onFocus={e => e.target.select()}
+                                                value={currencyService.format(field.value)}
+                                                onChange={(e) => {
+                                                    const raw = currencyService.toNumber(e.target.value);
+                                                    field.onChange(raw);
+                                                }}
+                                                className={`${errors.initialValue ? 'is-invalid' : ''} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
+                                            />
+                                        )}
                                     />
                                 </div>
                             </div>
@@ -219,13 +215,19 @@ export const AssetForm: React.FC = () => {
                                     >
                                         Valor final
                                     </label>
-                                    <input
-                                        type="text"
-                                        inputMode="numeric"
-                                        {...register('endValue')}
-                                        className={`${errors.endValue ? 'is-invalid' : ''} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
-                                        value={stateEndValue.formatted}
-                                        onChange={handleChangeEndValue}
+                                    <Controller
+                                        name="endValue"
+                                        control={control}
+                                        render={({ field }) => (
+                                            <input
+                                                type="text"
+                                                inputMode="numeric"
+                                                onFocus={e => e.target.select()}
+                                                value={currencyService.format(field.value)}
+                                                onChange={(e) => field.onChange(currencyService.toNumber(e.target.value))}
+                                                className={`${errors.endValue ? 'is-invalid' : ''} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
+                                            />
+                                        )}
                                     />
                                 </div>
                             </div>

@@ -1,9 +1,9 @@
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from 'yup';
 import { Asset } from "../../class/Asset";
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import { currencyService } from "../../services/currency.service";
 
 type ModalRedemptionDateProps = {
@@ -13,12 +13,6 @@ type ModalRedemptionDateProps = {
 }
 
 export const ModalRedemptionDate: React.FC<ModalRedemptionDateProps> = (props) => {
-
-    const [stateValue, dispatchValue] = useReducer(currencyService.reducer, { formatted: Number.isFinite(props.record.endValue) ? currencyService.format(props.record.endValue): "", raw: props.record.endValue });
-
-    const handleChangeValue = (event: any) => {
-        dispatchValue({ value: event.target.value });
-    };
 
     // form validation rules
     const validationSchema = Yup.object().shape({
@@ -35,12 +29,19 @@ export const ModalRedemptionDate: React.FC<ModalRedemptionDateProps> = (props) =
     const formOptions = { resolver: yupResolver(validationSchema) };
 
     // get functions to build form with useForm() hook
-    const { register, handleSubmit, setError, formState } = useForm(formOptions);
+    const { register, handleSubmit, reset, control, formState } = useForm(formOptions);
     const { errors } = formState;
 
-    function onSubmit({ redemptionDate, endValue }) {
-        props.onSave({ redemptionDate, endValue: currencyService.toNumber(endValue) })
+    function onSubmit(formValues) {
+        props.onSave(formValues)
     }
+
+    useEffect(() => {
+        //SETA O VALOR INICIAL
+        if (props.record.endValue !== undefined) {
+            reset({ endValue: props.record.endValue });
+        }
+    }, [props.record.endValue]);
 
     return (
         <>
@@ -57,6 +58,7 @@ export const ModalRedemptionDate: React.FC<ModalRedemptionDateProps> = (props) =
                                 <button
                                     className="float-right p-1 ml-auto text-3xl font-semibold leading-none text-black bg-transparent border-0 outline-none opacity-70 focus:outline-none"
                                     title="Fechar"
+                                    type="button"
                                     onClick={() => props.setShowModalState(false)}
                                 >
                                     <span className="block w-6 h-6 -mt-1 text-2xl text-black bg-transparent outline-none opacity-70 focus:outline-none">
@@ -95,13 +97,19 @@ export const ModalRedemptionDate: React.FC<ModalRedemptionDateProps> = (props) =
                                             >
                                                 Valor
                                             </label>
-                                            <input
-                                                type="text"
-                                                inputMode="numeric"
-                                                {...register('endValue')}
-                                                className={`${errors.endValue ? 'is-invalid' : ''} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
-                                                value={stateValue.formatted}
-                                                onChange={handleChangeValue}
+                                            <Controller
+                                                name="endValue"
+                                                control={control}
+                                                render={({ field }) => (
+                                                    <input
+                                                        type="text"
+                                                        inputMode="numeric"
+                                                        onFocus={e => e.target.select()}
+                                                        value={currencyService.format(field.value)}
+                                                        onChange={(e) => field.onChange(currencyService.toNumber(e.target.value))}
+                                                        className={`${errors.endValue ? 'is-invalid' : ''} w-full px-3 py-3 text-sm transition-all duration-150 ease-linear bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring`}
+                                                    />
+                                                )}
                                             />
                                         </div>
                                     </div>
