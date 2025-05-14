@@ -4,14 +4,17 @@ import { useAsyncDebounce } from "react-table";
 const TWO_HUNDRED_MS = 200;
 
 function GlobalFilter({
-    preGlobalFilteredRows,
     globalFilter,
     setGlobalFilter,
+    gotoPage
 }) {
     const [showInput, setShowInput] = useState<boolean>(false)
     const [value, setValue] = useState(globalFilter);
     const onChange = useAsyncDebounce(value => {
-        setGlobalFilter(value || undefined)
+        setGlobalFilter(value || undefined);
+        if (gotoPage) {
+            gotoPage(0);
+        }
     }, TWO_HUNDRED_MS);
 
     const toggleShowInput = () => {

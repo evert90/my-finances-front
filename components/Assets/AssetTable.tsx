@@ -170,8 +170,6 @@ export const AssetTable: React.FC<AssetTableProps> = () => {
         previousPage,
         setPageSize,
         state: { pageIndex, pageSize, globalFilter },
-        visibleColumns,
-        preGlobalFilteredRows,
         setGlobalFilter,
         headerGroups
     } = useTable(
@@ -261,9 +259,9 @@ export const AssetTable: React.FC<AssetTableProps> = () => {
                         <div>
                         {!isLoading && !isFetching &&
                         <GlobalFilter
-                            preGlobalFilteredRows={preGlobalFilteredRows}
                             globalFilter={globalFilter}
                             setGlobalFilter={setGlobalFilter}
+                            gotoPage={gotoPage}
                         />
                         }
                         </div>
