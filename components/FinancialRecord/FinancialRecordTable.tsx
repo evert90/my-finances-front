@@ -103,8 +103,6 @@ export const FinancialRecordTable: React.FC<FinancialRecordTableProps> = (props)
         previousPage,
         setPageSize,
         state: { pageIndex, pageSize, globalFilter },
-        visibleColumns,
-        preGlobalFilteredRows,
         setGlobalFilter,
         headerGroups
     } = useTable(
@@ -139,9 +137,9 @@ export const FinancialRecordTable: React.FC<FinancialRecordTableProps> = (props)
                         </h3>
                         {!isLoading && !isFetching &&
                         <GlobalFilter
-                            preGlobalFilteredRows={preGlobalFilteredRows}
                             globalFilter={globalFilter}
                             setGlobalFilter={setGlobalFilter}
+                            gotoPage={gotoPage}
                         />
                         }
                     </div>

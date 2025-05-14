@@ -99,8 +99,6 @@ export const FinancialRecordRecurrenceTable: React.FC<FinancialRecordRecurrenceT
         previousPage,
         setPageSize,
         state: { pageIndex, pageSize, globalFilter },
-        visibleColumns,
-        preGlobalFilteredRows,
         setGlobalFilter,
         headerGroups
     } = useTable(
@@ -135,9 +133,9 @@ export const FinancialRecordRecurrenceTable: React.FC<FinancialRecordRecurrenceT
                         </h3>
                         {!isLoading && !isFetching &&
                         <GlobalFilter
-                            preGlobalFilteredRows={preGlobalFilteredRows}
                             globalFilter={globalFilter}
                             setGlobalFilter={setGlobalFilter}
+                            gotoPage={gotoPage}
                         />
                         }
                     </div>
