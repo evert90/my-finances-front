@@ -123,7 +123,7 @@ export const AdminNavbar = () => {
             href="/admin/assets"
             className={
               "text-md py-3 font-bold block " +
-              (router.pathname.indexOf("/app/admin/assets") !== -1
+              (router.pathname.indexOf("/admin/assets") !== -1
                 ? "text-lightBlue-600 hover:text-lightBlue-700 opacity-75"
                 : "text-blueGray-300 hover:text-blueGray-600")
             }>
