@@ -9,7 +9,7 @@ export const ModalSessionExpired: React.FC<ModalSessionExpiredProps> = (props) =
     return (
         <>
             <div className="fixed inset-0 flex items-center justify-center overflow-x-hidden overflow-y-scroll outline-none z-70 focus:outline-none">
-                <div className="relative w-[99%] h-auto max-w-3xl mx-auto my-6">
+                <div className="relative w-[95%] h-auto max-w-3xl mx-auto my-6">
                     {/*content*/}
                     <div className="relative flex flex-col w-full bg-white border-0 rounded-lg shadow-lg outline-none focus:outline-none">
                         {/*header*/}
@@ -36,7 +36,7 @@ export const ModalSessionExpired: React.FC<ModalSessionExpiredProps> = (props) =
                         {/*footer*/}
                         <div className="flex items-center justify-end p-6 border-t border-solid rounded-b border-blueGray-200">
                             <button
-                                className="px-6 py-3 mb-1 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-blueGray-800 active:bg-blueGray-600 hover:shadow-lg focus:outline-none"
+                                className="px-3 py-2.5 mb-1 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear rounded shadow outline-none bg-blueGray-800 active:bg-blueGray-600 hover:shadow-lg focus:outline-none"
                                 type="button"
                                 onClick={() => userService.logout()}
                             >
