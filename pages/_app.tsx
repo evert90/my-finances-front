@@ -21,6 +21,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { User } from '../class/User';
 import { useToast } from '../components/Toast/ToastProvider';
 import { authService } from '../services/auth.service';
+import { ModalSessionExpired } from '../components/Modal/ModalSessionExpired';
+import { setSessionExpiredHandler } from '../services/session-expired.service';
 // Prevent fontawesome from dynamically adding its css since we did it manually above
 config.autoAddCss = false;
 
@@ -33,6 +35,8 @@ function MyApp({ Component, pageProps }) {
   const Layout = componentLayout.layout || (({ children }) => <>{children}</>);
 
   const [authorized, setAuthorized] = useState(false);
+
+  const [showModal, setShowModal] = useState<boolean>(false)
 
   const [queryClient] = useState(() => new QueryClient())
 
@@ -64,6 +68,8 @@ function MyApp({ Component, pageProps }) {
     Router.events.on("routeChangeComplete", routeChangeComplete);
 
     Router.events.on("routeChangeError", routeChangeError);
+
+    setSessionExpiredHandler(setShowModal);
 
     // unsubscribe from events in useEffect return function
     return () => {
@@ -143,6 +149,9 @@ function MyApp({ Component, pageProps }) {
             {authorized &&
               <Component {...pageProps} />
             }
+             {showModal &&
+              <ModalSessionExpired setShowModalState={setShowModal}></ModalSessionExpired>
+             }
           </Layout>
         </QueryClientProvider>
       </Providers>

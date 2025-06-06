@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosInstance, AxiosError, AxiosResponse } from 'axios';
-import { userService } from '../services/user.service';
+import { triggerSessionExpired } from '../services/session-expired.service';
 
 export interface ErrorMessage {
     message: string
@@ -58,8 +58,8 @@ const handleSuccess = (response: AxiosResponse): Promise<any> => {
 
 const handleError = (error: AxiosError<ErrorMessage>): Promise<any> => {
     if ([401, 403].includes(error?.response?.status)) {
-        // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
-        userService.logout();
+        // show expired session message if 401 Unauthorized or 403 Forbidden response returned from api
+        triggerSessionExpired();
     }
 
     const errorMsg = error?.response?.data?.message || error?.message;
