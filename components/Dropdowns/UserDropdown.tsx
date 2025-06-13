@@ -36,14 +36,18 @@ const UserDropdown = () => {
   const sendNotificationTest = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     event.preventDefault()
     pushNotificationService
-    .sendNotificationTest()
-    .then((response: any) => {
+      .sendNotificationTest()
+      .then((response: any) => {
         toast.pushSuccess("Enviada com sucesso", 5000);
-    })
-    .catch(error => {
+      })
+      .catch(error => {
         toast?.pushError("Erro ao enviar notificação. " + error, 7000, "truncate-2-lines")
-    });
+      });
     closeDropdownPopover()
+  }
+
+  const getVersion = () => {
+    return process.env.NEXT_PUBLIC_COMMIT_SHA;
   }
 
   return (
@@ -90,6 +94,15 @@ const UserDropdown = () => {
           onClick={(e) => sendNotificationTest(e)}
         >
           <i className="mr-1 fa fa-bell"></i> Notificação
+        </a>
+        <div className="h-0 my-2 border border-solid border-blueGray-100" />
+        <a
+          className={
+            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700 hover:bg-gray-100 cursor-pointer"
+          }
+          onClick={(e) => sendNotificationTest(e)}
+        >
+          <i className="mr-1 fa fa-info-circle"></i> Versão: <span>{getVersion()}</span>
         </a>
         <div className="h-0 my-2 border border-solid border-blueGray-100" />
         <a

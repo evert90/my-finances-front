@@ -1,0 +1,5 @@
+{
+  "env": {
+    "NEXT_PUBLIC_COMMIT_SHA": "@vercel_git_commit_sha"
+  }
+}
