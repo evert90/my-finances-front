@@ -6,7 +6,6 @@ import { pushNotificationService } from "../../services/push-notification-servic
 import { useToast } from "../Toast/ToastProvider";
 
 const UserDropdown = () => {
-  // dropdown props
   const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
   const btnDropdownRef: any = React.createRef();
   const popoverDropdownRef: any = React.createRef();
