@@ -1,8 +1,25 @@
 (function () {
     function showUpdateMessage() {
         console.log("ERROR LOADING CHUNK");
-        const el = document.getElementById('update-message');
-        if (el) el.style.display = 'flex';
+
+        document.body.innerHTML = '';
+
+        const messageDiv = document.createElement('div');
+        messageDiv.style.position = 'fixed';
+        messageDiv.style.top = '0';
+        messageDiv.style.left = '0';
+        messageDiv.style.width = '100%';
+        messageDiv.style.height = '100%';
+        messageDiv.style.display = 'flex';
+        messageDiv.style.alignItems = 'center';
+        messageDiv.style.justifyContent = 'center';
+        messageDiv.style.backgroundColor = '#ffffff';
+        messageDiv.style.fontSize = '18px';
+        messageDiv.style.color = '#333';
+        messageDiv.innerText = 'Atualizando app...';
+
+        document.body.appendChild(messageDiv);
+
         setTimeout(() => {
             const url = window.location.href.split('?')[0];
             window.location.href = url + '?cachebust=' + Date.now();

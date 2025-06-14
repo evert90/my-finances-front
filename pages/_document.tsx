@@ -17,22 +17,9 @@ class MyDocument extends Document {
           />
         </Head>
         <body className="antialiased text-blueGray-700">
-          <div
-            id="update-message"
-            style={{
-              display: 'none',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: '100vh',
-              fontFamily: 'sans-serif',
-              fontSize: '1.5rem',
-            }}
-          >
-            Atualizando app...
-          </div>
-          <div id="page-transition"></div>
           {/* eslint-disable-next-line @next/next/no-sync-scripts */}
           <script src="/app/chunk-recovery.js" />
+          <div id="page-transition"></div>
           <Main />
           <NextScript />
         </body>
