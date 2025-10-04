@@ -28,12 +28,14 @@
 
     window.addEventListener('error', function (e) {
         if (e?.target?.tagName === 'SCRIPT' && e.target.src.includes('/_next/static/chunks/')) {
+            console.log("EVENT LISTENER ERROR")
             showUpdateMessage();
         }
     }, true);
 
     window.addEventListener('unhandledrejection', function (e) {
         if (e?.reason?.message?.includes('Loading chunk') || (e?.reason?.stack && e.reason.stack.includes('/_next/static/chunks/'))) {
+            console.log("EVENT LISTENER unhandledrejection" + e?.reason?.message + e?.reason?.stack)
             showUpdateMessage();
         }
     });
